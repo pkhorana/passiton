@@ -24,17 +24,20 @@ export default function Login() {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button 
+        <Button
             title = "SIGN IN"
         />
-        <Button 
+        <Button
             title = "Login with Facebook"
         />
-        <Button 
+        <Button
             title = "Create Account"
         />
+        <Button
+            title = "Forgot Password"
+        />
       </View>
-      
+
     </View>
   );
 }
@@ -51,7 +54,7 @@ const styles = StyleSheet.create({
     entryContainer: {
         padding: 20,
         marginTop: 300,
-        
+
     },
     buttonContainer: {
         padding: 20
