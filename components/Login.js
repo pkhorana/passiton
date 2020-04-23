@@ -26,15 +26,20 @@ export default function Login() {
       <View style={styles.buttonContainer}>
         <Button
             title = "SIGN IN"
+            color="#FFFFFF"
         />
         <Button
             title = "Login with Facebook"
+            color="#FFFFFF"
         />
         <Button
             title = "Create Account"
+            color="#FFFFFF"
         />
         <Button
             title = "Forgot Password"
+            color="#FFFFFF"
+
         />
       </View>
 
