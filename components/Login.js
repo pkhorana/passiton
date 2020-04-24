@@ -43,6 +43,9 @@ export default function Login() {
             color="#000000"
 
         />
+        <Button
+            title = "Forgot Password"
+        />
       </View>
 
     </View>
