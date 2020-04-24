@@ -14,6 +14,7 @@ export default function Login() {
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
+            maxLength = {12}
         />
         <Text style={styles.title}>Password:</Text>
         <TextInput
@@ -21,24 +22,25 @@ export default function Login() {
             placeholder="Password"
             onChangeText={passText => setPass(passText)}
             defaultValue={passText}
+            maxLength = {12}
         />
       </View>
       <View style={styles.buttonContainer}>
         <Button
             title = "SIGN IN"
-            color="#FFFFFF"
+            color="#000000"
         />
         <Button
             title = "Login with Facebook"
-            color="#FFFFFF"
+            color="#000000"
         />
         <Button
             title = "Create Account"
-            color="#FFFFFF"
+            color="#000000"
         />
         <Button
             title = "Forgot Password"
-            color="#FFFFFF"
+            color="#000000"
 
         />
       </View>
