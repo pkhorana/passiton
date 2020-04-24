@@ -14,6 +14,7 @@ export default function Login() {
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
+            maxLength = {12}
         />
         <Text style={styles.title}>Password:</Text>
         <TextInput
@@ -21,20 +22,29 @@ export default function Login() {
             placeholder="Password"
             onChangeText={passText => setPass(passText)}
             defaultValue={passText}
+            maxLength = {12}
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button 
+        <Button
             title = "SIGN IN"
+            color="#000000"
         />
-        <Button 
+        <Button
             title = "Login with Facebook"
+            color="#000000"
         />
-        <Button 
+        <Button
             title = "Create Account"
+            color="#000000"
+        />
+        <Button
+            title = "Forgot Password"
+            color="#000000"
+
         />
       </View>
-      
+
     </View>
   );
 }
@@ -51,7 +61,7 @@ const styles = StyleSheet.create({
     entryContainer: {
         padding: 20,
         marginTop: 300,
-        
+
     },
     buttonContainer: {
         padding: 20
