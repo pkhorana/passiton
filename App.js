@@ -6,7 +6,6 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import Login from './components/Login';
 import CreateAccount from './components/CreateAccount';
 
-import Home from './navigation/Home';
 import * as firebase from 'firebase';
 import {firebaseConfig} from './config';
 

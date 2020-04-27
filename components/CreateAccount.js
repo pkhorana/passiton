@@ -1,12 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 
-export default function CreateAccount() {
+export default function CreateAccount(props) {
 
-  
 
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
+  var passFlag = false;
+
+
+
+
+
+
+  function checkPassword(pass) {
+    
+    minRegex = new RegExp("(?=.{6,})");
+    lalpha = new RegExp("(?=.*[a-z])");
+    ualpha = new RegExp("(?=.*[A-Z])");
+    num = new RegExp("(?=.*[0-9])");
+    special = new RegExp("(?=.*[!@#$%^&*])");
+    if (pass ==null || pass === '') {
+        alert('Password is required.');
+    }
+    else if (!minRegex.test(pass)) {
+        alert('Password must be longer than 6 characaters.');
+    }
+    else if (!lalpha.test(pass)) {
+        alert('Password must contain at least one lowercase alphabetical character.');
+    }
+    else if (!ualpha.test(pass)) {
+        alert('Password must contain at least one uppercase alphabetical character.');
+    }
+    else if (!num.test(pass)) {
+        alert('Password must contain at least one numeric character.');
+    }
+    else if (!special.test(pass)) {
+        alert('Password must contain at least one special character.');
+    }
+
+    
+  }
+
+
   return (
     <View style={styles.container}>
       <View style={styles.entryContainer}>
@@ -16,21 +52,26 @@ export default function CreateAccount() {
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
-            maxLength = {12}
+            maxLength = {16}
         />
         <Text style={styles.title}>Password:</Text>
         <TextInput
             style={styles.input}
             placeholder="Password"
             onChangeText={passText => setPass(passText)}
-            defaultValue={passText}
-            maxLength = {12}
+            defaultValue={''}
+            maxLength = {16}
         />
       </View>
       <View style={styles.buttonContainer}>
         
         <Button
             title = "Continue"
+            onPress={() => checkPassword(passText)}
+        />
+        <Button
+            title = "Back"
+            onPress={() => props.navigation.navigate('LoginScreen')}
         />
        
 
