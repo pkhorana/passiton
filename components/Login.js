@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {StyleSheet, Button, TextInput, Text, View, Alert} from 'react-native';
+import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 
 
 
@@ -45,6 +45,7 @@ export default function Login(props) {
         />
         <Button
             title = "Forgot Password"
+            onPress={() => props.navigation.navigate('ForgotPasswordScreen')}
         />
 
       </View>
