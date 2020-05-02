@@ -15,6 +15,7 @@ firebase.initializeApp(firebaseConfig);
 
 
 
+
 export default function App() {
   return (
    <View style = {styles.container}>
