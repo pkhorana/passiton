@@ -1,52 +1,51 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 
+export default function ForgotPassword(props) {
 
 
-export default function Login(props) {
-
-  
- 
   const [userText, setUser] = useState('');
-  const [passText, setPass] = useState('');
+
+
+  function validate(user) {
+    validateEmail(user);
+  }
+
+  function validateEmail(user){      
+    var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+    if (!emailPattern.test(user)) {
+        alert('Enter a valid email!');
+        return false;
+    }
+    return true;
+  } 
+
+
 
   return (
-    
     <View style={styles.container}>
       <View style={styles.entryContainer}>
-        <Text style={styles.title}>Username:</Text>
+        <Text style={styles.title}>Enter email here:</Text>
         <TextInput
             style={styles.input}
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
-            maxLength = {12}
-        />
-        <Text style={styles.title}>Password:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Password"
-            onChangeText={passText => setPass(passText)}
-            defaultValue={passText}
-            maxLength = {12}
-        />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button
-            title = "SIGN IN"
-        />
-        <Button
-            title = "Login with Facebook"
+            maxLength = {16}
         />
         
+      </View>
+      <View style={styles.buttonContainer}>
+        
         <Button
-            title = "Create Account"
-            onPress={() => props.navigation.navigate('CreateAccountScreen')}
+            title = "Send Email"
+            onPress={() => validate(userText)}
         />
         <Button
-            title = "Forgot Password"
-            onPress={() => props.navigation.navigate('ForgotPasswordScreen')}
+            title = "Back"
+            onPress={() => props.navigation.navigate('LoginScreen')}
         />
+       
 
       </View>
 
