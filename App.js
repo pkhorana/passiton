@@ -6,6 +6,8 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import Login from './components/Login';
 import CreateAccount from './components/CreateAccount';
 import ForgotPassword from './components/ForgotPassword';
+import CreateProfile from './components/CreateProfile';
+import Home from './components/Home';
 
 import * as firebase from 'firebase';
 import {firebaseConfig} from './config';
@@ -29,7 +31,9 @@ const SwitchNav = createSwitchNavigator(
   {
   LoginScreen: Login,
   CreateAccountScreen: CreateAccount,
-  ForgotPasswordScreen: ForgotPassword
+  ForgotPasswordScreen: ForgotPassword,
+  CreateProfileScreen: CreateProfile,
+  HomeScreen: Home,
   },
   {
     initialRouteName: 'LoginScreen',
