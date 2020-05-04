@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
-
+import * as firebase from 'firebase';
 
 
 export default function Login(props) {
@@ -9,6 +9,15 @@ export default function Login(props) {
  
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
+  const [userKey, setKey] = useState('');
+
+  function handleLogin() {
+      firebase
+      .auth()
+      .signInWithEmailAndPassword(userText, passText)
+      .then(() => props.navigation.navigate('HomeScreen'))
+      .catch(error => alert('Invalid Credentials. Enter Again.'));
+  }
 
   return (
     
@@ -20,7 +29,7 @@ export default function Login(props) {
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
-            maxLength = {12}
+            maxLength = {30}
         />
         <Text style={styles.title}>Password:</Text>
         <TextInput
@@ -28,12 +37,13 @@ export default function Login(props) {
             placeholder="Password"
             onChangeText={passText => setPass(passText)}
             defaultValue={passText}
-            maxLength = {12}
+            maxLength = {30}
         />
       </View>
       <View style={styles.buttonContainer}>
         <Button
             title = "SIGN IN"
+            onPress={() => handleLogin()}
         />
         <Button
             title = "Login with Facebook"
