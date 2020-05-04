@@ -6,6 +6,7 @@ import * as firebase from 'firebase';
 export default function Loading(props) {
 
     const usersRef = firebase.database().ref().child('users');
+    var p = null;
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user => {
@@ -28,14 +29,14 @@ export default function Loading(props) {
 
     // props.navigation.navigate('LoginScreen');
 
-  
+
     return (
         <View style={styles.container}>
         <Text>Loading</Text>
         <ActivityIndicator size="large" />
         </View>
     )
- 
+
 }
 const styles = StyleSheet.create({
   container: {

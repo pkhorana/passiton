@@ -6,7 +6,6 @@ export default function Home(props) {
 
     const [currUser, setCurrUser] = useState(null);
     const usersRef = firebase.database().ref().child('users');
-    p = '';
 
     useEffect(() => {
        setCurrUser(firebase.auth());
@@ -18,7 +17,7 @@ export default function Home(props) {
         .signOut()
         .then(() => props.navigation.navigate('LoginScreen'));
     }
-    
+
     return (
         <View style={styles.container}>
         <Text style={styles.title}>Welcome to Home Screen</Text>
