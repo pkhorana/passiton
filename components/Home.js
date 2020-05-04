@@ -5,6 +5,9 @@ import * as firebase from 'firebase';
 export default function Home(props) {
 
     const [currUser, setCurrUser] = useState(null);
+    const usersRef = firebase.database().ref().child('users');
+    p = '';
+
     useEffect(() => {
        setCurrUser(firebase.auth());
     });

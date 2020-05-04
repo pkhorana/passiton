@@ -7,7 +7,7 @@ export default function CreateAccount(props) {
 
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
-  const [userKey, setKey] = useState('');
+//   const [userKey, setKey] = useState('');
   const usersRef = firebase.database().ref().child('users');
 
   const minRegex = new RegExp("(?=.{6,})");
@@ -36,9 +36,26 @@ export default function CreateAccount(props) {
       
   }
 
+  function writeLoginCredentials(emailText, passwordText) {
+    var user = firebase.auth().currentUser;
+    var myRef = usersRef.child(user.uid);
+    var data = 
+    {
+        email: emailText,
+        password: passwordText,
+        profileComplete: 'No',
+    }
+    myRef.set(data);
+  }
+
   function success() {
     writeLoginCredentials(userText, passText);
-    props.navigation.navigate('CreateProfileScreen')
+    // props.navigation.navigate('CreateProfileScreen',
+    // {
+    //     username: userText,
+    //     password: passText,
+
+    // });
   }
 
 
@@ -91,18 +108,19 @@ export default function CreateAccount(props) {
     
   }
 
-  function writeLoginCredentials(email, pass) {
-    var myRef = usersRef.push();
-    var id = myRef.key;
-    setKey(id);
-    var data = 
-    {
-        uid: id,
-        email: userText,
-        password: passText,
-    }
-    myRef.set(data);
-  }
+//   function writeLoginCredentials(email, pass) {
+//     var myRef = usersRef.push();
+//     var id = myRef.key;
+//     setKey(id);
+//     var data = 
+//     {
+//         uid: id,
+//         email: userText,
+//         password: passText,
+//         profileComplete: 'No',
+//     }
+//     myRef.set(data);
+//   }
   
 
 
