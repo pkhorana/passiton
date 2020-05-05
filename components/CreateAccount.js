@@ -7,7 +7,6 @@ export default function CreateAccount(props) {
 
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
-//   const [userKey, setKey] = useState('');
   const usersRef = firebase.database().ref().child('users');
 
   const minRegex = new RegExp("(?=.{6,})");
@@ -54,13 +53,6 @@ export default function CreateAccount(props) {
     );
     alert('You must verify your email. Afterwards, you can login with your new account.');
 
-    
-    // props.navigation.navigate('CreateProfileScreen',
-    // {
-    //     username: userText,
-    //     password: passText,
-
-    // });
   }
 
 
@@ -112,21 +104,6 @@ export default function CreateAccount(props) {
 
     
   }
-
-//   function writeLoginCredentials(email, pass) {
-//     var myRef = usersRef.push();
-//     var id = myRef.key;
-//     setKey(id);
-//     var data = 
-//     {
-//         uid: id,
-//         email: userText,
-//         password: passText,
-//         profileComplete: 'No',
-//     }
-//     myRef.set(data);
-//   }
-  
 
 
   return (

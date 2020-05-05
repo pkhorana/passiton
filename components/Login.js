@@ -12,13 +12,6 @@ export default function Login(props) {
   const [userKey, setKey] = useState('');
 
 
-//   function verificationCase() {
-//       var user = firebase.auth().currentUser;
-//       if (user.emailVerified) {
-
-//       }
-//   }
-
   function successLogin() {
     var user = firebase.auth().currentUser;
     if (!user.emailVerified) {

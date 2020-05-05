@@ -28,9 +28,6 @@ export default function Loading(props) {
         })
     });
 
-    // props.navigation.navigate('LoginScreen');
-
-
     return (
         <View style={styles.container}>
         <Text>Loading</Text>
