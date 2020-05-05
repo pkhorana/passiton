@@ -36,13 +36,12 @@ export default function CreateAccount(props) {
       
   }
 
-  function writeLoginCredentials(emailText, passwordText) {
+  function writeLoginCredentials(emailText) {
     var user = firebase.auth().currentUser;
     var myRef = usersRef.child(user.uid);
     var data = 
     {
         email: emailText,
-        password: passwordText,
         profileComplete: 'No',
     }
     myRef.set(data);
@@ -51,7 +50,7 @@ export default function CreateAccount(props) {
   function success() {
     var user = firebase.auth().currentUser;
     user.sendEmailVerification().then(() =>
-      writeLoginCredentials(userText, passText)
+      writeLoginCredentials(userText)
     );
     alert('You must verify your email. Afterwards, you can login with your new account.');
 
