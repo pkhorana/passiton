@@ -5,8 +5,8 @@ import * as firebase from 'firebase';
 
 export default function Login(props) {
 
-  
- 
+
+
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
   const [userKey, setKey] = useState('');
@@ -20,13 +20,13 @@ export default function Login(props) {
   }
 
   return (
-    
+
     <View style={styles.container}>
       <View style={styles.entryContainer}>
-        <Text style={styles.title}>Username:</Text>
+        <Text style={styles.title}>Email:</Text>
         <TextInput
             style={styles.input}
-            placeholder="Username"
+            placeholder="Email"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
             maxLength = {30}
@@ -48,7 +48,7 @@ export default function Login(props) {
         <Button
             title = "Login with Facebook"
         />
-        
+
         <Button
             title = "Create Account"
             onPress={() => props.navigation.navigate('CreateAccountScreen')}
