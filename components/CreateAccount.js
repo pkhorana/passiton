@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import styles from './Styles';
 import * as firebase from 'firebase';
 
 export default function CreateAccount(props) {
@@ -17,7 +18,7 @@ export default function CreateAccount(props) {
   const special = new RegExp("(?=.*[!@#$%^&*])");
 
   function handleSignup() {
-      
+
       firebase
       .auth()
       .createUserWithEmailAndPassword(userText, passText)
@@ -28,18 +29,18 @@ export default function CreateAccount(props) {
         }
         else if (error.code === 'auth/invalid-email') {
             alert('That email address is invalid!');
-        } 
+        }
         else {
             alert(error);
         }
       });
-      
+
   }
 
   function writeLoginCredentials(emailText, passwordText) {
     var user = firebase.auth().currentUser;
     var myRef = usersRef.child(user.uid);
-    var data = 
+    var data =
     {
         email: emailText,
         password: passwordText,
@@ -60,25 +61,25 @@ export default function CreateAccount(props) {
 
 
   function validate(user, pass) {
-    
+
     if (validateEmail(user) && checkPassword(pass)) {
         handleSignup();
     }
   }
 
-  function validateEmail(user){      
+  function validateEmail(user){
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(user)) {
         alert('Enter a valid email!');
         return false;
     }
     return true;
-  } 
+  }
 
 
   function checkPassword(pass) {
-    
-    
+
+
     if (pass ==null || pass === '') {
         alert('Password is required.');
         return false;
@@ -102,17 +103,17 @@ export default function CreateAccount(props) {
     else if (!special.test(pass)) {
         alert('Password must contain at least one special character.');
         return false;
-    } 
+    }
     return true;
 
-    
+
   }
 
 //   function writeLoginCredentials(email, pass) {
 //     var myRef = usersRef.push();
 //     var id = myRef.key;
 //     setKey(id);
-//     var data = 
+//     var data =
 //     {
 //         uid: id,
 //         email: userText,
@@ -121,7 +122,7 @@ export default function CreateAccount(props) {
 //     }
 //     myRef.set(data);
 //   }
-  
+
 
 
   return (
@@ -145,7 +146,7 @@ export default function CreateAccount(props) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        
+
         <Button
             title = "Continue"
             onPress={() => validate(userText, passText)}
@@ -154,7 +155,7 @@ export default function CreateAccount(props) {
             title = "Go to Login"
             onPress={() => props.navigation.navigate('LoginScreen')}
         />
-       
+
 
       </View>
 
@@ -162,36 +163,36 @@ export default function CreateAccount(props) {
   );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#3498db'
-    },
-    logoContainer: {
-
-    },
-    entryContainer: {
-        padding: 20,
-        marginTop: 300,
-
-    },
-    buttonContainer: {
-        padding: 20
-    },
-    title: {
-        color: '#FFFF',
-        marginTop: 10,
-        width: 160,
-        textAlign: 'left'
-    },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        marginBottom: 20,
-        color:'#FFF',
-        paddingHorizontal: 10
-
-    },
-
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignSelf: 'stretch',
+//         backgroundColor: '#3498db'
+//     },
+//     logoContainer: {
+//
+//     },
+//     entryContainer: {
+//         padding: 20,
+//         marginTop: 300,
+//
+//     },
+//     buttonContainer: {
+//         padding: 20
+//     },
+//     title: {
+//         color: '#FFFF',
+//         marginTop: 10,
+//         width: 160,
+//         textAlign: 'left'
+//     },
+//     input: {
+//         height: 40,
+//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
+//         marginBottom: 20,
+//         color:'#FFF',
+//         paddingHorizontal: 10
+//
+//     },
+//
+// });

@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import * as firebase from 'firebase';
 
 

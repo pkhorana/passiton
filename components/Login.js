@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import styles from './Styles';
 import * as firebase from 'firebase';
 
 
@@ -64,36 +65,36 @@ export default function Login(props) {
   );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#3498db'
-    },
-    logoContainer: {
-
-    },
-    entryContainer: {
-        padding: 20,
-        marginTop: 300,
-
-    },
-    buttonContainer: {
-        padding: 20
-    },
-    title: {
-        color: '#FFFF',
-        marginTop: 10,
-        width: 160,
-        textAlign: 'left'
-    },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        marginBottom: 20,
-        color:'#FFF',
-        paddingHorizontal: 10
-
-    },
-
-});
+// const styles1 = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignSelf: 'stretch',
+//         backgroundColor: '#3498db'
+//     },
+//     logoContainer: {
+//
+//     },
+//     entryContainer: {
+//         padding: 20,
+//         marginTop: 300,
+//
+//     },
+//     buttonContainer: {
+//         padding: 20
+//     },
+//     title: {
+//         color: '#FFFF',
+//         marginTop: 10,
+//         width: 160,
+//         textAlign: 'left'
+//     },
+//     input: {
+//         height: 40,
+//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
+//         marginBottom: 20,
+//         color:'#FFF',
+//         paddingHorizontal: 10
+//
+//     },
+//
+// });
