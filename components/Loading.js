@@ -10,8 +10,9 @@ export default function Loading(props) {
 
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user => {
-            if (user) {
-                var user = firebase.auth().currentUser;
+            if (user && user.emailVerified) {
+                
+
                 usersRef.child(user.uid).child('profileComplete').once('value').then(function(snapshot) {
                     p = snapshot.val();
                 }).then( () => {
@@ -23,12 +24,9 @@ export default function Loading(props) {
                 });
             } else {
                 props.navigation.navigate('LoginScreen');
-            }
+            } 
         })
     });
-
-    // props.navigation.navigate('LoginScreen');
-
 
     return (
         <View style={styles.container}>
