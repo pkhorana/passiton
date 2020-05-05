@@ -5,8 +5,6 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 
 import Loading from './components/Loading';
 import Login from './components/Login';
-<<<<<<< HEAD
-=======
 import CreateAccount from './components/CreateAccount';
 import ForgotPassword from './components/ForgotPassword';
 import CreateProfile from './components/CreateProfile';
@@ -16,7 +14,6 @@ import * as firebase from 'firebase';
 import {firebaseConfig} from './config';
 
 firebase.initializeApp(firebaseConfig);
->>>>>>> 4127b4699a0aeeb68def1f760b522a2514c7bcca
 
 
 export default function App() {
