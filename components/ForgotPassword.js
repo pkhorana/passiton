@@ -6,7 +6,7 @@ export default function ForgotPassword(props) {
 
 
   const [userText, setUser] = useState('');
-
+  
 
   function validate(email) {
     if (validateEmail(email)) {
