@@ -12,22 +12,22 @@ export default function ForgotPassword(props) {
     if (validateEmail(email)) {
       var auth = firebase.auth();
       auth.sendPasswordResetEmail(email).then(function() {
-        alert('Email was to reset password was sent.');
+        alert('Email to reset password was sent.');
       }).catch(function(error) {
         alert('Email was not sent.');
       });
     }
-    
+
   }
 
-  function validateEmail(user){      
+  function validateEmail(user){
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(user)) {
         alert('Enter a valid email!');
         return false;
     }
     return true;
-  } 
+  }
 
 
 
@@ -42,12 +42,12 @@ export default function ForgotPassword(props) {
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
-            maxLength = {30}
+            maxLength = {250}
         />
-        
+
       </View>
       <View style={styles.buttonContainer}>
-        
+
         <Button
             title = "Send Email"
             onPress={() => validate(userText)}
@@ -56,7 +56,7 @@ export default function ForgotPassword(props) {
             title = "Back"
             onPress={() => props.navigation.navigate('LoginScreen')}
         />
-       
+
 
       </View>
 
