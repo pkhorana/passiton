@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import * as firebase from 'firebase';
 
 export default function ForgotPassword(props) {
 
@@ -7,8 +8,16 @@ export default function ForgotPassword(props) {
   const [userText, setUser] = useState('');
 
 
-  function validate(user) {
-    validateEmail(user);
+  function validate(email) {
+    if (validateEmail(email)) {
+      var auth = firebase.auth();
+      auth.sendPasswordResetEmail(email).then(function() {
+        alert('Email was to reset password was sent.');
+      }).catch(function(error) {
+        alert('Email was not sent.');
+      });
+    }
+    
   }
 
   function validateEmail(user){      
@@ -22,6 +31,8 @@ export default function ForgotPassword(props) {
 
 
 
+
+
   return (
     <View style={styles.container}>
       <View style={styles.entryContainer}>
@@ -31,7 +42,7 @@ export default function ForgotPassword(props) {
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
-            maxLength = {16}
+            maxLength = {30}
         />
         
       </View>

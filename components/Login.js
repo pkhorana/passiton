@@ -6,16 +6,38 @@ import * as firebase from 'firebase';
 export default function Login(props) {
 
 
+  
+  const usersRef = firebase.database().ref().child('users');
 
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
   const [userKey, setKey] = useState('');
 
+
+  function successLogin() {
+    var user = firebase.auth().currentUser;
+    if (!user.emailVerified) {
+        user.sendEmailVerification();
+        alert('You must verify your email. Afterwards, you can login with your new account.');
+    } else {
+        var p = null;
+        usersRef.child(user.uid).child('profileComplete').once('value').then(function(snapshot) {
+            p = snapshot.val();
+        }).then( () => {
+                if (p === 'No') {
+                    props.navigation.navigate('CreateProfileScreen');
+                } else {
+                    props.navigation.navigate('HomeScreen');
+                }
+        });
+    }
+  }
+
   function handleLogin() {
       firebase
       .auth()
       .signInWithEmailAndPassword(userText, passText)
-      .then(() => props.navigation.navigate('HomeScreen'))
+      .then(() => successLogin())
       .catch(error => alert('Invalid Credentials. Enter Again.'));
   }
 

@@ -7,7 +7,6 @@ export default function CreateAccount(props) {
 
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
-//   const [userKey, setKey] = useState('');
   const usersRef = firebase.database().ref().child('users');
 
   const minRegex = new RegExp("(?=.{6,})");
@@ -36,26 +35,24 @@ export default function CreateAccount(props) {
       
   }
 
-  function writeLoginCredentials(emailText, passwordText) {
+  function writeLoginCredentials(emailText) {
     var user = firebase.auth().currentUser;
     var myRef = usersRef.child(user.uid);
     var data = 
     {
         email: emailText,
-        password: passwordText,
         profileComplete: 'No',
     }
     myRef.set(data);
   }
 
   function success() {
-    writeLoginCredentials(userText, passText);
-    // props.navigation.navigate('CreateProfileScreen',
-    // {
-    //     username: userText,
-    //     password: passText,
+    var user = firebase.auth().currentUser;
+    user.sendEmailVerification().then(() =>
+      writeLoginCredentials(userText)
+    );
+    alert('You must verify your email. Afterwards, you can login with your new account.');
 
-    // });
   }
 
 
@@ -108,21 +105,6 @@ export default function CreateAccount(props) {
     
   }
 
-//   function writeLoginCredentials(email, pass) {
-//     var myRef = usersRef.push();
-//     var id = myRef.key;
-//     setKey(id);
-//     var data = 
-//     {
-//         uid: id,
-//         email: userText,
-//         password: passText,
-//         profileComplete: 'No',
-//     }
-//     myRef.set(data);
-//   }
-  
-
 
   return (
     <View style={styles.container}>
@@ -133,7 +115,7 @@ export default function CreateAccount(props) {
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
-            maxLength = {16}
+            maxLength = {30}
         />
         <Text style={styles.title}>Password:</Text>
         <TextInput
@@ -141,7 +123,7 @@ export default function CreateAccount(props) {
             placeholder="Password"
             onChangeText={passText => setPass(passText)}
             defaultValue={''}
-            maxLength = {16}
+            maxLength = {30}
         />
       </View>
       <View style={styles.buttonContainer}>
