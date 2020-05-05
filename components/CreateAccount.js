@@ -49,7 +49,13 @@ export default function CreateAccount(props) {
   }
 
   function success() {
-    writeLoginCredentials(userText, passText);
+    var user = firebase.auth().currentUser;
+    user.sendEmailVerification().then(() =>
+      writeLoginCredentials(userText, passText)
+    );
+    alert('You must verify your email. Afterwards, you can login with your new account.');
+
+    
     // props.navigation.navigate('CreateProfileScreen',
     // {
     //     username: userText,
@@ -133,7 +139,7 @@ export default function CreateAccount(props) {
             placeholder="Username"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
-            maxLength = {16}
+            maxLength = {30}
         />
         <Text style={styles.title}>Password:</Text>
         <TextInput
@@ -141,7 +147,7 @@ export default function CreateAccount(props) {
             placeholder="Password"
             onChangeText={passText => setPass(passText)}
             defaultValue={''}
-            maxLength = {16}
+            maxLength = {30}
         />
       </View>
       <View style={styles.buttonContainer}>
