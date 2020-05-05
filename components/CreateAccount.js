@@ -16,7 +16,7 @@ export default function CreateAccount(props) {
   const special = new RegExp("(?=.*[!@#$%^&*])");
 
   function handleSignup() {
-      
+
       firebase
       .auth()
       .createUserWithEmailAndPassword(userText, passText)
@@ -27,18 +27,18 @@ export default function CreateAccount(props) {
         }
         else if (error.code === 'auth/invalid-email') {
             alert('That email address is invalid!');
-        } 
+        }
         else {
             alert(error);
         }
       });
-      
+
   }
 
   function writeLoginCredentials(emailText) {
     var user = firebase.auth().currentUser;
     var myRef = usersRef.child(user.uid);
-    var data = 
+    var data =
     {
         email: emailText,
         profileComplete: 'No',
@@ -57,25 +57,25 @@ export default function CreateAccount(props) {
 
 
   function validate(user, pass) {
-    
+
     if (validateEmail(user) && checkPassword(pass)) {
         handleSignup();
     }
   }
 
-  function validateEmail(user){      
+  function validateEmail(user){
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(user)) {
         alert('Enter a valid email!');
         return false;
     }
     return true;
-  } 
+  }
 
 
   function checkPassword(pass) {
-    
-    
+
+
     if (pass ==null || pass === '') {
         alert('Password is required.');
         return false;
@@ -99,10 +99,10 @@ export default function CreateAccount(props) {
     else if (!special.test(pass)) {
         alert('Password must contain at least one special character.');
         return false;
-    } 
+    }
     return true;
 
-    
+
   }
 
 
@@ -127,7 +127,7 @@ export default function CreateAccount(props) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        
+
         <Button
             title = "Continue"
             onPress={() => validate(userText, passText)}
@@ -136,7 +136,7 @@ export default function CreateAccount(props) {
             title = "Go to Login"
             onPress={() => props.navigation.navigate('LoginScreen')}
         />
-       
+
 
       </View>
 

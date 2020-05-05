@@ -6,7 +6,7 @@ import * as firebase from 'firebase';
 export default function Login(props) {
 
 
-  
+
   const usersRef = firebase.database().ref().child('users');
 
   const [userText, setUser] = useState('');
@@ -51,7 +51,7 @@ export default function Login(props) {
             placeholder="Email"
             onChangeText={userText => setUser(userText)}
             defaultValue={userText}
-            maxLength = {30}
+            maxLength = {250}
         />
         <Text style={styles.title}>Password:</Text>
         <TextInput
@@ -59,7 +59,7 @@ export default function Login(props) {
             placeholder="Password"
             onChangeText={passText => setPass(passText)}
             defaultValue={passText}
-            maxLength = {30}
+            maxLength = {160}
         />
       </View>
       <View style={styles.buttonContainer}>
