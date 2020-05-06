@@ -9,7 +9,7 @@ export default function Login(props) {
 
   const androidID = '726496770670-po97qe023h1g4ursm0ubccm1rliad5o3.apps.googleusercontent.com';
   const iosID = '726496770670-6errsd2kf47u6hvusupe5skgmmqg8uth.apps.googleusercontent.com';
-
+  const webID = '726496770670-gbrp87t9g9q6octe2h23qrojaghgt2kd.apps.googleusercontent.com';
   
   const usersRef = firebase.database().ref().child('users');
 
@@ -25,6 +25,7 @@ export default function Login(props) {
       const result = await Google.logInAsync({
         androidClientId: androidID,
         iosClientId: iosID,
+        clientId: androidID,
         scopes: ['profile', 'email'],
       });
       
