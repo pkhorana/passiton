@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import PasswordInputText from 'react-native-hide-show-password-input';
 import * as firebase from 'firebase';
 
 
@@ -53,13 +54,11 @@ export default function Login(props) {
             defaultValue={userText}
             maxLength = {250}
         />
-        <Text style={styles.title}>Password:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Password"
+        <PasswordInputText
+            style={styles.hideableText}
             onChangeText={passText => setPass(passText)}
             defaultValue={passText}
-            maxLength = {160}
+            maxLength={160}
         />
       </View>
       <View style={styles.buttonContainer}>
@@ -96,7 +95,7 @@ const styles = StyleSheet.create({
 
     },
     entryContainer: {
-        padding: 20,
+        padding: 10,
         marginTop: 300,
 
     },
@@ -110,12 +109,18 @@ const styles = StyleSheet.create({
         textAlign: 'left'
     },
     input: {
-        height: 40,
+        height: 30,
         backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        marginBottom: 20,
-        color:'#FFF',
+        marginBottom: 5,
+        color:'#FFFF',
         paddingHorizontal: 10
 
     },
+    hideableText:{
+        height: 50,
+        tintColor: 'rgba(255, 255, 255, 0.2)',
+        marginBottom: 10,
+        textAlign: 'left'
+    }
 
 });
