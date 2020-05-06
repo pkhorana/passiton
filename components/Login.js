@@ -1,7 +1,8 @@
 import React, { useState, useEffect} from 'react';
-import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import {StyleSheet, Button, TextInput, Text, View, Alert} from 'react-native';
 import * as firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
+import * as Facebook from 'expo-facebook';
 
 
 
@@ -10,14 +11,79 @@ export default function Login(props) {
   const androidID = '726496770670-po97qe023h1g4ursm0ubccm1rliad5o3.apps.googleusercontent.com';
   const iosID = '726496770670-6errsd2kf47u6hvusupe5skgmmqg8uth.apps.googleusercontent.com';
   const webID = '726496770670-gbrp87t9g9q6octe2h23qrojaghgt2kd.apps.googleusercontent.com';
+  const facebookappID = '356033035592472';
   
   const usersRef = firebase.database().ref().child('users');
 
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
+  var pendingCred = null;
+
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(user => {
+      if (pendingCred != null) {
+        user.linkWithCredential(pendingCred).then(function(user) {
+          console.log("Account linking success", user);
+          pendingCred = null;
+        }, function(error) {
+          console.log("Account linking error", error);
+        })
+      }
+      
+    });
+  });
+
+  async function fblogIn() {
+    try {
+      await Facebook.initializeAsync(facebookappID);
+      const {
+        type,
+        token,
+        expires,
+        permissions,
+        declinedPermissions,
+      } = await Facebook.logInWithReadPermissionsAsync({
+        permissions: ['public_profile', 'email'],
+      });
+      if (type === 'success') {
+        // Get the user's name using Facebook's Graph API
+        
+        const credential = firebase
+        .auth
+        .FacebookAuthProvider
+        .credential(token);
+
+        firebase
+        .auth().signInWithCredential(credential).catch(error => {
+            if (error.code === 'auth/account-exists-with-different-credential') {
+              pendingCred = error.credential;
+              var email = error.email;
+              firebase.auth().fetchSignInMethodsForEmail(email).then(function(methods) {
+                if (methods[0] == 'password') {
+                  Alert.alert('Sign in with exisiting user account instead');
+                }
+                else if (methods[0] == 'google.com') {
+                  
+                  signInWithGoogleAsync();
+                  
+                }
+               
+              });
+            }
+      });
+    }
+
+
+
+      
+    } catch ({ message }) {
+      alert(`Facebook Login Error: ${message}`);
+    }
+  }
+
 
   
-
   
 
   async function signInWithGoogleAsync() {
@@ -25,7 +91,7 @@ export default function Login(props) {
       const result = await Google.logInAsync({
         androidClientId: androidID,
         iosClientId: iosID,
-        clientId: androidID,
+        clientId: webID,
         scopes: ['profile', 'email'],
       });
       
@@ -33,14 +99,19 @@ export default function Login(props) {
   
       if (result.type === 'success') {
         onSignIn(result);
+  
+ 
+          
+       
         return result.accessToken;
       } else {
-        
-        return { cancelled: true };
+        Alert.alert('Try again');
+       
       }
     } catch (e) {
+        console.log('hello?');
     
-      return { error: true };
+        return { error: true };
       
     }
     
@@ -152,6 +223,7 @@ export default function Login(props) {
         />
         <Button
             title = "Login with Facebook"
+            onPress={() => fblogIn()}
         />
         <Button
             title = "Login with Google"

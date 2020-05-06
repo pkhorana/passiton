@@ -23,9 +23,11 @@ export default function Loading(props) {
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user => {
             
-            if (user && user.emailVerified) {
+            if (user && (user.emailVerified || user.providerData[0].providerId == 'facebook.com')) {
 
+                
 
+                // && (user.emailVerified || user.providerData.providerId != null)
                 usersRef.child(user.uid).child('profileComplete').once('value').then(function(snapshot) {
                     p = snapshot.val();
                 }).then( () => {
