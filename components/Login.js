@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
 
@@ -7,7 +7,7 @@ import * as firebase from 'firebase';
 export default function Login(props) {
 
 
-  
+
   const usersRef = firebase.database().ref().child('users');
 
   const [userText, setUser] = useState('');
@@ -64,22 +64,25 @@ export default function Login(props) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button
-            title = "SIGN IN"
-            onPress={() => handleLogin()}
-        />
-        <Button
-            title = "Login with Facebook"
-        />
+        <TouchableOpacity style={styles.button}
+            onPress={() => handleLogin()}>
+            <Text>SIGN IN</Text>
+        </TouchableOpacity>
 
-        <Button
-            title = "Create Account"
-            onPress={() => props.navigation.navigate('CreateAccountScreen')}
-        />
-        <Button
-            title = "Forgot Password"
-            onPress={() => props.navigation.navigate('ForgotPasswordScreen')}
-        />
+        <TouchableOpacity style={styles.button}
+            >
+            <Text>LOGIN WITH FACEBOOK</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('CreateAccountScreen')}>
+            <Text>CREATE ACCOUNT</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('ForgotPasswordScreen')}>
+            <Text>FORGOT PASSWORD</Text>
+        </TouchableOpacity>
 
       </View>
 

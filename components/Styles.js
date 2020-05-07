@@ -11,8 +11,7 @@ export default StyleSheet.create({
     },
     entryContainer: {
         padding: 20,
-        marginTop: 300,
-
+        marginTop: '18%',
     },
     buttonContainer: {
         padding: 20
@@ -30,6 +29,14 @@ export default StyleSheet.create({
         color:'#FFF',
         paddingHorizontal: 10
 
+    },
+    button: {
+        alignItems: "center",
+        backgroundColor: "#DDDDDD",
+        padding: 15,
+        borderWidth: 3,
+        borderColor: '#3498db',
+        backgroundColor: '#56aed0',
     },
 
 });
