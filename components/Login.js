@@ -1,7 +1,6 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 import PasswordInputText from 'react-native-hide-show-password-input';
-import {TextField, FilledTextField, OutlinedTextField} from 'react-native-material-textfield';
 import * as firebase from 'firebase';
 
 
@@ -119,7 +118,7 @@ const styles = StyleSheet.create({
     },
     hideableText:{
         height: 50,
-        tintColor: 'rgba(255, 255, 255, 0.2)',
+        fontSize: 16,
         marginBottom: 10,
         textAlign: 'left'
     }
