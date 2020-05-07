@@ -17,17 +17,17 @@ export default function ForgotPassword(props) {
         alert('Email was not sent.');
       });
     }
-    
+
   }
 
-  function validateEmail(user){      
+  function validateEmail(user){
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(user)) {
         alert('Enter a valid email!');
         return false;
     }
     return true;
-  } 
+  }
 
 
 
@@ -44,19 +44,19 @@ export default function ForgotPassword(props) {
             defaultValue={userText}
             maxLength = {30}
         />
-        
+
       </View>
       <View style={styles.buttonContainer}>
         
-        <Button
-            title = "Send Email"
-            onPress={() => validate(userText)}
-        />
-        <Button
-            title = "Back"
-            onPress={() => props.navigation.navigate('LoginScreen')}
-        />
-       
+        <TouchableOpacity style={styles.button}
+            onPress={() => validate(userText)}>
+            <Text>SEND EMAIL</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('LoginScreen')}>
+            <Text>BACK</Text>
+        </TouchableOpacity>
 
       </View>
 
