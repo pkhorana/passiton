@@ -22,7 +22,7 @@ export default function Login(props) {
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(user => {
-      if (pendingCred != null) {
+      if (user && pendingCred != null) {
         user.linkWithCredential(pendingCred).then(function(user) {
           console.log("Account linking success", user);
           pendingCred = null;
@@ -61,9 +61,13 @@ export default function Login(props) {
               var email = error.email;
               firebase.auth().fetchSignInMethodsForEmail(email).then(function(methods) {
                 if (methods[0] == 'password') {
-                  Alert.alert('Sign in with exisiting user account instead');
+                  
+                  alert('Seems like you already have an account, sign in and and your FB sign in will be added to your account.');
+
+
                 }
                 else if (methods[0] == 'google.com') {
+                  alert('Seems like you already have a google account. Sign in through Google, and your FB sign in will be added to your account.');
                   
                   signInWithGoogleAsync();
                   
@@ -95,17 +99,11 @@ export default function Login(props) {
         scopes: ['profile', 'email'],
       });
       
-      
-  
       if (result.type === 'success') {
         onSignIn(result);
-  
- 
-          
-       
         return result.accessToken;
       } else {
-        Alert.alert('Try again');
+        alert('Try again');
        
       }
     } catch (e) {
@@ -173,7 +171,8 @@ export default function Login(props) {
     if (!user.emailVerified) {
         user.sendEmailVerification();
         alert('You must verify your email. Afterwards, you can login with your new account.');
-    } else {
+    } 
+    else {
         var p = null;
         usersRef.child(user.uid).child('profileComplete').once('value').then(function(snapshot) {
             p = snapshot.val();

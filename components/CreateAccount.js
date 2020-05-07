@@ -1,9 +1,9 @@
-import React, { useState} from 'react';
+import React, { useState, useEffect} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 import * as firebase from 'firebase';
 
-export default function CreateAccount(props) {
 
+export default function CreateAccount(props) {
 
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
@@ -14,6 +14,9 @@ export default function CreateAccount(props) {
   const ualpha = new RegExp("(?=.*[A-Z])");
   const num = new RegExp("(?=.*[0-9])");
   const special = new RegExp("(?=.*[!@#$%^&*])");
+  var pendingCred = null;
+
+  
 
   function handleSignup() {
       
@@ -22,8 +25,22 @@ export default function CreateAccount(props) {
       .createUserWithEmailAndPassword(userText, passText)
       .then(() => success() )
       .catch(error => {
+        pendingCred = error.credential;
+        console.log(pendingCred);
         if (error.code === 'auth/email-already-in-use') {
-            alert('That email address is already in use!');
+            firebase.auth().fetchSignInMethodsForEmail(userText).then(function(methods) {
+              if (methods != null) {
+                if (methods[0] == 'google.com' || methods[0] == 'facebook.com') {
+                  alert('Seems like you already have a google or fb account. Check your email and create password for your new sign in.');
+                  
+                  firebase.auth().sendPasswordResetEmail(userText);
+                }
+              }
+              else {
+                alert('That email address is already in use!');
+              }
+              
+            });
         }
         else if (error.code === 'auth/invalid-email') {
             alert('That email address is invalid!');
