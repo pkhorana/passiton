@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
 
@@ -128,15 +128,15 @@ export default function CreateAccount(props) {
       </View>
       <View style={styles.buttonContainer}>
 
-        <Button
-            title = "Continue"
-            onPress={() => validate(userText, passText)}
-        />
-        <Button
-            title = "Go to Login"
-            onPress={() => props.navigation.navigate('LoginScreen')}
-        />
+        <TouchableOpacity style={styles.button}
+            onPress={() => validate(userText, passText)}>
+            <Text>CONTINUE</Text>
+        </TouchableOpacity>
 
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('LoginScreen')}>
+            <Text>GO TO LOGIN</Text>
+        </TouchableOpacity>
 
       </View>
 

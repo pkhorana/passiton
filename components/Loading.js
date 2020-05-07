@@ -11,7 +11,7 @@ export default function Loading(props) {
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user => {
             if (user && user.emailVerified) {
-                
+
 
                 usersRef.child(user.uid).child('profileComplete').once('value').then(function(snapshot) {
                     p = snapshot.val();
@@ -24,7 +24,7 @@ export default function Loading(props) {
                 });
             } else {
                 props.navigation.navigate('LoginScreen');
-            } 
+            }
         })
     });
 
