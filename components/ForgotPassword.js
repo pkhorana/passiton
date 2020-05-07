@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
 
 export default function ForgotPassword(props) {
@@ -47,7 +47,7 @@ export default function ForgotPassword(props) {
 
       </View>
       <View style={styles.buttonContainer}>
-        
+
         <TouchableOpacity style={styles.button}
             onPress={() => validate(userText)}>
             <Text>SEND EMAIL</Text>
