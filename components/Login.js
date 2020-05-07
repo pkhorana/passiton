@@ -34,25 +34,19 @@ export default function Login(props) {
     });
   });
 
+
+
   async function fblogIn() {
     try {
       await Facebook.initializeAsync(facebookappID);
       const {
         type,
         token,
-        expires,
-        permissions,
-        declinedPermissions,
       } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ['public_profile', 'email'],
       });
       if (type === 'success') {
-        // Get the user's name using Facebook's Graph API
-        
-        const credential = firebase
-        .auth
-        .FacebookAuthProvider
-        .credential(token);
+        const credential = firebase.auth.FacebookAuthProvider.credential(token);
 
         firebase
         .auth().signInWithCredential(credential).catch(error => {
@@ -61,34 +55,22 @@ export default function Login(props) {
               var email = error.email;
               firebase.auth().fetchSignInMethodsForEmail(email).then(function(methods) {
                 if (methods[0] == 'password') {
-                  
                   alert('Seems like you already have an account, sign in and and your FB sign in will be added to your account.');
-
-
                 }
                 else if (methods[0] == 'google.com') {
                   alert('Seems like you already have a google account. Sign in through Google, and your FB sign in will be added to your account.');
-                  
-                  signInWithGoogleAsync();
-                  
+                  signInWithGoogleAsync(); 
                 }
-               
               });
             }
       });
     }
-
-
-
-      
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
     }
   }
 
 
-  
-  
 
   async function signInWithGoogleAsync() {
     try {
@@ -98,55 +80,37 @@ export default function Login(props) {
         clientId: webID,
         scopes: ['profile', 'email'],
       });
-      
       if (result.type === 'success') {
         onSignIn(result);
         return result.accessToken;
       } else {
         alert('Try again');
-       
       }
     } catch (e) {
         console.log('hello?');
-    
         return { error: true };
-      
     }
-    
   }
 
   
   function onSignIn(googleUser) {
     console.log('Google Auth Response', googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
-    
     var unsubscribe = firebase.auth().onAuthStateChanged(function(firebaseUser) {
       unsubscribe();
-      
       // Check if we are already signed-in Firebase with the correct user.
       if (!isUserEqual(googleUser, firebaseUser)) {
         // Build Firebase credential with the Google ID token.
         var credential = firebase.auth.GoogleAuthProvider.credential(
-            // googleUser.getAuthResponse().id_token
             googleUser.idToken,
             googleUser.accessToken
         );
-        // Sign in with credential from the Google user.
+
         firebase.auth().signInWithCredential(credential).catch(function(error) {
-          // Handle Errors here.
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          // The email of the user's account used.
-          var email = error.email;
-          // The firebase.auth.AuthCredential type that was used.
-          var credential = error.credential;
-          
-          
-          // ...
+          alert(error);
         });
       } else {
         console.log('User already signed-in Firebase.');
-        
       }
     });
   }
@@ -177,11 +141,11 @@ export default function Login(props) {
         usersRef.child(user.uid).child('profileComplete').once('value').then(function(snapshot) {
             p = snapshot.val();
         }).then( () => {
-                if (p === 'No') {
-                    props.navigation.navigate('CreateProfileScreen');
-                } else {
-                    props.navigation.navigate('HomeScreen');
-                }
+            if (p === 'No') {
+                props.navigation.navigate('CreateProfileScreen');
+            } else {
+                props.navigation.navigate('HomeScreen');
+            }
         });
     }
   }

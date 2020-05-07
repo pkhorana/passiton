@@ -18,39 +18,47 @@ export default function CreateAccount(props) {
 
   
 
-  function handleSignup() {
-      
+  function handleSignup() { 
       firebase
       .auth()
       .createUserWithEmailAndPassword(userText, passText)
-      .then(() => success() )
+      .then(() => {
+          var user = firebase.auth().currentUser;
+          user.sendEmailVerification().then(() =>
+            writeLoginCredentials(userText)
+          );
+          alert('You must verify your email. Afterwards, you can login with your new account.');
+      } )
       .catch(error => {
-        pendingCred = error.credential;
-        console.log(pendingCred);
-        if (error.code === 'auth/email-already-in-use') {
-            firebase.auth().fetchSignInMethodsForEmail(userText).then(function(methods) {
-              if (methods != null) {
-                if (methods[0] == 'google.com' || methods[0] == 'facebook.com') {
-                  alert('Seems like you already have a google or fb account. Check your email and create password for your new sign in.');
-                  
-                  firebase.auth().sendPasswordResetEmail(userText);
-                }
-              }
-              else {
-                alert('That email address is already in use!');
-              }
-              
-            });
-        }
-        else if (error.code === 'auth/invalid-email') {
-            alert('That email address is invalid!');
-        } 
-        else {
-            alert(error);
-        }
+            handleExistingGoogleFB();
       });
       
   }
+
+  function handleExistingGoogleFB() {
+    pendingCred = error.credential;
+    console.log(pendingCred);
+    if (error.code === 'auth/email-already-in-use') {
+      firebase.auth().fetchSignInMethodsForEmail(userText).then(function(methods) {
+        if (methods != null) {
+          if (methods[0] == 'google.com' || methods[0] == 'facebook.com') {
+            alert('Seems like you already have a google or fb account. Check your email and create password for your new sign in.');
+            firebase.auth().sendPasswordResetEmail(userText);
+          }
+        }
+        else {
+          alert('That email address is already in use!');
+        } 
+      });
+    }
+    else if (error.code === 'auth/invalid-email') {
+        alert('That email address is invalid!');
+    } 
+    else {
+        alert(error);
+    }
+  }
+
 
   function writeLoginCredentials(emailText) {
     var user = firebase.auth().currentUser;
@@ -61,15 +69,6 @@ export default function CreateAccount(props) {
         profileComplete: 'No',
     }
     myRef.set(data);
-  }
-
-  function success() {
-    var user = firebase.auth().currentUser;
-    user.sendEmailVerification().then(() =>
-      writeLoginCredentials(userText)
-    );
-    alert('You must verify your email. Afterwards, you can login with your new account.');
-
   }
 
 
@@ -91,8 +90,6 @@ export default function CreateAccount(props) {
 
 
   function checkPassword(pass) {
-    
-    
     if (pass ==null || pass === '') {
         alert('Password is required.');
         return false;
@@ -118,8 +115,6 @@ export default function CreateAccount(props) {
         return false;
     } 
     return true;
-
-    
   }
 
 
@@ -144,7 +139,6 @@ export default function CreateAccount(props) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        
         <Button
             title = "Continue"
             onPress={() => validate(userText, passText)}
@@ -153,10 +147,7 @@ export default function CreateAccount(props) {
             title = "Go to Login"
             onPress={() => props.navigation.navigate('LoginScreen')}
         />
-       
-
       </View>
-
     </View>
   );
 }
@@ -190,7 +181,6 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         color:'#FFF',
         paddingHorizontal: 10
-
     },
 
 });
