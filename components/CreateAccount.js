@@ -30,12 +30,12 @@ export default function CreateAccount(props) {
           alert('You must verify your email. Afterwards, you can login with your new account.');
       } )
       .catch(error => {
-            handleExistingGoogleFB();
+            handleExistingGoogleFB(error);
       });
       
   }
 
-  function handleExistingGoogleFB() {
+  function handleExistingGoogleFB(error) {
     pendingCred = error.credential;
     console.log(pendingCred);
     if (error.code === 'auth/email-already-in-use') {
