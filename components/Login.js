@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 import PasswordInputText from 'react-native-hide-show-password-input';
+import {TextField, FilledTextField, OutlinedTextField} from 'react-native-material-textfield';
 import * as firebase from 'firebase';
 
 
