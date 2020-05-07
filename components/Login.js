@@ -62,6 +62,8 @@ export default function Login(props) {
                   signInWithGoogleAsync(); 
                 }
               });
+            } else {
+              console.log(error);
             }
       });
     }
