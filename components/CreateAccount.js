@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 import * as firebase from 'firebase';
+import PasswordTextBox from './PasswordTextBox';
 
 export default function CreateAccount(props) {
 
@@ -117,13 +118,11 @@ export default function CreateAccount(props) {
             defaultValue={userText}
             maxLength = {250}
         />
-        <Text style={styles.title}>Password:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Password"
-            onChangeText={passText => setPass(passText)}
-            defaultValue={''}
-            maxLength = {160}
+        <PasswordTextBox
+            icon="lock"
+            label="Password"
+            onChange={(passText) => setPass(passText)}
+            maxLength={160}
         />
       </View>
       <View style={styles.buttonContainer}>

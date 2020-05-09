@@ -1,7 +1,7 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
-import PasswordInputText from 'react-native-hide-show-password-input';
 import * as firebase from 'firebase';
+import PasswordTextBox from './PasswordTextBox';
 
 
 export default function Login(props) {
@@ -54,12 +54,12 @@ export default function Login(props) {
             defaultValue={userText}
             maxLength = {250}
         />
-        <PasswordInputText
-            style={styles.hideableText}
-            onChangeText={passText => setPass(passText)}
-            defaultValue={passText}
-            maxLength={160}
-        />
+      <PasswordTextBox
+          icon="lock"
+          label="Password"
+          onChange={(passText) => setPass(passText)}
+          maxLength={160}
+      />
       </View>
       <View style={styles.buttonContainer}>
         <Button
