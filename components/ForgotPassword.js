@@ -31,9 +31,7 @@ export default function ForgotPassword(props) {
   }
 
 
-
-
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.entryContainer}>
