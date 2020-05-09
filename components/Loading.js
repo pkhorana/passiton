@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react'
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native'
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import * as firebase from 'firebase';
 
 
@@ -11,6 +11,7 @@ export default function Loading(props) {
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user => {
             if (user && (user.emailVerified || user.providerData[0].providerId == 'facebook.com' || user.providerData[0].providerId == 'google.com')) {
+
                 usersRef.child(user.uid).child('profileComplete').once('value').then(function(snapshot) {
                     p = snapshot.val();
             }).then( () => {
@@ -30,7 +31,7 @@ export default function Loading(props) {
             });
             } else {
                 props.navigation.navigate('LoginScreen');
-            } 
+            }
         })
     });
 

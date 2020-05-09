@@ -1,5 +1,6 @@
 import React, { useState, useEffect} from 'react';
-import {StyleSheet, Button, TextInput, Text, View, Alert} from 'react-native';
+import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity, Alert} from 'react-native';
+import styles from './Styles';
 import * as firebase from 'firebase';
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
@@ -182,27 +183,30 @@ export default function Login(props) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button
-            title = "SIGN IN"
-            onPress={() => handleLogin()}
-        />
-        <Button
-            title = "Login with Facebook"
-            onPress={() => fblogIn()}
-        />
-        <Button
-            title = "Login with Google"
-            onPress={() => signInWithGoogleAsync()}
-        />
+        <TouchableOpacity style={styles.button}
+            onPress={() => handleLogin()}>
+            <Text>SIGN IN</Text>
+        </TouchableOpacity>
 
-        <Button
-            title = "Create Account"
-            onPress={() => props.navigation.navigate('CreateAccountScreen')}
-        />
-        <Button
-            title = "Forgot Password"
-            onPress={() => props.navigation.navigate('ForgotPasswordScreen')}
-        />
+        <TouchableOpacity style={styles.button}
+            onPress={() => fblogIn()}>
+            <Text>LOGIN WITH FACEBOOK</Text>
+        </TouchableOpacity>
+
+         <TouchableOpacity style={styles.button}
+            onPress={() => signInWithGoogleAsync()}>
+            <Text>LOGIN WITH GOOGLE</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('CreateAccountScreen')}>
+            <Text>CREATE ACCOUNT</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('ForgotPasswordScreen')}>
+            <Text>FORGOT PASSWORD</Text>
+        </TouchableOpacity>
 
       </View>
 
@@ -210,36 +214,36 @@ export default function Login(props) {
   );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#3498db'
-    },
-    logoContainer: {
-
-    },
-    entryContainer: {
-        padding: 20,
-        marginTop: 300,
-
-    },
-    buttonContainer: {
-        padding: 20
-    },
-    title: {
-        color: '#FFFF',
-        marginTop: 10,
-        width: 160,
-        textAlign: 'left'
-    },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        marginBottom: 20,
-        color:'#FFF',
-        paddingHorizontal: 10
-
-    },
-
-});
+// const styles1 = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignSelf: 'stretch',
+//         backgroundColor: '#3498db'
+//     },
+//     logoContainer: {
+//
+//     },
+//     entryContainer: {
+//         padding: 20,
+//         marginTop: 300,
+//
+//     },
+//     buttonContainer: {
+//         padding: 20
+//     },
+//     title: {
+//         color: '#FFFF',
+//         marginTop: 10,
+//         width: 160,
+//         textAlign: 'left'
+//     },
+//     input: {
+//         height: 40,
+//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
+//         marginBottom: 20,
+//         color:'#FFF',
+//         paddingHorizontal: 10
+//
+//     },
+//
+// });

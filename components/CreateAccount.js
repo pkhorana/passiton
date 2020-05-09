@@ -1,5 +1,6 @@
-import React, { useState, useEffect} from 'react';
-import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import React, { useState} from 'react';
+import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
+import styles from './Styles';
 import * as firebase from 'firebase';
 
 
@@ -15,8 +16,6 @@ export default function CreateAccount(props) {
   const num = new RegExp("(?=.*[0-9])");
   const special = new RegExp("(?=.*[!@#$%^&*])");
   var pendingCred = null;
-
-  
 
   function handleSignup() { 
       firebase
@@ -63,7 +62,7 @@ export default function CreateAccount(props) {
   function writeLoginCredentials(emailText) {
     var user = firebase.auth().currentUser;
     var myRef = usersRef.child(user.uid);
-    var data = 
+    var data =
     {
         email: emailText,
         profileComplete: 'No',
@@ -73,20 +72,20 @@ export default function CreateAccount(props) {
 
 
   function validate(user, pass) {
-    
+
     if (validateEmail(user) && checkPassword(pass)) {
         handleSignup();
     }
   }
 
-  function validateEmail(user){      
+  function validateEmail(user){
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(user)) {
         alert('Enter a valid email!');
         return false;
     }
     return true;
-  } 
+  }
 
 
   function checkPassword(pass) {
@@ -113,10 +112,10 @@ export default function CreateAccount(props) {
     else if (!special.test(pass)) {
         alert('Password must contain at least one special character.');
         return false;
-    } 
+    }
     return true;
-  }
 
+  }
 
   return (
     <View style={styles.container}>
@@ -139,48 +138,52 @@ export default function CreateAccount(props) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        <Button
-            title = "Continue"
-            onPress={() => validate(userText, passText)}
-        />
-        <Button
-            title = "Go to Login"
-            onPress={() => props.navigation.navigate('LoginScreen')}
-        />
+
+        <TouchableOpacity style={styles.button}
+            onPress={() => validate(userText, passText)}>
+            <Text>CONTINUE</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('LoginScreen')}>
+            <Text>GO TO LOGIN</Text>
+        </TouchableOpacity>
+
       </View>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#3498db'
-    },
-    logoContainer: {
-
-    },
-    entryContainer: {
-        padding: 20,
-        marginTop: 300,
-
-    },
-    buttonContainer: {
-        padding: 20
-    },
-    title: {
-        color: '#FFFF',
-        marginTop: 10,
-        width: 160,
-        textAlign: 'left'
-    },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        marginBottom: 20,
-        color:'#FFF',
-        paddingHorizontal: 10
-    },
-
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignSelf: 'stretch',
+//         backgroundColor: '#3498db'
+//     },
+//     logoContainer: {
+//
+//     },
+//     entryContainer: {
+//         padding: 20,
+//         marginTop: 300,
+//
+//     },
+//     buttonContainer: {
+//         padding: 20
+//     },
+//     title: {
+//         color: '#FFFF',
+//         marginTop: 10,
+//         width: 160,
+//         textAlign: 'left'
+//     },
+//     input: {
+//         height: 40,
+//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
+//         marginBottom: 20,
+//         color:'#FFF',
+//         paddingHorizontal: 10
+//
+//     },
+//
+// });
