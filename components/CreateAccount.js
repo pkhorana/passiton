@@ -2,6 +2,8 @@ import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
+import PasswordTextBox from './PasswordTextBox';
+import EmailTextBox from './EmailTextBox';
 
 
 export default function CreateAccount(props) {
@@ -49,7 +51,6 @@ export default function CreateAccount(props) {
           alert('That email address is already in use!');
         } 
       });
-    }
     else if (error.code === 'auth/invalid-email') {
         alert('That email address is invalid!');
     } 
@@ -114,31 +115,22 @@ export default function CreateAccount(props) {
         return false;
     }
     return true;
-
   }
 
   return (
     <View style={styles.container}>
       <View style={styles.entryContainer}>
-        <Text style={styles.title}>Username:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Username"
-            onChangeText={userText => setUser(userText)}
-            defaultValue={userText}
-            maxLength = {30}
+        <EmailTextBox
+            onChange={(userText) => setUser(userText)}
         />
-        <Text style={styles.title}>Password:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Password"
-            onChangeText={passText => setPass(passText)}
-            defaultValue={''}
-            maxLength = {30}
+      <View style={styles.buttonContainer}>
+      </View>
+        <PasswordTextBox
+            onChange={(passText) => setPass(passText)}
         />
       </View>
       <View style={styles.buttonContainer}>
-
+        
         <TouchableOpacity style={styles.button}
             onPress={() => validate(userText, passText)}>
             <Text>CONTINUE</Text>

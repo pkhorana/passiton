@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
+import EmailTextBox from './EmailTextBox';
 
 export default function ForgotPassword(props) {
 
@@ -13,7 +14,7 @@ export default function ForgotPassword(props) {
     if (validateEmail(email)) {
       var auth = firebase.auth();
       auth.sendPasswordResetEmail(email).then(function() {
-        alert('Email was to reset password was sent.');
+        alert('Email to reset password was sent.');
       }).catch(function(error) {
         alert('Email was not sent.');
       });
@@ -29,21 +30,13 @@ export default function ForgotPassword(props) {
     }
     return true;
   }
-
-
   
   return (
     <View style={styles.container}>
       <View style={styles.entryContainer}>
-        <Text style={styles.title}>Enter email here:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Username"
-            onChangeText={userText => setUser(userText)}
-            defaultValue={userText}
-            maxLength = {30}
+        <EmailTextBox
+            onChange={(userText) => setUser(userText)}
         />
-
       </View>
       <View style={styles.buttonContainer}>
 
@@ -56,7 +49,6 @@ export default function ForgotPassword(props) {
             onPress={() => props.navigation.navigate('LoginScreen')}>
             <Text>BACK</Text>
         </TouchableOpacity>
-
       </View>
 
     </View>
