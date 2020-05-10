@@ -18,10 +18,19 @@ class PasswordTextBox extends React.Component {
         const { label, icon, onChange } = this.props;
         return (
             <Item floatingLabel>
-                <Icon active name={icon} />
-                <Label>{label}</Label>
-                <Input secureTextEntry={this.state.password} onChangeText={(e) => onChange(e)} />
-                <Icon name={this.state.icon} onPress={() => this._changeIcon()} />
+                <Icon
+                    active name={icon}
+                />
+                <Label style={{ color: "white" }}>Password</Label>
+                <Input
+                    secureTextEntry={this.state.password}
+                    onChangeText={(e) => onChange(e)}
+                    maxLength={160}
+                />
+                <Icon
+                    name={this.state.icon}
+                    onPress={() => this._changeIcon()}
+                />
             </Item>
         );
     }

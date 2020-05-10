@@ -2,6 +2,7 @@ import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 import * as firebase from 'firebase';
 import PasswordTextBox from './PasswordTextBox';
+import EmailTextBox from './EmailTextBox';
 
 
 export default function Login(props) {
@@ -46,22 +47,16 @@ export default function Login(props) {
 
     <View style={styles.container}>
       <View style={styles.entryContainer}>
-        <Text style={styles.title}>Email:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Email"
-            onChangeText={userText => setUser(userText)}
-            defaultValue={userText}
-            maxLength = {250}
-        />
-      <PasswordTextBox
-          icon="lock"
-          label="Password"
-          onChange={(passText) => setPass(passText)}
-          maxLength={160}
-      />
-      </View>
-      <View style={styles.buttonContainer}>
+       <EmailTextBox
+           onChange={(userText) => setUser(userText)}
+       />
+       <View style={styles.buttonContainer}>
+       </View>
+       <PasswordTextBox
+           onChange={(passText) => setPass(passText)}
+       />
+       </View>
+       <View style={styles.buttonContainer}>
         <Button
             title = "SIGN IN"
             onPress={() => handleLogin()}
@@ -116,11 +111,4 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10
 
     },
-    hideableText:{
-        height: 50,
-        fontSize: 16,
-        marginBottom: 10,
-        textAlign: 'left'
-    }
-
 });

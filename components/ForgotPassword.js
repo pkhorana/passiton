@@ -1,6 +1,7 @@
 import React, { useState} from 'react';
 import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
 import * as firebase from 'firebase';
+import EmailTextBox from './EmailTextBox';
 
 export default function ForgotPassword(props) {
 
@@ -36,15 +37,9 @@ export default function ForgotPassword(props) {
   return (
     <View style={styles.container}>
       <View style={styles.entryContainer}>
-        <Text style={styles.title}>Enter email here:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Username"
-            onChangeText={userText => setUser(userText)}
-            defaultValue={userText}
-            maxLength = {250}
+        <EmailTextBox
+            onChange={(userText) => setUser(userText)}
         />
-
       </View>
       <View style={styles.buttonContainer}>
 
