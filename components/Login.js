@@ -86,9 +86,6 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#3498db'
     },
-    logoContainer: {
-
-    },
     entryContainer: {
         padding: 10,
         marginTop: 300,
@@ -96,19 +93,5 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         padding: 20
-    },
-    title: {
-        color: '#FFFF',
-        marginTop: 10,
-        width: 160,
-        textAlign: 'left'
-    },
-    input: {
-        height: 30,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        marginBottom: 5,
-        color:'#FFFF',
-        paddingHorizontal: 10
-
     },
 });
