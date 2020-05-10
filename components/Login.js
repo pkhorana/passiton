@@ -2,18 +2,17 @@ import React, { useState, useEffect} from 'react';
 import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity, Alert} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
+import PasswordTextBox from './PasswordTextBox';
+import EmailTextBox from './EmailTextBox';
 import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
 
-
-
 export default function Login(props) {
-
   const androidID = '726496770670-po97qe023h1g4ursm0ubccm1rliad5o3.apps.googleusercontent.com';
   const iosID = '726496770670-6errsd2kf47u6hvusupe5skgmmqg8uth.apps.googleusercontent.com';
   const webID = '726496770670-gbrp87t9g9q6octe2h23qrojaghgt2kd.apps.googleusercontent.com';
   const facebookappID = '356033035592472';
-  
+
   const usersRef = firebase.database().ref().child('users');
 
   const [userText, setUser] = useState('');
@@ -165,22 +164,14 @@ export default function Login(props) {
 
     <View style={styles.container}>
       <View style={styles.entryContainer}>
-        <Text style={styles.title}>Email:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Email"
-            onChangeText={userText => setUser(userText)}
-            defaultValue={userText}
-            maxLength = {30}
-        />
-        <Text style={styles.title}>Password:</Text>
-        <TextInput
-            style={styles.input}
-            placeholder="Password"
-            onChangeText={passText => setPass(passText)}
-            defaultValue={passText}
-            maxLength = {30}
-        />
+       <EmailTextBox
+           onChange={(userText) => setUser(userText)}
+       />
+       <View style={styles.buttonContainer}>
+       </View>
+       <PasswordTextBox
+           onChange={(passText) => setPass(passText)}
+       />
       </View>
       <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button}
@@ -207,13 +198,11 @@ export default function Login(props) {
             onPress={() => props.navigation.navigate('ForgotPasswordScreen')}>
             <Text>FORGOT PASSWORD</Text>
         </TouchableOpacity>
-
       </View>
 
     </View>
   );
 }
-
 // const styles1 = StyleSheet.create({
 //     container: {
 //         flex: 1,
