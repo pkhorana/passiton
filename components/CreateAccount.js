@@ -1,11 +1,12 @@
 import React, { useState} from 'react';
-import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
+import styles from './Styles';
 import * as firebase from 'firebase';
 import PasswordTextBox from './PasswordTextBox';
 import EmailTextBox from './EmailTextBox';
 
-export default function CreateAccount(props) {
 
+export default function CreateAccount(props) {
 
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
@@ -16,26 +17,48 @@ export default function CreateAccount(props) {
   const ualpha = new RegExp("(?=.*[A-Z])");
   const num = new RegExp("(?=.*[0-9])");
   const special = new RegExp("(?=.*[!@#$%^&*])");
+  var pendingCred = null;
 
-  function handleSignup() {
-
+  function handleSignup() { 
       firebase
       .auth()
       .createUserWithEmailAndPassword(userText, passText)
-      .then(() => success() )
+      .then(() => {
+          var user = firebase.auth().currentUser;
+          user.sendEmailVerification().then(() =>
+            writeLoginCredentials(userText)
+          );
+          alert('You must verify your email. Afterwards, you can login with your new account.');
+      } )
       .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-            alert('That email address is already in use!');
-        }
-        else if (error.code === 'auth/invalid-email') {
-            alert('That email address is invalid!');
+            handleExistingGoogleFB(error);
+      });
+      
+  }
+
+  function handleExistingGoogleFB(error) {
+    pendingCred = error.credential;
+    console.log(pendingCred);
+    if (error.code === 'auth/email-already-in-use') {
+      firebase.auth().fetchSignInMethodsForEmail(userText).then(function(methods) {
+        if (methods != null) {
+          if (methods[0] == 'google.com' || methods[0] == 'facebook.com') {
+            alert('Seems like you already have a google or fb account. Check your email and create password for your new sign in.');
+            firebase.auth().sendPasswordResetEmail(userText);
+          }
         }
         else {
-            alert(error);
-        }
+          alert('That email address is already in use!');
+        } 
       });
-
+    else if (error.code === 'auth/invalid-email') {
+        alert('That email address is invalid!');
+    } 
+    else {
+        alert(error);
+    }
   }
+
 
   function writeLoginCredentials(emailText) {
     var user = firebase.auth().currentUser;
@@ -46,15 +69,6 @@ export default function CreateAccount(props) {
         profileComplete: 'No',
     }
     myRef.set(data);
-  }
-
-  function success() {
-    var user = firebase.auth().currentUser;
-    user.sendEmailVerification().then(() =>
-      writeLoginCredentials(userText)
-    );
-    alert('You must verify your email. Afterwards, you can login with your new account.');
-
   }
 
 
@@ -76,8 +90,6 @@ export default function CreateAccount(props) {
 
 
   function checkPassword(pass) {
-
-
     if (pass ==null || pass === '') {
         alert('Password is required.');
         return false;
@@ -103,10 +115,7 @@ export default function CreateAccount(props) {
         return false;
     }
     return true;
-
-
   }
-
 
   return (
     <View style={styles.container}>
@@ -121,53 +130,52 @@ export default function CreateAccount(props) {
         />
       </View>
       <View style={styles.buttonContainer}>
+        
+        <TouchableOpacity style={styles.button}
+            onPress={() => validate(userText, passText)}>
+            <Text>CONTINUE</Text>
+        </TouchableOpacity>
 
-        <Button
-            title = "Continue"
-            onPress={() => validate(userText, passText)}
-        />
-        <Button
-            title = "Go to Login"
-            onPress={() => props.navigation.navigate('LoginScreen')}
-        />
-
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('LoginScreen')}>
+            <Text>GO TO LOGIN</Text>
+        </TouchableOpacity>
 
       </View>
-
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#3498db'
-    },
-    logoContainer: {
-
-    },
-    entryContainer: {
-        padding: 20,
-        marginTop: 300,
-
-    },
-    buttonContainer: {
-        padding: 20
-    },
-    title: {
-        color: '#FFFF',
-        marginTop: 10,
-        width: 160,
-        textAlign: 'left'
-    },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        marginBottom: 20,
-        color:'#FFF',
-        paddingHorizontal: 10
-
-    },
-
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignSelf: 'stretch',
+//         backgroundColor: '#3498db'
+//     },
+//     logoContainer: {
+//
+//     },
+//     entryContainer: {
+//         padding: 20,
+//         marginTop: 300,
+//
+//     },
+//     buttonContainer: {
+//         padding: 20
+//     },
+//     title: {
+//         color: '#FFFF',
+//         marginTop: 10,
+//         width: 160,
+//         textAlign: 'left'
+//     },
+//     input: {
+//         height: 40,
+//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
+//         marginBottom: 20,
+//         color:'#FFF',
+//         paddingHorizontal: 10
+//
+//     },
+//
+// });

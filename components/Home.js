@@ -21,10 +21,10 @@ export default function Home(props) {
     return (
         <View style={styles.container}>
         <Text style={styles.title}>Welcome to Home Screen</Text>
-        <Button
-            title = "Logout"
-            onPress={() => signOut()}
-        />
+        <TouchableOpacity style={styles.button}
+            onPress={() => signOut()}>
+            <Text>LOGOUT</Text>
+        </TouchableOpacity>
         </View>
     );
 }

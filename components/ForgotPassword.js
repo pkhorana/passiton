@@ -1,5 +1,6 @@
 import React, { useState} from 'react';
-import {StyleSheet, Button, TextInput, Text, View} from 'react-native';
+import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
+import styles from './Styles';
 import * as firebase from 'firebase';
 import EmailTextBox from './EmailTextBox';
 
@@ -29,11 +30,7 @@ export default function ForgotPassword(props) {
     }
     return true;
   }
-
-
-
-
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.entryContainer}>
@@ -43,52 +40,51 @@ export default function ForgotPassword(props) {
       </View>
       <View style={styles.buttonContainer}>
 
-        <Button
-            title = "Send Email"
-            onPress={() => validate(userText)}
-        />
-        <Button
-            title = "Back"
-            onPress={() => props.navigation.navigate('LoginScreen')}
-        />
+        <TouchableOpacity style={styles.button}
+            onPress={() => validate(userText)}>
+            <Text>SEND EMAIL</Text>
+        </TouchableOpacity>
 
-
+        <TouchableOpacity style={styles.button}
+            onPress={() => props.navigation.navigate('LoginScreen')}>
+            <Text>BACK</Text>
+        </TouchableOpacity>
       </View>
 
     </View>
   );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#3498db'
-    },
-    logoContainer: {
-
-    },
-    entryContainer: {
-        padding: 20,
-        marginTop: 300,
-
-    },
-    buttonContainer: {
-        padding: 20
-    },
-    title: {
-        color: '#FFFF',
-        marginTop: 10,
-        width: 160,
-        textAlign: 'left'
-    },
-    input: {
-        height: 40,
-        backgroundColor: 'rgba(255, 255, 255, 0.2)',
-        marginBottom: 20,
-        color:'#FFF',
-        paddingHorizontal: 10
-
-    },
-
-});
+// const styles = StyleSheet.create({
+//     container: {
+//         flex: 1,
+//         alignSelf: 'stretch',
+//         backgroundColor: '#3498db'
+//     },
+//     logoContainer: {
+//
+//     },
+//     entryContainer: {
+//         padding: 20,
+//         marginTop: 300,
+//
+//     },
+//     buttonContainer: {
+//         padding: 20
+//     },
+//     title: {
+//         color: '#FFFF',
+//         marginTop: 10,
+//         width: 160,
+//         textAlign: 'left'
+//     },
+//     input: {
+//         height: 40,
+//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
+//         marginBottom: 20,
+//         color:'#FFF',
+//         paddingHorizontal: 10
+//
+//     },
+//
+// });
