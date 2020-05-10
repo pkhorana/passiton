@@ -33,7 +33,7 @@ export default function ForgotPassword(props) {
   
   return (
     <View style={styles.container}>
-      <View style={styles.entryContainer}>
+      <View style={sp.specialCase}>
         <EmailTextBox
             onChange={(userText) => setUser(userText)}
         />
@@ -54,6 +54,16 @@ export default function ForgotPassword(props) {
     </View>
   );
 }
+
+const sp = StyleSheet.create({
+  specialCase: {
+            
+    padding: 20,
+    marginTop: 50,
+    
+  },
+});
+
 
 // const styles = StyleSheet.create({
 //     container: {

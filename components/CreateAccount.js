@@ -51,6 +51,7 @@ export default function CreateAccount(props) {
           alert('That email address is already in use!');
         } 
       });
+    }
     else if (error.code === 'auth/invalid-email') {
         alert('That email address is invalid!');
     } 
