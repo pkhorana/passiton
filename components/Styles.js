@@ -11,7 +11,7 @@ export default StyleSheet.create({
     },
     entryContainer: {
         padding: 20,
-        marginTop: '18%',
+        marginTop: 300,
     },
     buttonContainer: {
         padding: 20
