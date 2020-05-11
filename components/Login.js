@@ -1,5 +1,5 @@
-import React, { useState, useEffect} from 'react';
-import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity, Alert} from 'react-native';
+import React, { useState} from 'react';
+import {Text, View, TouchableOpacity, Alert} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
 import PasswordTextBox from './PasswordTextBox';
@@ -8,8 +8,8 @@ import * as Google from 'expo-google-app-auth';
 import * as Facebook from 'expo-facebook';
 
 export default function Login(props) {
-  const androidID = '726496770670-po97qe023h1g4ursm0ubccm1rliad5o3.apps.googleusercontent.com';
-  const iosID = '726496770670-6errsd2kf47u6hvusupe5skgmmqg8uth.apps.googleusercontent.com';
+  const androidID = '726496770670-tbdocpee887lp06bq8u4i66h7dqpeurt.apps.googleusercontent.com';
+  const iosID = '726496770670-6r4ee2a6gl62re355jesv119omk4dv0s.apps.googleusercontent.com';
   const webID = '726496770670-gbrp87t9g9q6octe2h23qrojaghgt2kd.apps.googleusercontent.com';
   const facebookappID = '356033035592472';
 
@@ -20,7 +20,9 @@ export default function Login(props) {
   var pendingCred = null;
 
 
-  useEffect(() => {
+
+
+  function linkAccountCredential() {
     firebase.auth().onAuthStateChanged(user => {
       if (user && pendingCred != null) {
         user.linkWithCredential(pendingCred).then(function(user) {
@@ -30,11 +32,8 @@ export default function Login(props) {
           console.log("Account linking error", error);
         })
       }
-      
     });
-  });
-
-
+  }
 
   async function fblogIn() {
     try {
@@ -60,6 +59,7 @@ export default function Login(props) {
                 else if (methods[0] == 'google.com') {
                   alert('Seems like you already have a google account. Sign in through Google, and your FB sign in will be added to your account.');
                   signInWithGoogleAsync(); 
+                  linkAccountCredential();
                 }
               });
             } else {
@@ -70,6 +70,17 @@ export default function Login(props) {
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
     }
+  }
+
+  function writeLoginCredentials(emailText) {
+    var user = firebase.auth().currentUser;
+    var myRef = usersRef.child(user.uid);
+    var data =
+    {
+        email: emailText,
+        profileComplete: 'No',
+    }
+    myRef.set(data);
   }
 
 
@@ -136,6 +147,10 @@ export default function Login(props) {
     var user = firebase.auth().currentUser;
     if (!user.emailVerified) {
         user.sendEmailVerification();
+        props.navigation.navigate('VerifyAccountScreen', {
+          email: userText,
+          password: passText
+        });
         alert('You must verify your email. Afterwards, you can login with your new account.');
     } 
     else {
@@ -145,6 +160,12 @@ export default function Login(props) {
         }).then( () => {
             if (p === 'No') {
                 props.navigation.navigate('CreateProfileScreen');
+            } else if (p == null) {
+                usersRef.once('value').then(function(snapshot) {
+                if (!snapshot.hasChild(user.uid)) {
+                    writeLoginCredentials(user.email);
+                }
+                }).then(props.navigation.navigate('CreateProfileScreen'));
             } else {
                 props.navigation.navigate('HomeScreen');
             }

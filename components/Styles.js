@@ -22,6 +22,13 @@ export default StyleSheet.create({
         width: 160,
         textAlign: 'left'
     },
+    verifyLabel: {
+        color: '#FFFF',
+        padding:20,
+        textAlign: 'center',
+        fontSize: 15,
+        fontWeight: "bold"
+    },
     input: {
         height: 40,
         backgroundColor: 'rgba(255, 255, 255, 0.2)',

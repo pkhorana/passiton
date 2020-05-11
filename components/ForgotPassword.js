@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
 import EmailTextBox from './EmailTextBox';
