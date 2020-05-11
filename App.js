@@ -6,6 +6,7 @@ import {createAppContainer, createSwitchNavigator} from 'react-navigation';
 import Loading from './components/Loading';
 import Login from './components/Login';
 import CreateAccount from './components/CreateAccount';
+import VerifyAccount from './components/VerifyAccount';
 import ForgotPassword from './components/ForgotPassword';
 import CreateProfile from './components/CreateProfile';
 import Home from './components/Home';
@@ -30,6 +31,7 @@ const SwitchNav = createSwitchNavigator(
   LoadingScreen: Loading,
   LoginScreen: Login,
   CreateAccountScreen: CreateAccount,
+  VerifyAccountScreen: VerifyAccount,
   ForgotPasswordScreen: ForgotPassword,
   CreateProfileScreen: CreateProfile,
   HomeScreen: Home,

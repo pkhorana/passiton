@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {StyleSheet, Button, TextInput, Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
 import PasswordTextBox from './PasswordTextBox';
@@ -26,12 +26,23 @@ export default function CreateAccount(props) {
       .then(() => {
           var user = firebase.auth().currentUser;
           user.sendEmailVerification().then(() =>
-            writeLoginCredentials(userText)
+            props.navigation.navigate('VerifyAccountScreen', {
+              email: userText,
+              password: passText
+            })
           );
           alert('You must verify your email. Afterwards, you can login with your new account.');
       } )
       .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
             handleExistingGoogleFB(error);
+        } 
+        else if (error.code === 'auth/invalid-email') {
+          alert('That email address is invalid!');
+        } 
+        else {
+            alert(error);
+        }
       });
       
   }
@@ -39,38 +50,20 @@ export default function CreateAccount(props) {
   function handleExistingGoogleFB(error) {
     pendingCred = error.credential;
     console.log(pendingCred);
-    if (error.code === 'auth/email-already-in-use') {
-      firebase.auth().fetchSignInMethodsForEmail(userText).then(function(methods) {
-        if (methods != null) {
-          if (methods[0] == 'google.com' || methods[0] == 'facebook.com') {
-            alert('Seems like you already have a google or fb account. Check your email and create password for your new sign in.');
-            firebase.auth().sendPasswordResetEmail(userText);
-          }
+    firebase.auth().fetchSignInMethodsForEmail(userText).then(function(methods) {
+      if (methods != null) {
+        if (methods[0] == 'google.com' || methods[0] == 'facebook.com') {
+          alert('Seems like you already have a google or fb account. Check your email and create password for your new sign in.');
+          firebase.auth().sendPasswordResetEmail(userText);
         }
-        else {
-          alert('That email address is already in use!');
-        } 
-      });
-    }
-    else if (error.code === 'auth/invalid-email') {
-        alert('That email address is invalid!');
-    } 
-    else {
-        alert(error);
-    }
+      }
+      else {
+        alert('That email address is already in use!');
+      } 
+    });
   }
 
 
-  function writeLoginCredentials(emailText) {
-    var user = firebase.auth().currentUser;
-    var myRef = usersRef.child(user.uid);
-    var data =
-    {
-        email: emailText,
-        profileComplete: 'No',
-    }
-    myRef.set(data);
-  }
 
 
   function validate(user, pass) {

@@ -10,6 +10,9 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
+    "facebookScheme" : "fb356033035592472",
+    "facebookAppId" : "356033035592472",
+    "facebookDisplayName" : "Pass-It-On",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
