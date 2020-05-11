@@ -55,6 +55,7 @@ export default function Login(props) {
               firebase.auth().fetchSignInMethodsForEmail(email).then(function(methods) {
                 if (methods[0] == 'password') {
                   alert('Seems like you already have an account, sign in and and your FB sign in will be added to your account.');
+                  linkAccountCredential();
                 }
                 else if (methods[0] == 'google.com') {
                   alert('Seems like you already have a google account. Sign in through Google, and your FB sign in will be added to your account.');
@@ -97,6 +98,7 @@ export default function Login(props) {
         onSignIn(result);
         return result.accessToken;
       } else {
+        console.log(result.type);
         alert('Try again');
       }
     } catch (e) {

@@ -23,7 +23,7 @@ export default StyleSheet.create({
         textAlign: 'left'
     },
     verifyLabel: {
-        color: '#FFFF',
+        color: '#202000',
         padding:20,
         textAlign: 'center',
         fontSize: 15,
