@@ -45,5 +45,12 @@ export default StyleSheet.create({
         borderColor: '#3498db',
         backgroundColor: '#56aed0',
     },
+    profileTitle: {
+        color: '#FFFF',
+        marginTop: 50,
+        marginBottom: 50,
+        fontSize: 20,
+        textAlign: 'center'
+    },
 
 });
