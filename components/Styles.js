@@ -13,6 +13,10 @@ export default StyleSheet.create({
         padding: 20,
         marginTop: 300,
     },
+    profileContainer: {
+        padding: 20,
+        
+    },
     buttonContainer: {
         padding: 20
     },
