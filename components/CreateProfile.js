@@ -1,13 +1,13 @@
 
 import React, {useState, useEffect} from 'react';
 import { Item, Input, Label } from 'native-base';
-import {StyleSheet, Text, TextInput, Picker, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, Button, TextInput, Picker, View, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
-// import Picker from '@react-native-community/picker';
 import styles from './Styles';
 import * as firebase from 'firebase';
 
 export default function CreateProfile(props) {
+
 
     const usersRef = firebase.database().ref().child('users');
     const firebaseAuth = firebase.auth();
@@ -25,17 +25,26 @@ export default function CreateProfile(props) {
         profileComplete: 'Yes',
     } );
 
+
     const [show, setShow] = useState(false);
+    const [mode, setMode] = useState('userData.birthDate');
 
-    // const onChange = (event, selectedDate) => {
-    //     const currentDate = selectedDate || userData.birthDate;
-    //     setShow(Platform.OS === 'ios');
-    //     setUserData(prevState => ({...prevState, birthDate: currentDate}));
-    // };
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate ;
+        setShow(Platform.OS === 'ios');
+        setUserData(prevState => ({...prevState, birthDate: currentDate}));
+    };
 
-    // const showMode = currentMode => {
-    //     setShow(true);
-    // };
+    const showMode = currentMode => {
+        setShow(true);
+        setMode(currentMode);
+    };
+
+    const showDatepicker = () => {
+        showMode('date');
+    };
+
+
 
 
 
@@ -71,6 +80,7 @@ export default function CreateProfile(props) {
   return (
     <View style={styles.container}>
     <View style={styles.profileContainer}>
+    <ScrollView >
         <Text style={styles.profileTitle}>Create Profile Here</Text>
         <Item floatingLabel >
             <Label style={{ color: "white"}}> First Name</Label>
@@ -92,16 +102,28 @@ export default function CreateProfile(props) {
             />
         </Item>
         
-        {/* <DateTimePicker
-            testID="dateTimePicker"
-            timeZoneOffsetInMinutes={0}
-            value={userData.birthDate}
-            maximumDate={new Date(2021, 0, 0)}
-            minimumDate={new Date(1930, 12, 31)}
-            display="default"
-            textColor="white"
-            onChange={onChange}
-        /> */}
+
+        <Item floatingLabel style = {{marginTop: 12}}>
+            <Label style={{ color: "white" }}> Date of Birth</Label>
+            <Input
+                editable={false}
+                maxLength={50}
+            />
+        </Item>
+        <Button onPress={showDatepicker} title="Show date picker!" />
+        
+        {show && (
+        <DateTimePicker
+        timeZoneOffsetInMinutes={0}
+        value={userData.birthDate}
+        maximumDate={new Date(2021, 0, 0)}
+        minimumDate={new Date(1930, 12, 31)}
+        mode = {mode}
+        display="spinner"
+        textColor="white"
+        onChange={onChange}
+        />
+      )}
         
         <Label style={{ color: "white", marginTop: 20}} > Gender</Label>
         <Picker
@@ -175,6 +197,8 @@ export default function CreateProfile(props) {
             onPress={() => signOut()}>
             <Text>LOGOUT</Text>
         </TouchableOpacity>
+
+        </ScrollView>
     </View>
     </View>
   );
