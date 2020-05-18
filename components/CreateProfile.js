@@ -19,6 +19,7 @@ export default function CreateProfile(props) {
         birthDate: new Date(),
         gender: '',
         country: '',
+        state: '',
         city: '',
         zipcode: '',
         race: '',
@@ -43,12 +44,14 @@ export default function CreateProfile(props) {
         showMode('date');
     };
 
+    //data used by modalSelector for gender
     const genderData = [
       {key: 0, label: "Male"},
       {key: 1, label: "Female"},
       {key: 2, label: "Other"}
     ];
 
+    //data used by modalSelector for race
     const raceData = [
       {key: 0, label: "American Indian or Alaskan Native"},
       {key: 1, label: "Asian"},
@@ -94,7 +97,7 @@ export default function CreateProfile(props) {
         } else {
             return JSON.stringify(gend).replace(/['"]+/g, '');
         }
-        
+
     }
 
 
@@ -105,7 +108,7 @@ export default function CreateProfile(props) {
         } else {
             return JSON.stringify(race).replace(/['"]+/g, '');
         }
-        
+
     }
 
     function what() {
@@ -177,6 +180,16 @@ export default function CreateProfile(props) {
             <Input
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, country: e}));
+                }}
+                maxLength={50}
+            />
+        </Item>
+
+        <Item floatingLabel style = {{marginTop: 5}}>
+            <Label style={{ color: "white" }}> State</Label>
+            <Input
+                onChangeText={(e) => {
+                    setUserData(prevState => ({...prevState, state: e}));
                 }}
                 maxLength={50}
             />
