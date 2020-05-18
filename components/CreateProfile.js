@@ -29,7 +29,7 @@ export default function CreateProfile(props) {
     const [mode, setMode] = useState('userData.birthDate');
 
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate ;
+        const currentDate = selectedDate || userData.birthDate;
         setShow(Platform.OS === 'ios');
         setUserData(prevState => ({...prevState, birthDate: currentDate}));
     };
@@ -69,6 +69,8 @@ export default function CreateProfile(props) {
 
     function submit() {
         if (checkParams()) {
+            userData.gender = userData.gender.label.replace(/['"]+/g, '');
+            userData.race = userData.race.label.replace(/['"]+/g, '');
             uidRef.update(userData);
             props.navigation.navigate('HomeScreen')
         } else {
@@ -83,6 +85,31 @@ export default function CreateProfile(props) {
             }
         }
         return true;
+    }
+
+    function modalGender() {
+        var gend = userData.gender.label;
+        if (gend == null || gend == '') {
+            return "Select a Gender";
+        } else {
+            return JSON.stringify(gend).replace(/['"]+/g, '');
+        }
+        
+    }
+
+
+    function modalRace() {
+        var race = userData.race.label;
+        if (race == null || race == '') {
+            return "Select a Race";
+        } else {
+            return JSON.stringify(race).replace(/['"]+/g, '');
+        }
+        
+    }
+
+    function what() {
+        return "what";
     }
 
   return (
@@ -137,8 +164,13 @@ export default function CreateProfile(props) {
 
         <ModalSelector
                     data={genderData}
-                    initValue="Select a Gender"
-                    onChange={(option)=>{}} />
+                    ref={selector => _selector = selector}
+                    initValue= {modalGender()}
+                    onChange={(option) => {
+                        setUserData(prevState => ({...prevState, gender: option}))
+                    }}>
+
+        </ModalSelector>
 
         <Item floatingLabel style = {{marginTop: 5}}>
             <Label style={{ color: "white" }}> Country</Label>
@@ -174,8 +206,10 @@ export default function CreateProfile(props) {
         <Label style={{ color: "white", marginTop: 20 }}> Race</Label>
         <ModalSelector
                     data={raceData}
-                    initValue="Select a Race"
-                    onChange={(option)=>{}}
+                    initValue= {modalRace()}
+                    onChange={(option)=>{
+                        setUserData(prevState => ({...prevState, race: option}))
+                    }}
         />
         <View style={styles.buttonContainer}>
         </View>
