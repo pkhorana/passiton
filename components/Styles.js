@@ -13,6 +13,10 @@ export default StyleSheet.create({
         padding: 20,
         marginTop: 300,
     },
+    profileContainer: {
+        padding: 20,
+        
+    },
     buttonContainer: {
         padding: 20
     },
@@ -44,6 +48,13 @@ export default StyleSheet.create({
         borderWidth: 3,
         borderColor: '#3498db',
         backgroundColor: '#56aed0',
+    },
+    profileTitle: {
+        color: '#FFFF',
+        marginTop: 50,
+        marginBottom: 50,
+        fontSize: 20,
+        textAlign: 'center'
     },
 
 });
