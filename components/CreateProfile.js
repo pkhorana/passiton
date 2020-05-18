@@ -3,11 +3,11 @@ import React, {useState, useEffect} from 'react';
 import { Item, Input, Label } from 'native-base';
 import {StyleSheet, Text, Button, TextInput, Picker, View, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import ModalSelector from 'react-native-modal-selector';
 import styles from './Styles';
 import * as firebase from 'firebase';
 
 export default function CreateProfile(props) {
-
 
     const usersRef = firebase.database().ref().child('users');
     const firebaseAuth = firebase.auth();
@@ -24,7 +24,6 @@ export default function CreateProfile(props) {
         race: '',
         profileComplete: 'Yes',
     } );
-
 
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('userData.birthDate');
@@ -44,11 +43,21 @@ export default function CreateProfile(props) {
         showMode('date');
     };
 
+    const genderData = [
+      {key: 0, label: "Male"},
+      {key: 1, label: "Female"},
+      {key: 2, label: "Other"}
+    ];
 
-
-
-
-
+    const raceData = [
+      {key: 0, label: "American Indian or Alaskan Native"},
+      {key: 1, label: "Asian"},
+      {key: 2, label: "Black or African-American"},
+      {key: 3, label: "Native Hawaiian or other Pacific Islander"},
+      {key: 4, label: "White"},
+      {key: 5, label: "Mixed"},
+      {key: 6, label: "Other"}
+    ];
 
     function signOut() {
         firebase
@@ -74,7 +83,6 @@ export default function CreateProfile(props) {
             }
         }
         return true;
-
     }
 
   return (
@@ -84,14 +92,14 @@ export default function CreateProfile(props) {
         <Text style={styles.profileTitle}>Create Profile Here</Text>
         <Item floatingLabel >
             <Label style={{ color: "white"}}> First Name</Label>
-            <Input 
+            <Input
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, fName: e}));
                 }}
                 maxLength={50}
             />
         </Item>
-        
+
         <Item floatingLabel style = {{marginTop: 12}}>
             <Label style={{ color: "white" }}> Last Name</Label>
             <Input
@@ -101,7 +109,7 @@ export default function CreateProfile(props) {
                 maxLength={50}
             />
         </Item>
-        
+
 
         <Item floatingLabel style = {{marginTop: 12}}>
             <Label style={{ color: "white" }}> Date of Birth</Label>
@@ -111,7 +119,7 @@ export default function CreateProfile(props) {
             />
         </Item>
         <Button onPress={showDatepicker} title="Show date picker!" />
-        
+
         {show && (
         <DateTimePicker
         timeZoneOffsetInMinutes={0}
@@ -123,19 +131,14 @@ export default function CreateProfile(props) {
         textColor="white"
         onChange={onChange}
         />
-      )}
-        
-        <Label style={{ color: "white", marginTop: 20}} > Gender</Label>
-        <Picker
-        selectedValue = {userData.gender}
-        onValueChange={(itemValue, itemIndex) => 
-            setUserData(prevState => ({...prevState, gender: itemValue}))
-        }>
-        <Picker.Item label="Select a Gender" value="" />
-        <Picker.Item label="Male" value="male" />
-        <Picker.Item label="Female" value="female" />
-        </Picker>
+        )}
 
+        <Label style={{ color: "white", marginTop: 20}} > Gender</Label>
+
+        <ModalSelector
+                    data={genderData}
+                    initValue="Select a Gender"
+                    onChange={(option)=>{}} />
 
         <Item floatingLabel style = {{marginTop: 5}}>
             <Label style={{ color: "white" }}> Country</Label>
@@ -169,25 +172,13 @@ export default function CreateProfile(props) {
 
 
         <Label style={{ color: "white", marginTop: 20 }}> Race</Label>
-        <Picker
-        selectedValue = {userData.race}
-        
-        onValueChange={(itemValue, itemIndex) => 
-            setUserData(prevState => ({...prevState, race: itemValue}))
-        }>
-        <Picker.Item label="Select a Race" value="" />
-        <Picker.Item label="American Indian or Alaska Native" value="americanind" />
-        <Picker.Item label="Asian" value="asian" />
-        <Picker.Item label="Black or African American" value="black" />
-        <Picker.Item label="Native Hawaiian or Other Pacific Islander" value="pacific" />
-        <Picker.Item label="White" value="white" />
-        </Picker>
-        
-
-    
-
-
-
+        <ModalSelector
+                    data={raceData}
+                    initValue="Select a Race"
+                    onChange={(option)=>{}}
+        />
+        <View style={styles.buttonContainer}>
+        </View>
         <TouchableOpacity style={styles.button}
             onPress={() => submit()}>
             <Text>SUBMIT</Text>
