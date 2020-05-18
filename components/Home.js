@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {Text, View, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
+import styles from './Styles';
 
 export default function Home(props) {
 
@@ -20,25 +21,13 @@ export default function Home(props) {
 
     return (
         <View style={styles.container}>
+        <View style={styles.entryContainer}>
         <Text style={styles.title}>Welcome to Home Screen</Text>
         <TouchableOpacity style={styles.button}
             onPress={() => signOut()}>
             <Text>LOGOUT</Text>
         </TouchableOpacity>
         </View>
+        </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignSelf: 'stretch',
-        backgroundColor: '#3498db'
-    },
-    title: {
-        color: '#FFFF',
-        marginTop: 200,
-        width: 160,
-        textAlign: 'center'
-    },
-});
