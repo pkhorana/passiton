@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import {createAppContainer, createSwitchNavigator} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
 import Loading from './components/Loading';
 import Login from './components/Login';
@@ -19,11 +20,32 @@ firebase.initializeApp(firebaseConfig);
 
 export default function App() {
   return (
-   <View style = {styles.container}>
-    <AppContainer/>
-   </View>
+    <AppContainer/>  
   );
 }
+
+
+const StackNav = createStackNavigator( 
+  {
+      HomeScreen: {
+          screen: Home,
+          // navigationOptions: 
+          // {
+          //     title: 'Home',
+          //     headerStyle: {
+          //         backgroundColor: '#f4511e',
+          //     },
+          //     headerTintColor: '#fff',
+          //     headerTitleStyle: {
+          //         fontWeight: 'bold',
+          //     },
+          // }
+      }
+  },
+  {
+      initialRouteName: 'HomeScreen'
+  }
+);
 
 
 const SwitchNav = createSwitchNavigator(
@@ -34,7 +56,7 @@ const SwitchNav = createSwitchNavigator(
   VerifyAccountScreen: VerifyAccount,
   ForgotPasswordScreen: ForgotPassword,
   CreateProfileScreen: CreateProfile,
-  HomeScreen: Home,
+  HomeScreen: StackNav,
   },
   {
     initialRouteName: 'LoadingScreen',

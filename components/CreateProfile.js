@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
 import { Item, Input, Label } from 'native-base';
-import {StyleSheet, Text, Button, TextInput, Picker, View, TouchableOpacity, SafeAreaView, ScrollView} from 'react-native';
+import {StyleSheet, Text, Button, View, TouchableOpacity,  ScrollView} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ModalSelector from 'react-native-modal-selector';
 import styles from './Styles';
