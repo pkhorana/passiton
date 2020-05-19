@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, TouchableOpacity} from 'react-native';
+
+import {Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import * as firebase from 'firebase';
 import styles from './Styles';
 
@@ -22,12 +23,45 @@ export default function Home(props) {
     return (
         <View style={styles.container}>
         <View style={styles.entryContainer}>
+       
+        <ScrollView >
+        
         <Text style={styles.title}>Welcome to Home Screen</Text>
         <TouchableOpacity style={styles.button}
             onPress={() => signOut()}>
             <Text>LOGOUT</Text>
         </TouchableOpacity>
+        </ScrollView >
         </View>
         </View>
     );
 }
+
+
+Home.navigationOptions = ({ navigation }) => {
+    return {
+        title: 'Home',
+        headerTitleAlign: 'center',
+        headerStyle: {
+            backgroundColor: '#00008b',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+        headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.navigate('CreateProfileScreen')}>
+            <Text>MENU</Text>
+            </TouchableOpacity>
+        )
+
+    }
+            
+        
+}
+
+
+
+
+
+
