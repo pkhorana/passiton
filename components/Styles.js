@@ -15,7 +15,7 @@ export default StyleSheet.create({
     },
     profileContainer: {
         padding: 20,
-        
+
     },
     buttonContainer: {
         padding: 20
@@ -42,7 +42,7 @@ export default StyleSheet.create({
 
     },
     button: {
-        alignItems: "center",
+        alignItems: 'center',
         backgroundColor: "#DDDDDD",
         padding: 15,
         borderWidth: 3,
@@ -53,6 +53,13 @@ export default StyleSheet.create({
         color: '#FFFF',
         marginTop: 50,
         marginBottom: 50,
+        fontSize: 20,
+        textAlign: 'center'
+    },
+
+    introMessage: {
+        color: '#FFFF',
+        marginTop: 10,
         fontSize: 20,
         textAlign: 'center'
     },
