@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import {Text, View, TouchableOpacity, ScrollView} from 'react-native';
 import * as firebase from 'firebase';
 import styles from './Styles';
+import {Icon} from 'native-base';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 
@@ -19,11 +20,10 @@ export default function Home(props) {
                 fontWeight: 'bold',
             },
             headerLeft: () => (
-                <TouchableOpacity onPress={() => {
-                    props.navigation.toggleDrawer();
-                }}>
-                <Text>MENU</Text>
-                </TouchableOpacity>
+                
+                <Icon name="menu" style = {{padding:10}} onPress={() => {
+                        props.navigation.toggleDrawer();
+                    }}/>
             )
     });
 
@@ -61,50 +61,25 @@ export default function Home(props) {
     return (
         
         <View style={styles.container}>
+        
         <ScrollView>
         
         <Text style={styles.introMessage}>Welcome to the Home Screen, {fName}!</Text>
 
-        {/* <FlatList
-            data={categoryNames}
-            renderItem={({category, index}) => (
-
-            )}
-        /> */}
+     
         <>{categoryComponents}</>
         <TouchableOpacity style={styles.button}
             onPress={() => signOut()}>
             <Text>LOGOUT</Text>
         </TouchableOpacity>
         </ScrollView >
+        
         </View>
+        
     );
 }
 
 
-// Home.navigationOptions = ({ navigation }) => {
-//     return {
-//         title: 'Home',
-//         headerTitleAlign: 'center',
-//         headerStyle: {
-//             backgroundColor: '#00008b',
-//         },
-//         headerTintColor: '#fff',
-//         headerTitleStyle: {
-//             fontWeight: 'bold',
-//         },
-//         headerLeft: () => (
-//             <TouchableOpacity onPress={() => {
-//                 console.log('1');
-//             }}>
-//             <Text>MENU</Text>
-//             </TouchableOpacity>
-//         )
-
-//     }
-            
-        
-// }
 
 
 
