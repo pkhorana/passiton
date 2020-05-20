@@ -1,10 +1,35 @@
 import React, {useState, useEffect} from 'react';
+
 import {Text, View, FlatList, SafeAreaView, TouchableOpacity, ScrollView} from 'react-native';
+
 import * as firebase from 'firebase';
 import styles from './Styles';
+import {Icon} from 'native-base';
+
+
+
 
 export default function Home(props) {
 
+    props.navigation.setOptions ( {
+            title: 'Home',
+            headerTitleAlign: 'center',
+            headerStyle: {
+                backgroundColor: '#4169e1',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: () => (
+                
+                <Icon name="menu" style = {{padding:10}} onPress={() => {
+                        props.navigation.toggleDrawer();
+                    }}/>
+            )
+    });
+
+    
     const [currUser, setCurrUser] = useState(null);
     const usersRef = firebase.database().ref().child('users');
     const [fName, setFName] = useState('');
@@ -15,12 +40,16 @@ export default function Home(props) {
         setFName(snapshot.val());
     })
 
+
+
+
     function signOut() {
         firebase
         .auth()
         .signOut()
         .then(() => props.navigation.navigate('LoginScreen'));
     }
+
 
     //Array of category names
     const categoryNames = ["Video Games", "Food/Beverages", "Entertainment", "Sports", "Fashion", "Politics"];
@@ -67,25 +96,7 @@ export default function Home(props) {
     );
 }
 
-Home.navigationOptions = ({ navigation }) => {
-    return {
-        title: 'Home',
-        headerTitleAlign: 'center',
-        headerStyle: {
-            backgroundColor: '#00008b',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('CreateProfileScreen')}>
-            <Text>MENU</Text>
-            </TouchableOpacity>
-        )
 
-    }
-}
 
 /*
 <TouchableOpacity onPress={()=>this.moveToAddNewCustomer()}>

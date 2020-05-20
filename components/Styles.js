@@ -11,7 +11,7 @@ export default StyleSheet.create({
     },
     entryContainer: {
         padding: 20,
-        marginTop: 300,
+        marginTop: 250,
     },
     profileContainer: {
         padding: 20,
@@ -53,6 +53,12 @@ export default StyleSheet.create({
         color: '#FFFF',
         marginTop: 50,
         marginBottom: 50,
+        fontSize: 20,
+        textAlign: 'center'
+    },
+    introMessage: {
+        color: '#FFFF',
+        marginTop: 10,
         fontSize: 20,
         textAlign: 'center'
     },
