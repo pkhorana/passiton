@@ -6,9 +6,6 @@ import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
 
-
-
-
 export default function Home(props) {
 
     props.navigation.setOptions ( {
@@ -22,14 +19,13 @@ export default function Home(props) {
                 fontWeight: 'bold',
             },
             headerLeft: () => (
-                
+
                 <Icon name="menu" style = {{padding:10}} onPress={() => {
                         props.navigation.toggleDrawer();
                     }}/>
             )
     });
 
-    
     const [currUser, setCurrUser] = useState(null);
     const usersRef = firebase.database().ref().child('users');
     const [fName, setFName] = useState('');
@@ -39,9 +35,6 @@ export default function Home(props) {
     usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
         setFName(snapshot.val());
     })
-
-
-
 
     function signOut() {
         firebase
@@ -95,9 +88,6 @@ export default function Home(props) {
         </SafeAreaView>
     );
 }
-
-
-
 /*
 <TouchableOpacity onPress={()=>this.moveToAddNewCustomer()}>
     <Image style={styles.imagestyle} source={require('./ic_action_name.png')} />
