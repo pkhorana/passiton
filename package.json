@@ -27,19 +27,11 @@
     "react-native-gesture-handler": "~1.6.0",
     "react-native-material-dropdown": "^0.11.1",
     "react-native-modal-selector": "^2.0.1",
-<<<<<<< HEAD
     "react-native-reanimated": "~1.7.0",
-=======
->>>>>>> 051db5955f2ed2c72a0e1bec8722370a10a08cf2
     "react-native-safe-area-context": "0.7.3",
     "react-native-screens": "~2.2.0",
     "react-native-web": "^0.11.7",
-    "react-navigation": "^4.3.8",
-<<<<<<< HEAD
-    "react-navigation-drawer": "^2.4.13",
-=======
->>>>>>> 051db5955f2ed2c72a0e1bec8722370a10a08cf2
-    "react-navigation-stack": "^2.5.1"
+    "react-navigation": "^4.3.8"
   },
   "devDependencies": {
     "babel-preset-expo": "^8.1.0",
