@@ -5,7 +5,7 @@ import {Text, View, FlatList, SafeAreaView, TouchableOpacity, ScrollView} from '
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
 
 
 
