@@ -59,24 +59,45 @@ export default function Home(props) {
     })
 
     return (
-        
-        <View style={styles.container}>
-        
-        <ScrollView>
-        
-        <Text style={styles.introMessage}>Welcome to the Home Screen, {fName}!</Text>
-
-     
-        <>{categoryComponents}</>
-        <TouchableOpacity style={styles.button}
-            onPress={() => signOut()}>
-            <Text>LOGOUT</Text>
-        </TouchableOpacity>
-        </ScrollView >
-        
-        </View>
-        
-    );
+        //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
+        <SafeAreaView style={styles.container}>
+        <FlatList
+          ListHeaderComponent={ //this is to display above the flatlist
+            <>
+              <View style={styles.container}>
+              <View style={styles.buttonContainer}>
+              <Text style={styles.introMessage}>Welcome to the Home Screen, {fName}!</Text>
+              </View>
+              </View>
+            </>
+          }
+              data={categoryNames}
+              renderItem={({item, index}) => (
+                <View style={styles.container}>
+                  <TouchableOpacity
+                      key = {index}
+                      style={styles.button}>
+                      <Text>{item}</Text>
+                  </TouchableOpacity>
+                  </View>
+              )}
+              contentContainerStyle={{ flexGrow: 1 }}
+              style={{ flex: 1 }}
+              keyExtractor={(item, index) => index ? index.toString() : ""}
+              numColumns={2}
+              ListFooterComponent={ //this is to display below the flatlist
+                <View style={styles.container}>
+                <View style={styles.entryContainer}>
+                <TouchableOpacity style={styles.button}
+                    onPress={() => signOut()}>
+                    <Text>LOGOUT</Text>
+                </TouchableOpacity>
+                </View>
+                </View>
+              }
+          />
+          </SafeAreaView>
+      );
 }
 
 
