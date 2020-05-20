@@ -59,7 +59,7 @@ export default function Login(props) {
                 }
                 else if (methods[0] == 'google.com') {
                   alert('Seems like you already have a google account. Sign in through Google, and your FB sign in will be added to your account.');
-                  signInWithGoogleAsync(); 
+                  signInWithGoogleAsync();
                   linkAccountCredential();
                 }
               });
@@ -107,7 +107,7 @@ export default function Login(props) {
     }
   }
 
-  
+
   function onSignIn(googleUser) {
     console.log('Google Auth Response', googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
@@ -154,7 +154,7 @@ export default function Login(props) {
           password: passText
         });
         alert('You must verify your email. Afterwards, you can login with your new account.');
-    } 
+    }
     else {
         var p = null;
         usersRef.child(user.uid).child('profileComplete').once('value').then(function(snapshot) {
@@ -222,40 +222,6 @@ export default function Login(props) {
             <Text>FORGOT PASSWORD</Text>
         </TouchableOpacity>
       </View>
-
     </View>
   );
 }
-// const styles1 = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         alignSelf: 'stretch',
-//         backgroundColor: '#3498db'
-//     },
-//     logoContainer: {
-//
-//     },
-//     entryContainer: {
-//         padding: 20,
-//         marginTop: 300,
-//
-//     },
-//     buttonContainer: {
-//         padding: 20
-//     },
-//     title: {
-//         color: '#FFFF',
-//         marginTop: 10,
-//         width: 160,
-//         textAlign: 'left'
-//     },
-//     input: {
-//         height: 40,
-//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
-//         marginBottom: 20,
-//         color:'#FFF',
-//         paddingHorizontal: 10
-//
-//     },
-//
-// });
