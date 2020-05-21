@@ -28,6 +28,7 @@ export default function Home(props) {
 
     const [currUser, setCurrUser] = useState(null);
     const usersRef = firebase.database().ref().child('users');
+    const categoriesRef = firebase.database().ref().child('categories');
     const [fName, setFName] = useState('');
     const user = firebase.auth().currentUser;
 
@@ -45,7 +46,11 @@ export default function Home(props) {
 
 
     //Array of category names
-    const categoryNames = ["Video Games", "Food/Beverages", "Entertainment", "Sports", "Fashion", "Politics"];
+    const categoryNames = [];
+    categoriesRef.orderByChild("name").on("child_added", function(snapshot) {
+        categoryNames.push(snapshot.val().name);
+    });
+    
 
     return (
       //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
@@ -65,7 +70,8 @@ export default function Home(props) {
               <View style={styles.container}>
                 <TouchableOpacity
                     key = {index}
-                    style={styles.button}>
+                    style={styles.button}
+                    onPress={() => props.navigation.push('Question')}>
                     <Text>{item}</Text>
                 </TouchableOpacity>
                 </View>
