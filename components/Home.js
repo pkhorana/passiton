@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
 import {Text, View, FlatList, SafeAreaView, TouchableOpacity, ScrollView} from 'react-native';
-
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
@@ -42,7 +40,6 @@ export default function Home(props) {
         .signOut()
         .then(() => props.navigation.navigate('LoginScreen'));
     }
-
 
     //Array of category names
     const categoryNames = ["Video Games", "Food/Beverages", "Entertainment", "Sports", "Fashion", "Politics"];
@@ -88,6 +85,7 @@ export default function Home(props) {
         </SafeAreaView>
     );
 }
+
 /*
 <TouchableOpacity onPress={()=>this.moveToAddNewCustomer()}>
     <Image style={styles.imagestyle} source={require('./ic_action_name.png')} />
