@@ -57,7 +57,7 @@ export default function App() {
         <MainStack.Screen name="LoadingScreen" component={Loading} options={{title: ''}}/>
         <MainStack.Screen name="LoginScreen" component={Login} options={{title: 'Login'}} />
         <MainStack.Screen name="CreateAccountScreen" component={CreateAccount} options={{title: 'Create Account'}}/>
-        <MainStack.Screen name="VerifyAccountScreen" component={VerifyAccount} options={{title: ''}}/>
+        <MainStack.Screen name="VerifyAccountScreen" component={VerifyAccount} options={{headerShown: false}}/>
         <MainStack.Screen name="ForgotPasswordScreen" component={ForgotPassword} options={{title: 'Forgot Password'}}/>
         <MainStack.Screen name="CreateProfileScreen" component={CreateProfile} options={{title: 'Create Profile'}}/>
         <MainStack.Screen name="HomeScreen" component={DrawerNavigatorScreen} options={{headerShown: false}}/>
