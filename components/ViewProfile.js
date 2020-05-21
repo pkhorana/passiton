@@ -28,59 +28,32 @@ export default function ViewProfile(props) {
         )
     });
 
-
-    const usersRef = firebase.database().ref().child('users');
     const firebaseAuth = firebase.auth();
+    const usersRef = firebase.database().ref().child('users');
     const uidRef = usersRef.child(firebaseAuth.currentUser.uid);
-    const [userData, setUserData] = useState( {
-        fName: '',
-        lName: '',
-        dateCreated: new Date(),
-        birthDate: new Date(),
-        gender: '',
-        country: '',
-        state: '',
-        city: '',
-        zipcode: '',
-        race: '',
-        profileComplete: 'Yes',
-    } );
 
-    const [show, setShow] = useState(false);
-    const [mode, setMode] = useState('userData.birthDate');
+    //Data that can be viewed by the user
+    const [fName, setFName] = useState('');
+    const [lName, setLName] = useState('');
+    const [birthDate, setBirthDate] = useState('');
+    const [gender, setGender] = useState('');
+    const [country, setCountry] = useState('');
+    const [state, setState] = useState('');
+    const [city, setCity] = useState('');
+    const [zipcode, setZipcode] = useState('');
+    const [race, setRace] = useState('');
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || userData.birthDate;
-        setShow(Platform.OS === 'ios');
-        setUserData(prevState => ({...prevState, birthDate: currentDate}));
-    };
-
-    const showMode = currentMode => {
-        setShow(true);
-        setMode(currentMode);
-    };
-
-    const showDatepicker = () => {
-        showMode('date');
-    };
-
-    //data used by modalSelector for gender
-    const genderData = [
-      {key: 0, label: "Male"},
-      {key: 1, label: "Female"},
-      {key: 2, label: "Other"}
-    ];
-
-    //data used by modalSelector for race
-    const raceData = [
-      {key: 0, label: "American Indian or Alaskan Native"},
-      {key: 1, label: "Asian"},
-      {key: 2, label: "Black or African-American"},
-      {key: 3, label: "Native Hawaiian or other Pacific Islander"},
-      {key: 4, label: "White"},
-      {key: 5, label: "Mixed"},
-      {key: 6, label: "Other"}
-    ];
+    uidRef.once('value').then(function(snapshot) {
+        setFName(snapshot.child("fName").val());
+        setLName(snapshot.child("lName").val());
+        setBirthDate(snapshot.child("birthDate").val());
+        setGender(snapshot.child("gender").val());
+        setCountry(snapshot.child("country").val());
+        setState(snapshot.child("state").val());
+        setCity(snapshot.child("city").val());
+        setZipcode(snapshot.child("zipcode").val());
+        setRace(snapshot.child("race").val());
+    })
 
     function signOut() {
         firebase
@@ -90,174 +63,34 @@ export default function ViewProfile(props) {
 
     }
 
-    function submit() {
-        if (checkParams()) {
-            userData.gender = userData.gender.label.replace(/['"]+/g, '');
-            userData.race = userData.race.label.replace(/['"]+/g, '');
-            uidRef.update(userData);
-            props.navigation.navigate('HomeScreen')
-        } else {
-            alert('Please fill in all the fields with valid information.');
-        }
-    }
-
-    function checkParams() {
-        for (var key in userData) {
-            if (userData[key] == null || userData[key] == '') {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    function modalGender() {
-        var gend = userData.gender.label;
-        if (gend == null || gend == '') {
-            return "Select a Gender";
-        } else {
-            return JSON.stringify(gend).replace(/['"]+/g, '');
-        }
-
-    }
-
-
-    function modalRace() {
-        var race = userData.race.label;
-        if (race == null || race == '') {
-            return "Select a Race";
-        } else {
-            return JSON.stringify(race).replace(/['"]+/g, '');
-        }
-
-    }
-
-    function what() {
-        return "what";
+    //removes time from date and changes it to be 'MM-DD-YYYY' format
+    function convertDate(){
+      var d = birthDate;
+      d = d.split('T')[0];
+      var year = d.split('-')[0];
+      return [d.split('-')[1] + "-" + d.split('-')[2] + "-" + d.split('-')[0]];
     }
 
   return (
     <View style={styles.container}>
-    <View style={styles.profileContainer}>
-    <ScrollView >
-        <Text style={styles.profileTitle}>Create Profile Here</Text>
-        <Item floatingLabel >
-            <Label style={{ color: "white"}}> First Name</Label>
-            <Input
-                onChangeText={(e) => {
-                    setUserData(prevState => ({...prevState, fName: e}));
-                }}
-                maxLength={50}
-            />
-        </Item>
-
-        <Item floatingLabel style = {{marginTop: 12}}>
-            <Label style={{ color: "white" }}> Last Name</Label>
-            <Input
-                onChangeText={(e) => {
-                    setUserData(prevState => ({...prevState, lName: e}));
-                }}
-                maxLength={50}
-            />
-        </Item>
-
-
-        <Item floatingLabel style = {{marginTop: 12}}>
-            <Label style={{ color: "white" }}> Date of Birth</Label>
-            <Input
-                editable={false}
-                maxLength={50}
-            />
-        </Item>
-        <Button onPress={showDatepicker} title="Show date picker!" />
-
-        {show && (
-        <DateTimePicker
-        timeZoneOffsetInMinutes={0}
-        value={userData.birthDate}
-        maximumDate={new Date(2021, 0, 0)}
-        minimumDate={new Date(1930, 12, 31)}
-        mode = {mode}
-        display="spinner"
-        textColor="white"
-        onChange={onChange}
-        />
-        )}
-
-        <Label style={{ color: "white", marginTop: 20}} > Gender</Label>
-
-        <ModalSelector
-                    data={genderData}
-                    ref={selector => _selector = selector}
-                    initValue= {modalGender()}
-                    onChange={(option) => {
-                        setUserData(prevState => ({...prevState, gender: option}))
-                    }}>
-
-        </ModalSelector>
-
-        <Item floatingLabel style = {{marginTop: 5}}>
-            <Label style={{ color: "white" }}> Country</Label>
-            <Input
-                onChangeText={(e) => {
-                    setUserData(prevState => ({...prevState, country: e}));
-                }}
-                maxLength={50}
-            />
-        </Item>
-
-        <Item floatingLabel style = {{marginTop: 5}}>
-            <Label style={{ color: "white" }}> State</Label>
-            <Input
-                onChangeText={(e) => {
-                    setUserData(prevState => ({...prevState, state: e}));
-                }}
-                maxLength={50}
-            />
-        </Item>
-
-        <Item floatingLabel style = {{marginTop: 12}}>
-            <Label style={{ color: "white" }}> City</Label>
-            <Input
-                onChangeText={(e) => {
-                    setUserData(prevState => ({...prevState, city: e}));
-                }}
-                maxLength={50}
-            />
-        </Item>
-
-        <Item floatingLabel style = {{marginTop: 12}}>
-            <Label style={{ color: "white" }}> ZipCode</Label>
-            <Input
-                onChangeText={(e) => {
-                    setUserData(prevState => ({...prevState, zipcode: e}));
-                }}
-                maxLength={50}
-            />
-        </Item>
-
-
-        <Label style={{ color: "white", marginTop: 20 }}> Race</Label>
-        <ModalSelector
-                    data={raceData}
-                    initValue= {modalRace()}
-                    onChange={(option)=>{
-                        setUserData(prevState => ({...prevState, race: option}))
-                    }}
-        />
-        <View style={styles.buttonContainer}>
-        </View>
-        <TouchableOpacity style={styles.button}
-            onPress={() => submit()}>
-            <Text>SUBMIT</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button}
-            onPress={() => signOut()}>
-            <Text>LOGOUT</Text>
-        </TouchableOpacity>
-
+      <View style={styles.profileContainer}>
+        <ScrollView>
+          <Text style={styles.viewProfileText}>
+              First Name: {fName}{"\n"}
+              Last Name: {lName}{"\n"}
+              Date of Birth: {convertDate()}{"\n"}
+              Gender: {gender}{"\n"}
+              Race: {race}{"\n"}
+              Country: {country}{"\n"}
+              State/Province: {state}{"\n"}
+              ZipCode: {zipcode}{"\n"}
+          </Text>
+          <TouchableOpacity style={styles.button}
+              onPress={() => signOut()}>
+              <Text>Edit Profile</Text>
+          </TouchableOpacity>
         </ScrollView>
-    </View>
+      </View>
     </View>
   );
 }

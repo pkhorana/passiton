@@ -70,4 +70,11 @@ export default StyleSheet.create({
         textAlign: 'center'
     },
 
+    viewProfileText: {
+        color: '#FFFF',
+        marginTop: 10,
+        fontSize: 18,
+        lineHeight: 50,
+    }
+
 });
