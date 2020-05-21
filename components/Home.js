@@ -37,12 +37,7 @@ export default function Home(props) {
         setFName(snapshot.val());
     })
 
-    function signOut() {
-        firebase
-        .auth()
-        .signOut()
-        .then(() => props.navigation.navigate('LoginScreen'));
-    }
+    
 
 
     //Array of category names
@@ -83,10 +78,6 @@ export default function Home(props) {
             ListFooterComponent={ //this is to display below the flatlist
               <View style={styles.container}>
               <View style={styles.entryContainer}>
-              <TouchableOpacity style={styles.button}
-                  onPress={() => signOut()}>
-                  <Text>LOGOUT</Text>
-              </TouchableOpacity>
               </View>
               </View>
             }

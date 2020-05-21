@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import ModalSelector from 'react-native-modal-selector';
 import styles from './Styles';
 import * as firebase from 'firebase';
+import moment from 'moment';
 
 export default function CreateProfile(props) {
 
@@ -25,12 +26,29 @@ export default function CreateProfile(props) {
         race: '',
         profileComplete: 'Yes',
     } );
+    const user = firebase.auth().currentUser;
 
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('userData.birthDate');
+    
+    
+    
+    // var obj;
+
+    // usersRef.child(user.uid).once('value').then(function(snapshot) {
+    //     obj = snapshot.val();
+    // }).then( () =>
+    //     {
+    //         setUserData(obj);
+            
+    //     }
+    // );
+
 
     const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || userData.birthDate;
+        var pickedDate = userData.birthDate;
+          
+        const currentDate = selectedDate || pickedDate;
         setShow(Platform.OS === 'ios');
         setUserData(prevState => ({...prevState, birthDate: currentDate}));
     };
@@ -111,9 +129,17 @@ export default function CreateProfile(props) {
 
     }
 
-    function what() {
-        return "what";
-    }
+    // function readFromDB( section, placehold, dob = false) {
+    //     if (section == null || section == '') {
+    //         return placehold;
+    //     } else {
+    //         if (dob) {
+    //             return section.toString();
+    //         }
+    //         return section;
+    //     }
+    // }
+
 
   return (
     <View style={styles.container}>
@@ -121,7 +147,7 @@ export default function CreateProfile(props) {
     <ScrollView >
         <Text style={styles.profileTitle}>Create Profile Here</Text>
         <Item floatingLabel >
-            <Label style={{ color: "white"}}> First Name</Label>
+        <Label style={{ color: "white"}}> First Name</Label>
             <Input
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, fName: e}));
@@ -167,7 +193,7 @@ export default function CreateProfile(props) {
 
         <ModalSelector
                     data={genderData}
-                    ref={selector => _selector = selector}
+                    // ref={selector => _selector = selector}
                     initValue= {modalGender()}
                     onChange={(option) => {
                         setUserData(prevState => ({...prevState, gender: option}))

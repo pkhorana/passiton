@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList, DrawerItem} from '@react-navigation/drawer';
 
 import Loading from './components/Loading';
 import Login from './components/Login';
@@ -22,7 +22,29 @@ firebase.initializeApp(firebaseConfig);
 
 const MainStack = createStackNavigator();
 const HomeStack =  createStackNavigator();
+
+function CustomDrawerContent(props) {
+  return (
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem label="Sign Out" onPress={() => {
+        signOut();
+        props.navigation.navigate('LoginScreen');
+        props.navigation.closeDrawer();
+      }} />
+    </DrawerContentScrollView>
+  );
+}
+
+
 const Drawer = createDrawerNavigator();
+
+
+function signOut() {
+  firebase
+  .auth()
+  .signOut();
+} 
 
 
 const HomeStackScreen = () => (
@@ -33,16 +55,15 @@ const HomeStackScreen = () => (
 
 const ProfileStackScreen = () => (
   <HomeStack.Navigator initialRouteName="Profile">
-  <HomeStack.Screen name="Profile" component={ViewProfile}/>
+  <HomeStack.Screen name="Profile" component={CreateProfile}/>
   </HomeStack.Navigator>
 );
 
 
 const DrawerNavigatorScreen = () => (
-  <Drawer.Navigator initialRouteName="Home" edgeWidth= {110}>
+  <Drawer.Navigator initialRouteName="Home" edgeWidth= {110} drawerContent={props => <CustomDrawerContent {...props} />}>
     <Drawer.Screen name="Home" component={HomeStackScreen}/>
     <Drawer.Screen name="Profile" component={ProfileStackScreen}/>
-    {/* <Drawer.Screen name="Sign Out" component={Login}/> */}
   </Drawer.Navigator>
 );
 
