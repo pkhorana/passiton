@@ -6,10 +6,9 @@ import EmailTextBox from './EmailTextBox';
 
 export default function ForgotPassword(props) {
 
-
   const [userText, setUser] = useState('');
 
-
+  //sends the user an email to reset password based on the validity of the email address
   function validate(email) {
     if (validateEmail(email)) {
       var auth = firebase.auth();
@@ -22,6 +21,7 @@ export default function ForgotPassword(props) {
 
   }
 
+  //determines if the format of the email is valid
   function validateEmail(user){
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(user)) {
@@ -54,37 +54,3 @@ export default function ForgotPassword(props) {
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         alignSelf: 'stretch',
-//         backgroundColor: '#3498db'
-//     },
-//     logoContainer: {
-//
-//     },
-//     entryContainer: {
-//         padding: 20,
-//         marginTop: 300,
-//
-//     },
-//     buttonContainer: {
-//         padding: 20
-//     },
-//     title: {
-//         color: '#FFFF',
-//         marginTop: 10,
-//         width: 160,
-//         textAlign: 'left'
-//     },
-//     input: {
-//         height: 40,
-//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
-//         marginBottom: 20,
-//         color:'#FFF',
-//         paddingHorizontal: 10
-//
-//     },
-//
-// });

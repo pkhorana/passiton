@@ -24,6 +24,7 @@ export default function VerifyAccount(props) {
     myRef.set(data);
   }
 
+  //Checks if user has verified account via email
   function verify() {
     var user = firebaseAuth.currentUser;
     firebase
@@ -33,15 +34,13 @@ export default function VerifyAccount(props) {
         if (user && user.emailVerified) {
             writeLoginCredentials(email);
             props.navigation.navigate('CreateProfileScreen');
-        } 
+        }
         else {
         alert('Please verify your account.');
-        }   
+        }
       })
       .catch(error => alert('Invalid Credentials. Enter Again.'));
   }
-
-
 
   return (
     <View style={styles.container}>
@@ -58,7 +57,6 @@ export default function VerifyAccount(props) {
         </TouchableOpacity>
 
       </View>
-
     </View>
   );
 }

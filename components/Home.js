@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
 import {Text, View, FlatList, SafeAreaView, TouchableOpacity, ScrollView} from 'react-native';
-
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
@@ -27,10 +25,10 @@ export default function Home(props) {
     });
 
     const [currUser, setCurrUser] = useState(null);
-    const usersRef = firebase.database().ref().child('users');
+    const usersRef = firebase.database().ref().child('users'); //reference to the user table in firebase
     const categoriesRef = firebase.database().ref().child('categories');
     const [fName, setFName] = useState('');
-    const user = firebase.auth().currentUser;
+    const user = firebase.auth().currentUser; //gets current user
 
     //pulls the first name of the current user from firebase DB
     usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
@@ -38,7 +36,6 @@ export default function Home(props) {
     })
 
     
-
 
     //Array of category names
     const categoryNames = [];
@@ -88,6 +85,7 @@ export default function Home(props) {
         
     );
 }
+
 /*
 <TouchableOpacity onPress={()=>this.moveToAddNewCustomer()}>
     <Image style={styles.imagestyle} source={require('./ic_action_name.png')} />

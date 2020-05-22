@@ -6,6 +6,11 @@ export default StyleSheet.create({
         alignSelf: 'stretch',
         backgroundColor: '#3498db'
     },
+    loginContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
     logoContainer: {
 
     },
@@ -68,6 +73,13 @@ export default StyleSheet.create({
         marginTop: 10,
         fontSize: 20,
         textAlign: 'center'
+    },
+
+    viewProfileText: {
+        color: '#FFFF',
+        marginTop: 10,
+        fontSize: 18,
+        lineHeight: 50,
     },
 
 });

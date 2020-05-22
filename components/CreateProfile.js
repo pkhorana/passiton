@@ -12,9 +12,10 @@ import moment from 'moment';
 
 export default function CreateProfile(props) {
 
-    const usersRef = firebase.database().ref().child('users');
+    const usersRef = firebase.database().ref().child('users'); //refence to user table in firebase
     const firebaseAuth = firebase.auth();
-    const uidRef = usersRef.child(firebaseAuth.currentUser.uid);
+    const uidRef = usersRef.child(firebaseAuth.currentUser.uid); //reference to the user id of the current user
+    //all the attributes of the user being stored in the database
     const [userData, setUserData] = useState( {
         fName: '',
         lName: '',
@@ -30,9 +31,8 @@ export default function CreateProfile(props) {
     } );
     const user = firebase.auth().currentUser;
 
-    const [show, setShow] = useState(false);
-    const [mode, setMode] = useState('userData.birthDate');
-
+    const [show, setShow] = useState(false); //whether the datepicker is shown or hidden
+    const [mode, setMode] = useState('userData.birthDate'); //mode of the datepicker
 
     useEffect(() => {
         usersRef.child(user.uid).once('value').then(function(snapshot) {
@@ -42,8 +42,8 @@ export default function CreateProfile(props) {
         }
         });
       }, []);
-    
-
+  
+  //handles the changing of the datepicker
     const onChange = (event, selectedDate) => {
         var pickedDate = userData.birthDate;
           
@@ -51,6 +51,7 @@ export default function CreateProfile(props) {
         setShow(Platform.OS === 'ios');
         setUserData(prevState => ({...prevState, birthDate: currentDate}));
     };
+
 
     const showMode = currentMode => {
         setShow(true);
@@ -87,6 +88,7 @@ export default function CreateProfile(props) {
 
     }
 
+    //Checks if user has filled out all the fields of Create Profile
     function submit() {
         if (checkParams()) {
             if (userData.gender.label != null) {
@@ -111,6 +113,7 @@ export default function CreateProfile(props) {
         return true;
     }
 
+    //for gender picker
     function modalGender() {
         
         var gend = userData.gender;
@@ -126,7 +129,7 @@ export default function CreateProfile(props) {
 
     }
 
-
+    //for race picker
     function modalRace() {
         var race = userData.race;
         if (race.label == null || race.label == '') {

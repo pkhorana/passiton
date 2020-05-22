@@ -1,6 +1,7 @@
 import React from 'react';
 import { Item, Input, Icon, Label } from 'native-base';
 
+//This code has to do with the password fields on the Login and Create Account screens
 class PasswordTextBox extends React.Component {
     state = {
         icon: "eye-off",
