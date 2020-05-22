@@ -8,6 +8,8 @@ import styles from './Styles';
 import * as firebase from 'firebase';
 import moment from 'moment';
 
+
+
 export default function CreateProfile(props) {
 
     const usersRef = firebase.database().ref().child('users');
@@ -30,20 +32,17 @@ export default function CreateProfile(props) {
 
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('userData.birthDate');
-    
-    
-    
-    // var obj;
 
-    // usersRef.child(user.uid).once('value').then(function(snapshot) {
-    //     obj = snapshot.val();
-    // }).then( () =>
-    //     {
-    //         setUserData(obj);
-            
-    //     }
-    // );
 
+    useEffect(() => {
+        usersRef.child(user.uid).once('value').then(function(snapshot) {
+        var obj = snapshot.val();
+        if (obj.profileComplete == 'Yes') {
+            setUserData(obj);
+        }
+        });
+      }, []);
+    
 
     const onChange = (event, selectedDate) => {
         var pickedDate = userData.birthDate;
@@ -90,8 +89,12 @@ export default function CreateProfile(props) {
 
     function submit() {
         if (checkParams()) {
-            userData.gender = userData.gender.label.replace(/['"]+/g, '');
-            userData.race = userData.race.label.replace(/['"]+/g, '');
+            if (userData.gender.label != null) {
+                userData.gender = userData.gender.label.replace(/['"]+/g, '');
+            }
+            if (userData.race.label != null) {
+                userData.race = userData.race.label.replace(/['"]+/g, '');
+            }
             uidRef.update(userData);
             props.navigation.navigate('HomeScreen')
         } else {
@@ -109,48 +112,59 @@ export default function CreateProfile(props) {
     }
 
     function modalGender() {
-        var gend = userData.gender.label;
-        if (gend == null || gend == '') {
-            return "Select a Gender";
+        
+        var gend = userData.gender;
+        if (gend.label == null || gend.label == '') {
+            if (!(gend == null || gend == '')) {
+                return gend;
+            } else {
+                return "Select a Gender";
+            }
         } else {
-            return JSON.stringify(gend).replace(/['"]+/g, '');
+            return JSON.stringify(gend.label).replace(/['"]+/g, '');
         }
 
     }
 
 
     function modalRace() {
-        var race = userData.race.label;
-        if (race == null || race == '') {
-            return "Select a Race";
+        var race = userData.race;
+        if (race.label == null || race.label == '') {
+            if (!(race == null || race == '')) {
+                return race;
+            } else {
+                return "Select a Race";
+            }
         } else {
-            return JSON.stringify(race).replace(/['"]+/g, '');
+            return JSON.stringify(race.label).replace(/['"]+/g, '');
         }
 
     }
 
-    // function readFromDB( section, placehold, dob = false) {
-    //     if (section == null || section == '') {
-    //         return placehold;
-    //     } else {
-    //         if (dob) {
-    //             return section.toString();
-    //         }
-    //         return section;
-    //     }
-    // }
+    function readFromDB( section, placehold, dob = false) {
+        if (section == null || section == '') {
+            return placehold;
+        } else {
+            if (dob) {
+                return moment(userData.birthDate).toString();
+            }
+            return section;
+        }
+    }
 
 
   return (
     <View style={styles.container}>
     <View style={styles.profileContainer}>
     <ScrollView >
-        <Text style={styles.profileTitle}>Create Profile Here</Text>
-        <Item floatingLabel >
-        <Label style={{ color: "white"}}> First Name</Label>
+        {/* <Text style={styles.profileTitle}>Create Profile Here</Text> */}
+        <Item floatingLabel>
+            <Label style={{ color: "white"}}> First Name</Label>
             <Input
+                value = {readFromDB(userData.fName, null)}
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, fName: e}));
+                    value = e;
                 }}
                 maxLength={50}
             />
@@ -159,6 +173,7 @@ export default function CreateProfile(props) {
         <Item floatingLabel style = {{marginTop: 12}}>
             <Label style={{ color: "white" }}> Last Name</Label>
             <Input
+                value = {readFromDB(userData.lName, null)}
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, lName: e}));
                 }}
@@ -170,6 +185,7 @@ export default function CreateProfile(props) {
         <Item floatingLabel style = {{marginTop: 12}}>
             <Label style={{ color: "white" }}> Date of Birth</Label>
             <Input
+                value = {readFromDB(userData.birthDate, null, true)}
                 editable={false}
                 maxLength={50}
             />
@@ -179,7 +195,7 @@ export default function CreateProfile(props) {
         {show && (
         <DateTimePicker
         timeZoneOffsetInMinutes={0}
-        value={userData.birthDate}
+        value={Date.parse(moment(userData.birthDate))}
         maximumDate={new Date(2021, 0, 0)}
         minimumDate={new Date(1930, 12, 31)}
         mode = {mode}
@@ -204,6 +220,7 @@ export default function CreateProfile(props) {
         <Item floatingLabel style = {{marginTop: 5}}>
             <Label style={{ color: "white" }}> Country</Label>
             <Input
+                value = {readFromDB(userData.country, null)}
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, country: e}));
                 }}
@@ -214,6 +231,7 @@ export default function CreateProfile(props) {
         <Item floatingLabel style = {{marginTop: 5}}>
             <Label style={{ color: "white" }}> State</Label>
             <Input
+                value = {readFromDB(userData.state, null)}
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, state: e}));
                 }}
@@ -224,6 +242,7 @@ export default function CreateProfile(props) {
         <Item floatingLabel style = {{marginTop: 12}}>
             <Label style={{ color: "white" }}> City</Label>
             <Input
+                value = {readFromDB(userData.city, null)}
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, city: e}));
                 }}
@@ -234,6 +253,7 @@ export default function CreateProfile(props) {
         <Item floatingLabel style = {{marginTop: 12}}>
             <Label style={{ color: "white" }}> ZipCode</Label>
             <Input
+                value = {readFromDB(userData.zipcode, null)}
                 onChangeText={(e) => {
                     setUserData(prevState => ({...prevState, zipcode: e}));
                 }}

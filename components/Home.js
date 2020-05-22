@@ -78,11 +78,14 @@ export default function Home(props) {
             ListFooterComponent={ //this is to display below the flatlist
               <View style={styles.container}>
               <View style={styles.entryContainer}>
+              
               </View>
               </View>
             }
         />
+            
         </SafeAreaView>
+        
     );
 }
 /*

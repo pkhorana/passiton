@@ -55,7 +55,7 @@ const HomeStackScreen = () => (
 
 const ProfileStackScreen = () => (
   <HomeStack.Navigator initialRouteName="Profile">
-  <HomeStack.Screen name="Profile" component={CreateProfile}/>
+  <HomeStack.Screen name="Profile" component={ViewProfile}/>
   </HomeStack.Navigator>
 );
 
