@@ -56,19 +56,16 @@ export default function ViewProfile(props) {
     //     setRace(snapshot.child("race").val());
     // })
 
-    // function convertDate(){
-    //     console.log(birthDate)
-    //     var d = birthDate;
-    //     d = d.split('T')[0];
-    //     var year = d.split('-')[0];
-    //     return [d.split('-')[1] + "-" + d.split('-')[2] + "-" + d.split('-')[0]];
-    //   }
+    
+    
+
+    
 
     useEffect(() => {
         uidRef.on('value', function(snapshot) {
             setFName(snapshot.child("fName").val());
             setLName(snapshot.child("lName").val());
-            setBirthDate(snapshot.child("birthDate").val());
+            setBirthDate(snapshot.child("birthDate").val());  
             setGender(snapshot.child("gender").val());
             setCountry(snapshot.child("country").val());
             setState(snapshot.child("state").val());
@@ -81,7 +78,24 @@ export default function ViewProfile(props) {
 
         
 
-        // convertDate()
+
+        function convertDate(){
+            if (birthDate != null) {
+                var d = birthDate;
+                d = d.split('T')[0];
+                // var year = d.split('-')[0];
+                return [d.split('-')[1] + "-" + d.split('-')[2] + "-" + d.split('-')[0]];
+
+            } else {
+                return null;
+            }
+            
+            
+          }
+
+        
+
+       
 
     //removes time from date and changes it to be 'MM-DD-YYYY' format
     
@@ -94,7 +108,7 @@ export default function ViewProfile(props) {
           <Text style={styles.viewProfileText}>
               First Name: {fName}{"\n"}
               Last Name: {lName}{"\n"}
-              Date of Birth: {birthDate}{"\n"}
+              Date of Birth: {convertDate()}{"\n"}
               Gender: {gender}{"\n"}
               Race: {race}{"\n"}
               Country: {country}{"\n"}
