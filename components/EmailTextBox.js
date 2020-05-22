@@ -1,6 +1,7 @@
 import React from 'react';
 import { Item, Input, Label } from 'native-base';
 
+//This code is for the Email field seen in the Login, Create Account, and Forgot Password screens
 class EmailTextBox extends React.Component {
 
     render() {

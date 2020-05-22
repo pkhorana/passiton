@@ -29,8 +29,8 @@ export default function ViewProfile(props) {
     });
 
     const firebaseAuth = firebase.auth();
-    const usersRef = firebase.database().ref().child('users');
-    const uidRef = usersRef.child(firebaseAuth.currentUser.uid);
+    const usersRef = firebase.database().ref().child('users'); //reference to the users table
+    const uidRef = usersRef.child(firebaseAuth.currentUser.uid); //reference to the user id of the current user
 
     //Data that can be viewed by the user
     const [fName, setFName] = useState('');
@@ -43,6 +43,7 @@ export default function ViewProfile(props) {
     const [zipcode, setZipcode] = useState('');
     const [race, setRace] = useState('');
 
+    //pulls the data from firebase
     uidRef.once('value').then(function(snapshot) {
         setFName(snapshot.child("fName").val());
         setLName(snapshot.child("lName").val());

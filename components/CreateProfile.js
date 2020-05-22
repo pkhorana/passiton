@@ -9,9 +9,10 @@ import * as firebase from 'firebase';
 
 export default function CreateProfile(props) {
 
-    const usersRef = firebase.database().ref().child('users');
+    const usersRef = firebase.database().ref().child('users'); //refence to user table in firebase
     const firebaseAuth = firebase.auth();
-    const uidRef = usersRef.child(firebaseAuth.currentUser.uid);
+    const uidRef = usersRef.child(firebaseAuth.currentUser.uid); //reference to the user id of the current user
+    //all the attributes of the user being stored in the database
     const [userData, setUserData] = useState( {
         fName: '',
         lName: '',
@@ -26,14 +27,16 @@ export default function CreateProfile(props) {
         profileComplete: 'Yes',
     } );
 
-    const [show, setShow] = useState(false);
-    const [mode, setMode] = useState('userData.birthDate');
+    const [show, setShow] = useState(false); //whether the datepicker is shown or hidden
+    const [mode, setMode] = useState('userData.birthDate'); //mode of the datepicker
 
+    //handles the changing of the datepicker
     const onChange = (event, selectedDate) => {
         const currentDate = selectedDate || userData.birthDate;
         setShow(Platform.OS === 'ios');
         setUserData(prevState => ({...prevState, birthDate: currentDate}));
     };
+
 
     const showMode = currentMode => {
         setShow(true);
@@ -70,6 +73,7 @@ export default function CreateProfile(props) {
 
     }
 
+    //Checks if user has filled out all the fields of Create Profile
     function submit() {
         if (checkParams()) {
             userData.gender = userData.gender.label.replace(/['"]+/g, '');
@@ -90,6 +94,7 @@ export default function CreateProfile(props) {
         return true;
     }
 
+    //for gender picker
     function modalGender() {
         var gend = userData.gender.label;
         if (gend == null || gend == '') {
@@ -100,7 +105,7 @@ export default function CreateProfile(props) {
 
     }
 
-
+    //for race picker
     function modalRace() {
         var race = userData.race.label;
         if (race == null || race == '') {

@@ -5,7 +5,6 @@ import * as firebase from 'firebase';
 import PasswordTextBox from './PasswordTextBox';
 import EmailTextBox from './EmailTextBox';
 
-
 export default function CreateAccount(props) {
 
   const [userText, setUser] = useState('');
@@ -19,7 +18,7 @@ export default function CreateAccount(props) {
   const special = new RegExp("(?=.*[!@#$%^&*])");
   var pendingCred = null;
 
-  function handleSignup() { 
+  function handleSignup() {
       firebase
       .auth()
       .createUserWithEmailAndPassword(userText, passText)
@@ -36,17 +35,17 @@ export default function CreateAccount(props) {
       .catch(error => {
         if (error.code === 'auth/email-already-in-use') {
             handleExistingGoogleFB(error);
-        } 
+        }
         else if (error.code === 'auth/invalid-email') {
           alert('That email address is invalid!');
-        } 
+        }
         else {
             alert(error);
         }
       });
-      
   }
 
+  //if an account already exists with the same email, and the user tries to sign in with a different method
   function handleExistingGoogleFB(error) {
     pendingCred = error.credential;
     console.log(pendingCred);
@@ -59,20 +58,18 @@ export default function CreateAccount(props) {
       }
       else {
         alert('That email address is already in use!');
-      } 
+      }
     });
   }
 
-
-
-
+  //if user's email and password are valid, the function handleSignup is called
   function validate(user, pass) {
-
     if (validateEmail(user) && checkPassword(pass)) {
         handleSignup();
     }
   }
 
+  //checks to see if the user's email is acceptable
   function validateEmail(user){
     var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
     if (!emailPattern.test(user)) {
@@ -82,7 +79,7 @@ export default function CreateAccount(props) {
     return true;
   }
 
-
+  //Checks the user's password to ensure they meet acceptable standards
   function checkPassword(pass) {
     if (pass ==null || pass === '') {
         alert('Password is required.');
@@ -124,7 +121,7 @@ export default function CreateAccount(props) {
         />
       </View>
       <View style={styles.buttonContainer}>
-        
+
         <TouchableOpacity style={styles.button}
             onPress={() => validate(userText, passText)}>
             <Text>CONTINUE</Text>
@@ -139,37 +136,3 @@ export default function CreateAccount(props) {
     </View>
   );
 }
-
-// const styles = StyleSheet.create({
-//     container: {
-//         flex: 1,
-//         alignSelf: 'stretch',
-//         backgroundColor: '#3498db'
-//     },
-//     logoContainer: {
-//
-//     },
-//     entryContainer: {
-//         padding: 20,
-//         marginTop: 300,
-//
-//     },
-//     buttonContainer: {
-//         padding: 20
-//     },
-//     title: {
-//         color: '#FFFF',
-//         marginTop: 10,
-//         width: 160,
-//         textAlign: 'left'
-//     },
-//     input: {
-//         height: 40,
-//         backgroundColor: 'rgba(255, 255, 255, 0.2)',
-//         marginBottom: 20,
-//         color:'#FFF',
-//         paddingHorizontal: 10
-//
-//     },
-//
-// });

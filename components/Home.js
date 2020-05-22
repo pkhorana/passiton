@@ -25,9 +25,9 @@ export default function Home(props) {
     });
 
     const [currUser, setCurrUser] = useState(null);
-    const usersRef = firebase.database().ref().child('users');
+    const usersRef = firebase.database().ref().child('users'); //reference to the user table in firebase
     const [fName, setFName] = useState('');
-    const user = firebase.auth().currentUser;
+    const user = firebase.auth().currentUser; //gets current user
 
     //pulls the first name of the current user from firebase DB
     usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
