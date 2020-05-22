@@ -1,6 +1,7 @@
 import React, {useEffect} from 'react'
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import * as firebase from 'firebase';
+import styles from './Styles';
 
 
 export default function Loading(props) {
@@ -8,6 +9,7 @@ export default function Loading(props) {
     const usersRef = firebase.database().ref().child('users');
     var p = null;
 
+    //handles which screen the user will be sent to based on profile complettion or whether they are in the database
     useEffect(() => {
         firebase.auth().onAuthStateChanged(user => {
             if (user && (user.emailVerified || user.providerData[0].providerId == 'facebook.com' || user.providerData[0].providerId == 'google.com')) {
@@ -23,7 +25,7 @@ export default function Loading(props) {
                             writeLoginCredentials(user.email);
                         }
                         }).then(props.navigation.navigate('CreateProfileScreen'));
-                    } 
+                    }
                     else {
                         props.navigation.navigate('HomeScreen');
                     }
@@ -34,12 +36,10 @@ export default function Loading(props) {
         })
     });
 
-
-    
     function writeLoginCredentials(emailText) {
         var user = firebase.auth().currentUser;
         var myRef = usersRef.child(user.uid);
-        var data = 
+        var data =
         {
             email: emailText,
             profileComplete: 'No',
@@ -48,17 +48,9 @@ export default function Loading(props) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={styles.loginContainer}>
         <Text>Loading</Text>
         <ActivityIndicator size="large" />
         </View>
     )
-
 }
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  }
-})
