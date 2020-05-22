@@ -44,34 +44,49 @@ export default function ViewProfile(props) {
     const [race, setRace] = useState('');
 
     //pulls the data from firebase
-    uidRef.once('value').then(function(snapshot) {
-        setFName(snapshot.child("fName").val());
-        setLName(snapshot.child("lName").val());
-        setBirthDate(snapshot.child("birthDate").val());
-        setGender(snapshot.child("gender").val());
-        setCountry(snapshot.child("country").val());
-        setState(snapshot.child("state").val());
-        setCity(snapshot.child("city").val());
-        setZipcode(snapshot.child("zipcode").val());
-        setRace(snapshot.child("race").val());
-    })
+    // uidRef.once('value').then(function(snapshot) {
+    //     setFName(snapshot.child("fName").val());
+    //     setLName(snapshot.child("lName").val());
+    //     setBirthDate(snapshot.child("birthDate").val());
+    //     setGender(snapshot.child("gender").val());
+    //     setCountry(snapshot.child("country").val());
+    //     setState(snapshot.child("state").val());
+    //     setCity(snapshot.child("city").val());
+    //     setZipcode(snapshot.child("zipcode").val());
+    //     setRace(snapshot.child("race").val());
+    // })
 
-    function signOut() {
-        firebase
-        .auth()
-        .signOut()
-        .then(() => props.navigation.navigate('LoginScreen'));
+    // function convertDate(){
+    //     console.log(birthDate)
+    //     var d = birthDate;
+    //     d = d.split('T')[0];
+    //     var year = d.split('-')[0];
+    //     return [d.split('-')[1] + "-" + d.split('-')[2] + "-" + d.split('-')[0]];
+    //   }
 
-    }
+    useEffect(() => {
+        uidRef.on('value', function(snapshot) {
+            setFName(snapshot.child("fName").val());
+            setLName(snapshot.child("lName").val());
+            setBirthDate(snapshot.child("birthDate").val());
+            setGender(snapshot.child("gender").val());
+            setCountry(snapshot.child("country").val());
+            setState(snapshot.child("state").val());
+            setCity(snapshot.child("city").val());
+            setZipcode(snapshot.child("zipcode").val());
+            setRace(snapshot.child("race").val());
+            
+            
+        }) }, []);
+
+        
+
+        // convertDate()
 
     //removes time from date and changes it to be 'MM-DD-YYYY' format
-    function convertDate(){
-      var d = birthDate;
-      d = d.split('T')[0];
-      var year = d.split('-')[0];
-      return [d.split('-')[1] + "-" + d.split('-')[2] + "-" + d.split('-')[0]];
-    }
+    
 
+   
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>
@@ -79,7 +94,7 @@ export default function ViewProfile(props) {
           <Text style={styles.viewProfileText}>
               First Name: {fName}{"\n"}
               Last Name: {lName}{"\n"}
-              Date of Birth: {convertDate()}{"\n"}
+              Date of Birth: {birthDate}{"\n"}
               Gender: {gender}{"\n"}
               Race: {race}{"\n"}
               Country: {country}{"\n"}
