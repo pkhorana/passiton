@@ -43,42 +43,23 @@ export default function ViewProfile(props) {
     const [zipcode, setZipcode] = useState('');
     const [race, setRace] = useState('');
 
-    //pulls the data from firebase
-    // uidRef.once('value').then(function(snapshot) {
-    //     setFName(snapshot.child("fName").val());
-    //     setLName(snapshot.child("lName").val());
-    //     setBirthDate(snapshot.child("birthDate").val());
-    //     setGender(snapshot.child("gender").val());
-    //     setCountry(snapshot.child("country").val());
-    //     setState(snapshot.child("state").val());
-    //     setCity(snapshot.child("city").val());
-    //     setZipcode(snapshot.child("zipcode").val());
-    //     setRace(snapshot.child("race").val());
-    // })
-
-    
-    
-
-    
-
+    //pulls the data from firebase regarding the current user
     useEffect(() => {
         uidRef.on('value', function(snapshot) {
             setFName(snapshot.child("fName").val());
             setLName(snapshot.child("lName").val());
-            setBirthDate(snapshot.child("birthDate").val());  
+            setBirthDate(snapshot.child("birthDate").val());
             setGender(snapshot.child("gender").val());
             setCountry(snapshot.child("country").val());
             setState(snapshot.child("state").val());
             setCity(snapshot.child("city").val());
             setZipcode(snapshot.child("zipcode").val());
             setRace(snapshot.child("race").val());
-            
-            
+
+
         }) }, []);
 
-        
-
-
+        //removes time from date and changes it to be 'MM-DD-YYYY' format
         function convertDate(){
             if (birthDate != null) {
                 var d = birthDate;
@@ -89,18 +70,8 @@ export default function ViewProfile(props) {
             } else {
                 return null;
             }
-            
-            
           }
 
-        
-
-       
-
-    //removes time from date and changes it to be 'MM-DD-YYYY' format
-    
-
-   
   return (
     <View style={styles.container}>
       <View style={styles.profileContainer}>

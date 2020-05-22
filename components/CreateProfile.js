@@ -6,9 +6,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import ModalSelector from 'react-native-modal-selector';
 import styles from './Styles';
 import * as firebase from 'firebase';
-import moment from 'moment';
-
-
 
 export default function CreateProfile(props) {
 
@@ -28,12 +25,14 @@ export default function CreateProfile(props) {
         race: '',
         profileComplete: 'Yes',
     } );
-    const user = firebase.auth().currentUser;
+
+    const user = firebase.auth().currentUser;//Returns the current user from the database
 
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('userData.birthDate');
 
 
+    //pulls the user information from firebase if the profile is complete
     useEffect(() => {
         usersRef.child(user.uid).once('value').then(function(snapshot) {
         var obj = snapshot.val();
@@ -42,11 +41,11 @@ export default function CreateProfile(props) {
         }
         });
       }, []);
-    
 
+   //handles the user selecting a date for date of birth
     const onChange = (event, selectedDate) => {
         var pickedDate = userData.birthDate;
-          
+
         const currentDate = selectedDate || pickedDate;
         setShow(Platform.OS === 'ios');
         setUserData(prevState => ({...prevState, birthDate: currentDate}));
@@ -87,6 +86,7 @@ export default function CreateProfile(props) {
 
     }
 
+    //If everything is filled out, the user can submit and is sent to the home screen. Otherwise, they have to finish filling out the profile
     function submit() {
         if (checkParams()) {
             if (userData.gender.label != null) {
@@ -111,8 +111,8 @@ export default function CreateProfile(props) {
         return true;
     }
 
+    //helper for gender picker
     function modalGender() {
-        
         var gend = userData.gender;
         if (gend.label == null || gend.label == '') {
             if (!(gend == null || gend == '')) {
@@ -126,7 +126,7 @@ export default function CreateProfile(props) {
 
     }
 
-
+    //helper for race picker
     function modalRace() {
         var race = userData.race;
         if (race.label == null || race.label == '') {
@@ -141,17 +141,17 @@ export default function CreateProfile(props) {
 
     }
 
+    //reads the birth date if one is found in the database
     function readFromDB( section, placehold, dob = false) {
         if (section == null || section == '') {
             return placehold;
         } else {
             if (dob) {
-                return moment(userData.birthDate).toString();
+                return userData.birthDate.toString();
             }
             return section;
         }
     }
-
 
   return (
     <View style={styles.container}>
@@ -181,7 +181,6 @@ export default function CreateProfile(props) {
             />
         </Item>
 
-
         <Item floatingLabel style = {{marginTop: 12}}>
             <Label style={{ color: "white" }}> Date of Birth</Label>
             <Input
@@ -195,7 +194,7 @@ export default function CreateProfile(props) {
         {show && (
         <DateTimePicker
         timeZoneOffsetInMinutes={0}
-        value={new Date(Date.parse(moment(userData.birthDate)))}
+        value={new Date(Date.parse(userData.birthDate))}
         maximumDate={new Date(2021, 0, 0)}
         minimumDate={new Date(1930, 12, 31)}
         mode = {mode}
