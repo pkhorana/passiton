@@ -87,7 +87,7 @@ export default function ViewProfile(props) {
               ZipCode: {zipcode}{"\n"}
           </Text>
           <TouchableOpacity style={styles.button}
-              onPress={() => signOut()}>
+              onPress={() => props.navigation.navigate('CreateProfileScreen')}>
               <Text>Edit Profile</Text>
           </TouchableOpacity>
         </ScrollView>

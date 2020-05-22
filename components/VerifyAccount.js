@@ -6,11 +6,11 @@ import * as firebase from 'firebase';
 
 export default function VerifyAccount(props) {
 
-  const {params} = props.navigation.state;
-  const email = params ? params.email : null;
-  const password = params ? params.password : null;
+  const {email, password} = props.route.params;
   const firebaseAuth = firebase.auth();
   const usersRef = firebase.database().ref().child('users');
+  console.log(email);
+  console.log(password);
 
 
   function writeLoginCredentials(emailText) {
