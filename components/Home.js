@@ -28,6 +28,7 @@ export default function Home(props) {
 
     const [currUser, setCurrUser] = useState(null);
     const usersRef = firebase.database().ref().child('users');
+    const categoriesRef = firebase.database().ref().child('categories');
     const [fName, setFName] = useState('');
     const user = firebase.auth().currentUser;
 
@@ -36,16 +37,15 @@ export default function Home(props) {
         setFName(snapshot.val());
     })
 
-    function signOut() {
-        firebase
-        .auth()
-        .signOut()
-        .then(() => props.navigation.navigate('LoginScreen'));
-    }
+    
 
 
     //Array of category names
-    const categoryNames = ["Video Games", "Food/Beverages", "Entertainment", "Sports", "Fashion", "Politics"];
+    const categoryNames = [];
+    categoriesRef.orderByChild("name").on("child_added", function(snapshot) {
+        categoryNames.push(snapshot.val().name);
+    });
+    
 
     return (
       //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
@@ -65,7 +65,8 @@ export default function Home(props) {
               <View style={styles.container}>
                 <TouchableOpacity
                     key = {index}
-                    style={styles.button}>
+                    style={styles.button}
+                    onPress={() => props.navigation.push('Question')}>
                     <Text>{item}</Text>
                 </TouchableOpacity>
                 </View>
@@ -77,15 +78,14 @@ export default function Home(props) {
             ListFooterComponent={ //this is to display below the flatlist
               <View style={styles.container}>
               <View style={styles.entryContainer}>
-              <TouchableOpacity style={styles.button}
-                  onPress={() => signOut()}>
-                  <Text>LOGOUT</Text>
-              </TouchableOpacity>
+              
               </View>
               </View>
             }
         />
+            
         </SafeAreaView>
+        
     );
 }
 /*

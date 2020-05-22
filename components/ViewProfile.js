@@ -29,117 +29,115 @@ export default function ViewProfile(props) {
     });
 
 
-    const usersRef = firebase.database().ref().child('users');
-    const firebaseAuth = firebase.auth();
-    const uidRef = usersRef.child(firebaseAuth.currentUser.uid);
-    const [userData, setUserData] = useState( {
-        fName: '',
-        lName: '',
-        dateCreated: new Date(),
-        birthDate: new Date(),
-        gender: '',
-        country: '',
-        state: '',
-        city: '',
-        zipcode: '',
-        race: '',
-        profileComplete: 'Yes',
-    } );
+    // const usersRef = firebase.database().ref().child('users');
+    // const firebaseAuth = firebase.auth();
+    // const uidRef = usersRef.child(firebaseAuth.currentUser.uid);
+    // const [userData, setUserData] = useState( {
+    //     fName: '',
+    //     lName: '',
+    //     dateCreated: new Date(),
+    //     birthDate: new Date(),
+    //     gender: '',
+    //     country: '',
+    //     state: '',
+    //     city: '',
+    //     zipcode: '',
+    //     race: '',
+    //     profileComplete: 'Yes',
+    // } );
 
-    const [show, setShow] = useState(false);
-    const [mode, setMode] = useState('userData.birthDate');
+    // const [show, setShow] = useState(false);
+    // const [mode, setMode] = useState('userData.birthDate');
 
-    const onChange = (event, selectedDate) => {
-        const currentDate = selectedDate || userData.birthDate;
-        setShow(Platform.OS === 'ios');
-        setUserData(prevState => ({...prevState, birthDate: currentDate}));
-    };
+    // const onChange = (event, selectedDate) => {
+    //     const currentDate = selectedDate || userData.birthDate;
+    //     setShow(Platform.OS === 'ios');
+    //     setUserData(prevState => ({...prevState, birthDate: currentDate}));
+    // };
 
-    const showMode = currentMode => {
-        setShow(true);
-        setMode(currentMode);
-    };
+    // const showMode = currentMode => {
+    //     setShow(true);
+    //     setMode(currentMode);
+    // };
 
-    const showDatepicker = () => {
-        showMode('date');
-    };
+    // const showDatepicker = () => {
+    //     showMode('date');
+    // };
 
-    //data used by modalSelector for gender
-    const genderData = [
-      {key: 0, label: "Male"},
-      {key: 1, label: "Female"},
-      {key: 2, label: "Other"}
-    ];
+    // //data used by modalSelector for gender
+    // const genderData = [
+    //   {key: 0, label: "Male"},
+    //   {key: 1, label: "Female"},
+    //   {key: 2, label: "Other"}
+    // ];
 
-    //data used by modalSelector for race
-    const raceData = [
-      {key: 0, label: "American Indian or Alaskan Native"},
-      {key: 1, label: "Asian"},
-      {key: 2, label: "Black or African-American"},
-      {key: 3, label: "Native Hawaiian or other Pacific Islander"},
-      {key: 4, label: "White"},
-      {key: 5, label: "Mixed"},
-      {key: 6, label: "Other"}
-    ];
+    // //data used by modalSelector for race
+    // const raceData = [
+    //   {key: 0, label: "American Indian or Alaskan Native"},
+    //   {key: 1, label: "Asian"},
+    //   {key: 2, label: "Black or African-American"},
+    //   {key: 3, label: "Native Hawaiian or other Pacific Islander"},
+    //   {key: 4, label: "White"},
+    //   {key: 5, label: "Mixed"},
+    //   {key: 6, label: "Other"}
+    // ];
 
-    function signOut() {
-        firebase
-        .auth()
-        .signOut()
-        .then(() => props.navigation.navigate('LoginScreen'));
+    // function signOut() {
+    //     firebase
+    //     .auth()
+    //     .signOut()
+    //     .then(() => props.navigation.navigate('LoginScreen'));
 
-    }
+    // }
 
-    function submit() {
-        if (checkParams()) {
-            userData.gender = userData.gender.label.replace(/['"]+/g, '');
-            userData.race = userData.race.label.replace(/['"]+/g, '');
-            uidRef.update(userData);
-            props.navigation.navigate('HomeScreen')
-        } else {
-            alert('Please fill in all the fields with valid information.');
-        }
-    }
+    // function submit() {
+    //     if (checkParams()) {
+    //         userData.gender = userData.gender.label.replace(/['"]+/g, '');
+    //         userData.race = userData.race.label.replace(/['"]+/g, '');
+    //         uidRef.update(userData);
+    //         props.navigation.navigate('HomeScreen')
+    //     } else {
+    //         alert('Please fill in all the fields with valid information.');
+    //     }
+    // }
 
-    function checkParams() {
-        for (var key in userData) {
-            if (userData[key] == null || userData[key] == '') {
-                return false;
-            }
-        }
-        return true;
-    }
+    // function checkParams() {
+    //     for (var key in userData) {
+    //         if (userData[key] == null || userData[key] == '') {
+    //             return false;
+    //         }
+    //     }
+    //     return true;
+    // }
 
-    function modalGender() {
-        var gend = userData.gender.label;
-        if (gend == null || gend == '') {
-            return "Select a Gender";
-        } else {
-            return JSON.stringify(gend).replace(/['"]+/g, '');
-        }
+    // function modalGender() {
+    //     var gend = userData.gender.label;
+    //     if (gend == null || gend == '') {
+    //         return "Select a Gender";
+    //     } else {
+    //         return JSON.stringify(gend).replace(/['"]+/g, '');
+    //     }
 
-    }
+    // }
 
 
-    function modalRace() {
-        var race = userData.race.label;
-        if (race == null || race == '') {
-            return "Select a Race";
-        } else {
-            return JSON.stringify(race).replace(/['"]+/g, '');
-        }
+    // function modalRace() {
+    //     var race = userData.race.label;
+    //     if (race == null || race == '') {
+    //         return "Select a Race";
+    //     } else {
+    //         return JSON.stringify(race).replace(/['"]+/g, '');
+    //     }
 
-    }
+    // }
 
-    function what() {
-        return "what";
-    }
+    
 
   return (
     <View style={styles.container}>
     <View style={styles.profileContainer}>
     <ScrollView >
-        <Text style={styles.profileTitle}>Create Profile Here</Text>
+        {/* <Text style={styles.profileTitle}>Create Profile Here</Text>
         <Item floatingLabel >
             <Label style={{ color: "white"}}> First Name</Label>
             <Input
@@ -254,7 +252,12 @@ export default function ViewProfile(props) {
         <TouchableOpacity style={styles.button}
             onPress={() => signOut()}>
             <Text>LOGOUT</Text>
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
+            <TouchableOpacity style={styles.button}
+                onPress={() => props.navigation.navigate('CreateProfileScreen')}>
+                <Text>Edit Profile</Text>
+            </TouchableOpacity>
 
         </ScrollView>
     </View>
