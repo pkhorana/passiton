@@ -123,7 +123,6 @@ export default function CreateProfile(props) {
         } else {
             return JSON.stringify(gend.label).replace(/['"]+/g, '');
         }
-
     }
 
     //helper for race picker
@@ -157,8 +156,10 @@ export default function CreateProfile(props) {
     <View style={styles.profileContainer}>
     <ScrollView >
         {/* <Text style={styles.profileTitle}>Create Profile Here</Text> */}
+        <View style={styles.smallShift}/>
+
         <Item floatingLabel>
-            <Label style={{ color: "white"}}> First Name</Label>
+            <Label style={{color: "white"}}> First Name</Label>
             <Input
                 value = {readFromDB(userData.fName, null)}
                 onChangeText={(e) => {

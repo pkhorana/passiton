@@ -82,4 +82,7 @@ export default StyleSheet.create({
         lineHeight: 50,
     },
 
+    smallShift: {
+        padding: 5
+    },
 });
