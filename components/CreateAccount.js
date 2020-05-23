@@ -54,6 +54,8 @@ export default function CreateAccount(props) {
         if (methods[0] == 'google.com' || methods[0] == 'facebook.com') {
           alert('Seems like you already have a google or fb account. Check your email and create password for your new sign in.');
           firebase.auth().sendPasswordResetEmail(userText);
+        } else {
+          alert('That email address is already in use!');
         }
       }
       else {
