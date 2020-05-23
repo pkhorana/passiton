@@ -85,4 +85,9 @@ export default StyleSheet.create({
     smallShift: {
         padding: 5
     },
+
+    homeScreenText: {
+      fontSize: 16,
+      fontWeight: '600'
+    }
 });
