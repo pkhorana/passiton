@@ -18,7 +18,6 @@ export default function ForgotPassword(props) {
         alert('Email was not sent.');
       });
     }
-
   }
 
   //determines if the format of the email is valid

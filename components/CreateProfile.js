@@ -138,7 +138,6 @@ export default function CreateProfile(props) {
         } else {
             return JSON.stringify(race.label).replace(/['"]+/g, '');
         }
-
     }
 
     //reads the birth date if one is found in the database

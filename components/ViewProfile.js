@@ -21,7 +21,6 @@ export default function ViewProfile(props) {
             fontWeight: 'bold',
         },
         headerLeft: () => (
-
             <Icon name="menu" style = {{padding:10}} onPress={() => {
                     props.navigation.toggleDrawer();
                 }}/>
@@ -55,8 +54,6 @@ export default function ViewProfile(props) {
             setCity(snapshot.child("city").val());
             setZipcode(snapshot.child("zipcode").val());
             setRace(snapshot.child("race").val());
-
-
         }) }, []);
 
         //removes time from date and changes it to be 'MM-DD-YYYY' format
