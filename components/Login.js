@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {Text, View, TouchableOpacity, Alert} from 'react-native';
+import {Text, View, KeyboardAvoidingView, Platform, ScrollView, TouchableOpacity, Alert} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
 import PasswordTextBox from './PasswordTextBox';
@@ -11,7 +11,7 @@ export default function Login(props) {
   const androidID = '726496770670-tbdocpee887lp06bq8u4i66h7dqpeurt.apps.googleusercontent.com';
   const iosID = '726496770670-6r4ee2a6gl62re355jesv119omk4dv0s.apps.googleusercontent.com';
   const webID = '726496770670-gbrp87t9g9q6octe2h23qrojaghgt2kd.apps.googleusercontent.com';
-  const facebookappID = '356033035592472';
+//  const facebookappID = '356033035592472';
 
   const usersRef = firebase.database().ref().child('users');
 
@@ -19,9 +19,7 @@ export default function Login(props) {
   const [passText, setPass] = useState('');
   var pendingCred = null;
 
-
-
-
+  const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
   function linkAccountCredential() {
     firebase.auth().onAuthStateChanged(user => {
       if (user && pendingCred != null) {
@@ -35,7 +33,7 @@ export default function Login(props) {
     });
   }
 
-  async function fblogIn() {
+  /*async function fblogIn() {
     try {
       await Facebook.initializeAsync(facebookappID);
       const {
@@ -71,7 +69,7 @@ export default function Login(props) {
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
     }
-  }
+  }*/
 
   function writeLoginCredentials(emailText) {
     var user = firebase.auth().currentUser;
@@ -83,8 +81,6 @@ export default function Login(props) {
     }
     myRef.set(data);
   }
-
-
 
   async function signInWithGoogleAsync() {
     try {
@@ -106,7 +102,6 @@ export default function Login(props) {
         return { error: true };
     }
   }
-
 
   function onSignIn(googleUser) {
     console.log('Google Auth Response', googleUser);
@@ -143,7 +138,6 @@ export default function Login(props) {
     }
     return false;
   }
-
 
   function successLogin() {
     var user = firebase.auth().currentUser;
@@ -184,7 +178,11 @@ export default function Login(props) {
   }
 
   return (
-
+    <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        keyboardVerticalOffset = {keyboardVerticalOffset}
+        style={styles.container}>
+    <ScrollView>
     <View style={styles.container}>
       <View style={styles.entryContainer}>
        <EmailTextBox
@@ -200,11 +198,6 @@ export default function Login(props) {
         <TouchableOpacity style={styles.button}
             onPress={() => handleLogin()}>
             <Text>SIGN IN</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.button}
-            onPress={() => fblogIn()}>
-            <Text>LOGIN WITH FACEBOOK</Text>
         </TouchableOpacity>
 
          <TouchableOpacity style={styles.button}
@@ -223,5 +216,12 @@ export default function Login(props) {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
+
+/*<TouchableOpacity style={styles.button}
+    onPress={() => fblogIn()}>
+    <Text>LOGIN WITH FACEBOOK</Text>
+</TouchableOpacity>*/

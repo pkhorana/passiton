@@ -82,4 +82,12 @@ export default StyleSheet.create({
         lineHeight: 50,
     },
 
+    smallShift: {
+        padding: 5
+    },
+
+    homeScreenText: {
+      fontSize: 16,
+      fontWeight: '600'
+    }
 });
