@@ -76,7 +76,7 @@ export default function App() {
     <NavigationContainer>
       <MainStack.Navigator>
         <MainStack.Screen name="LoadingScreen" component={Loading} options={{title: ''}}/>
-        <MainStack.Screen name="LoginScreen" component={Login} options={{title: 'Login'}} />
+        <MainStack.Screen name="LoginScreen" component={Login}  options={{headerShown: false}} />
         <MainStack.Screen name="CreateAccountScreen" component={CreateAccount} options={{title: 'Create Account'}}/>
         <MainStack.Screen name="VerifyAccountScreen" component={VerifyAccount} options={{headerShown: false}}/>
         <MainStack.Screen name="ForgotPasswordScreen" component={ForgotPassword} options={{title: 'Forgot Password'}}/>
