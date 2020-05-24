@@ -43,9 +43,6 @@ export default function Home(props) {
         categoryImages.push(snapshot.val().image);
     });
 
-    console.log(categoryNames);
-    console.log(categoryImages);
-
     return (
       //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
       <SafeAreaView style={styles.container}>
