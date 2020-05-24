@@ -1,7 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
 import { Item, Input, Label } from 'native-base';
-import {StyleSheet, Text, Button, View, TouchableOpacity,  ScrollView} from 'react-native';
+import {StyleSheet, Text, KeyboardAvoidingView, Platform, Button, View, TouchableOpacity,  ScrollView} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ModalSelector from 'react-native-modal-selector';
 import styles from './Styles';
@@ -31,7 +31,7 @@ export default function CreateProfile(props) {
     const [show, setShow] = useState(false);
     const [mode, setMode] = useState('userData.birthDate');
 
-
+    const keyboardVerticalOffset = Platform.OS === 'ios' ? 70 : 0;
     //pulls the user information from firebase if the profile is complete
     useEffect(() => {
         usersRef.child(user.uid).once('value').then(function(snapshot) {
@@ -123,7 +123,6 @@ export default function CreateProfile(props) {
         } else {
             return JSON.stringify(gend.label).replace(/['"]+/g, '');
         }
-
     }
 
     //helper for race picker
@@ -138,7 +137,6 @@ export default function CreateProfile(props) {
         } else {
             return JSON.stringify(race.label).replace(/['"]+/g, '');
         }
-
     }
 
     //reads the birth date if one is found in the database
@@ -154,12 +152,18 @@ export default function CreateProfile(props) {
     }
 
   return (
+    <KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        keyboardVerticalOffset = {keyboardVerticalOffset}
+        style={styles.container}>
     <View style={styles.container}>
     <View style={styles.profileContainer}>
     <ScrollView >
         {/* <Text style={styles.profileTitle}>Create Profile Here</Text> */}
+        <View style={styles.smallShift}/>
+
         <Item floatingLabel>
-            <Label style={{ color: "white"}}> First Name</Label>
+            <Label style={{color: "white"}}> First Name</Label>
             <Input
                 value = {readFromDB(userData.fName, null)}
                 onChangeText={(e) => {
@@ -284,5 +288,6 @@ export default function CreateProfile(props) {
         </ScrollView>
     </View>
     </View>
+    </KeyboardAvoidingView>
   );
 }

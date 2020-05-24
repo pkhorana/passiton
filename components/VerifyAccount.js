@@ -3,7 +3,6 @@ import {Text, View, TouchableOpacity} from 'react-native';
 import styles from './Styles';
 import * as firebase from 'firebase';
 
-
 export default function VerifyAccount(props) {
 
   const {email, password} = props.route.params;
@@ -11,7 +10,6 @@ export default function VerifyAccount(props) {
   const usersRef = firebase.database().ref().child('users');
   console.log(email);
   console.log(password);
-
 
   function writeLoginCredentials(emailText) {
     var user = firebaseAuth.currentUser;
