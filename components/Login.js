@@ -11,7 +11,7 @@ export default function Login(props) {
   const androidID = '726496770670-tbdocpee887lp06bq8u4i66h7dqpeurt.apps.googleusercontent.com';
   const iosID = '726496770670-6r4ee2a6gl62re355jesv119omk4dv0s.apps.googleusercontent.com';
   const webID = '726496770670-gbrp87t9g9q6octe2h23qrojaghgt2kd.apps.googleusercontent.com';
-  const facebookappID = '356033035592472';
+//  const facebookappID = '356033035592472';
 
   const usersRef = firebase.database().ref().child('users');
 
@@ -35,7 +35,7 @@ export default function Login(props) {
     });
   }
 
-  async function fblogIn() {
+  /*async function fblogIn() {
     try {
       await Facebook.initializeAsync(facebookappID);
       const {
@@ -71,7 +71,7 @@ export default function Login(props) {
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
     }
-  }
+  }*/
 
   function writeLoginCredentials(emailText) {
     var user = firebase.auth().currentUser;
@@ -202,11 +202,6 @@ export default function Login(props) {
             <Text>SIGN IN</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button}
-            onPress={() => fblogIn()}>
-            <Text>LOGIN WITH FACEBOOK</Text>
-        </TouchableOpacity>
-
          <TouchableOpacity style={styles.button}
             onPress={() => signInWithGoogleAsync()}>
             <Text>LOGIN WITH GOOGLE</Text>
@@ -225,3 +220,8 @@ export default function Login(props) {
     </View>
   );
 }
+
+/*<TouchableOpacity style={styles.button}
+    onPress={() => fblogIn()}>
+    <Text>LOGIN WITH FACEBOOK</Text>
+</TouchableOpacity>*/
