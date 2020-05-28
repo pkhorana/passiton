@@ -9,7 +9,7 @@ export default function Loading(props) {
     const usersRef = firebase.database().ref().child('users');
     var p = null;
 
-    //handles which screen the user will be sent to based on profile complettion or whether they are in the database
+    //handles which screen the user will be sent to based on whether they are logged in or whether profile is complete or not
     useEffect(() => {
         let mounted = true;
         if (mounted) {

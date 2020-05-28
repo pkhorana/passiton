@@ -38,7 +38,9 @@ export default function Home(props) {
     //Array of category names
     const categoryNames = []; //array of cateogry names
     const categoryImages = []; //array of image locations. Use a .png file in firebase if the image is blank in the app
+    const surveyKeys = [];
     categoriesRef.orderByChild("name").on("child_added", function(snapshot) {
+        surveyKeys.push(snapshot.val().survey);
         categoryNames.push(snapshot.val().name);
         categoryImages.push(snapshot.val().image);
     });
@@ -62,7 +64,9 @@ export default function Home(props) {
                 <TouchableOpacity
                     key = {index}
                     style={styles.button}
-                    onPress={() => props.navigation.push('Question')}>
+                    onPress={() => props.navigation.push('Question', {
+                        surveyKey: surveyKeys[index]
+                      })}>
                     <Image
                         source={{ uri: categoryImages[index] }}
                         resizeMode={'contain'}
