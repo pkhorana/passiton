@@ -47,12 +47,12 @@ export default function QuestionScreen(props) {
     useEffect(() => {
         let mounted = true;
         if (mounted) {
-            console.log(surveyKey);  
+            
                     
             surveysRef.child(surveyKey).once('value', function(snapshot) {
                 setObj(snapshot.val());
             });  
-            console.log(questionObj);
+            
             
                     
         }   
@@ -78,8 +78,7 @@ export default function QuestionScreen(props) {
         if (counter == questionArr.length) {
             props.navigation.navigate("HomeScreen");
         } else {
-            console.log(questionArr);
-            console.log(keyArr);
+            ;
             setCounter(counter+1);
         }
         
@@ -105,7 +104,7 @@ export default function QuestionScreen(props) {
                 cards={questionArr}
                 renderCard={(card) => {
                     return (
-                        <View style={styles.card}>
+                        <View style={stylesp.card}>
                             <Text>{(questionArr != null && questionArr.length > 0) ? questionArr[index].text : null}</Text>
                             <Text>{(questionArr != null && questionArr.length > 0) ? questionArr[index].image : null}</Text>
                             <Text>{counter + "/" + questionArr.length}</Text>
@@ -114,11 +113,15 @@ export default function QuestionScreen(props) {
                 }}
                 onSwiped={(cardIndex) => {next()}}
                 onSwipedAll={() => {console.log('onSwipedAll')}}
-                cardIndex={0}
+                cardIndex={index}
                 backgroundColor={'#4FD0E9'}
+                
+                            
+                
                 >
                 
             </Swiper>
+            
 
             
             
@@ -136,14 +139,18 @@ export default function QuestionScreen(props) {
 
 const stylesp = StyleSheet.create({
     container: {
-      flex: 1,
+      flex: 0.3,
       backgroundColor: "#F5FCFF"
     },
     card: {
       flex: 1,
-      borderRadius: 4,
+      borderRadius: 8,
+      shadowRadius: 25,
+      shadowColor: '#000',
+      shadowOpacity: 0.08,
       borderWidth: 2,
       borderColor: "#E8E8E8",
+      alignItems: 'center',
       justifyContent: "center",
       backgroundColor: "white"
     },
