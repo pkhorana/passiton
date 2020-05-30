@@ -92,8 +92,8 @@ export default function QuestionScreen(props) {
                     backgroundColor={'#4FD0E9'}
                     stackSize = {questionArr.length}
                     // stackScale = {8}
-                    stackSeperation = {10}
-                    verticalThreshold = {windowHeight/7}
+                    stackSeperation = {100}
+                    verticalThreshold = {windowHeight/15}
                     >
                 </Swiper>
             )  
@@ -128,7 +128,7 @@ const stylesp = StyleSheet.create({
       alignItems: 'center',
       justifyContent: "center",
       backgroundColor: "white",
-      marginTop: 45
+      marginTop: 30
       
     },
     text: {
