@@ -102,6 +102,8 @@ export default function CreateProfile(props) {
         }
     }
 
+    //checks if every field in the create profile screen has been filled
+    //if not, then user will be prompted to make necessary changes
     function checkParams() {
         for (var key in userData) {
             if (userData[key] == null || userData[key] == '') {
@@ -159,7 +161,6 @@ export default function CreateProfile(props) {
     <View style={styles.container}>
     <View style={styles.profileContainer}>
     <ScrollView >
-        {/* <Text style={styles.profileTitle}>Create Profile Here</Text> */}
         <View style={styles.smallShift}/>
 
         <Item floatingLabel>
@@ -209,7 +210,6 @@ export default function CreateProfile(props) {
 
         <ModalSelector
                     data={genderData}
-                    // ref={selector => _selector = selector}
                     initValue= {modalGender()}
                     onChange={(option) => {
                         setUserData(prevState => ({...prevState, gender: option}))
