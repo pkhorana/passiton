@@ -89,5 +89,31 @@ export default StyleSheet.create({
     homeScreenText: {
       fontSize: 16,
       fontWeight: '600'
-    }
+    },
+
+    questionContainer: {
+      flex: 1,
+      backgroundColor: '#3498db',
+    },
+
+    card: {
+      flex: 0.75,
+      borderRadius: 25,
+      shadowRadius: 25,
+      shadowColor: '#000',
+      shadowOpacity: 0.08,
+      borderWidth: 2,
+      borderColor: "#000000",
+      alignItems: 'center',
+      backgroundColor: "#0099CC",
+      marginTop: 30
+
+    },
+
+    cardText: {
+      textAlign: "center",
+      fontSize: 36,
+      backgroundColor: "transparent",
+      marginBottom: 50
+    },
 });
