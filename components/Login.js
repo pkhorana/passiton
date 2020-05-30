@@ -20,18 +20,20 @@ export default function Login(props) {
   var pendingCred = null;
 
   const keyboardVerticalOffset = Platform.OS === 'ios' ? 100 : 0;
-  function linkAccountCredential() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user && pendingCred != null) {
-        user.linkWithCredential(pendingCred).then(function(user) {
-          console.log("Account linking success", user);
-          pendingCred = null;
-        }, function(error) {
-          console.log("Account linking error", error);
-        })
-      }
-    });
-  }
+
+
+  // function linkAccountCredential() {
+  //   firebase.auth().onAuthStateChanged(user => {
+  //     if (user && pendingCred != null) {
+  //       user.linkWithCredential(pendingCred).then(function(user) {
+  //         console.log("Account linking success", user);
+  //         pendingCred = null;
+  //       }, function(error) {
+  //         console.log("Account linking error", error);
+  //       })
+  //     }
+  //   });
+  // }
 
   /*async function fblogIn() {
     try {
@@ -82,6 +84,8 @@ export default function Login(props) {
     myRef.set(data);
   }
 
+
+  //an asynchronous (code block doesnt wait on it) function that handles google sign in
   async function signInWithGoogleAsync() {
     try {
       const result = await Google.logInAsync({
@@ -103,6 +107,8 @@ export default function Login(props) {
     }
   }
 
+
+  //uses google sign in credential for app sign in
   function onSignIn(googleUser) {
     console.log('Google Auth Response', googleUser);
     // We need to register an Observer on Firebase Auth to make sure auth is initialized.
@@ -139,6 +145,8 @@ export default function Login(props) {
     return false;
   }
 
+  //if sucessfully logged in, checks if email is verified or profile is complete
+  //otherwise takes user to home screen
   function successLogin() {
     var user = firebase.auth().currentUser;
     if (!user.emailVerified) {
