@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from 'react';
-
-import {Platform, Text, View, StyleSheet, Dimensions} from 'react-native';
-
+import {Image, ImageBackground, Platform, Text, View, StyleSheet, Dimensions} from 'react-native';
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
@@ -34,7 +32,7 @@ export default function QuestionScreen(props) {
     var keyArr = [];
     const [questionObj, setObj] = useState({});
     const {surveyKey} = props.route.params;
-   
+
 
 
     const windowHeight = Dimensions.get('window').height;
@@ -45,18 +43,18 @@ export default function QuestionScreen(props) {
     useEffect(() => {
         let mounted = true;
         if (mounted) {
-       
+
             surveysRef.child(surveyKey).once('value', function(snapshot) {
                 setObj(snapshot.val());
-            });  
-  
-        }   
-        
+            });
+
+        }
+
         return () => mounted = false;
-        
+
     }, []);
 
-  
+
     function answerDB() {
         console.log('yes');
     }
@@ -65,8 +63,7 @@ export default function QuestionScreen(props) {
     const onSwiped = () => {
         setIndex(index+1);
     }
-    
-    
+
     function swipingCards() {
         if (questionObj != null) {
             for (var item in questionObj) {
@@ -80,12 +77,33 @@ export default function QuestionScreen(props) {
                 <Swiper
                     useViewOverflow={Platform.OS === 'ios'}
                     cards={questionArr}
-                    renderCard={(card) => {return(
-                        <View style={stylesp.card}>
-                            <Text>{card.text}</Text>
-                            <Text>{card.image}</Text>
+                    renderCard={(card) => {
+
+                      if(card.type == "C"){
+                        return(
+                        <View style={styles.card}>
+                            <ImageBackground
+                                source={card.image && {uri: card.image}}
+                                resizeMode={'stretch'}
+                                style={{width: 300, height: 450, marginTop: 20}}>
+                            <View
+                                style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
+                                        alignItems: 'center'}}>
+                            <Text style={styles.cardText}>{card.text}</Text>
+                            </View>
+                            </ImageBackground>
                         </View>
-                    )}}
+                    )} else {
+                      return(
+                        <View style={styles.card}>
+                            <Text style={styles.cardText}>{card.text}</Text>
+                            <Image
+                                source={card.image && {uri: card.image}}
+                                resizeMode={'contain'}
+                                style={{width: 300, height: 350}}/>
+                        </View>
+                      )
+                    }}}
                     onSwiped={onSwiped}
                     onSwipedAll={() => {props.navigation.navigate("HomeScreen")}}
                     cardIndex={index}
@@ -96,44 +114,13 @@ export default function QuestionScreen(props) {
                     verticalThreshold = {windowHeight/15}
                     >
                 </Swiper>
-            )  
-        } 
+            )
+        }
     }
 
-
-    
     return (
-        <View style={styles.container}>
+        <View style={styles.questionContainer}>
             {swipingCards()}
         </View>
     );
-   
-
 }
-
-
-const stylesp = StyleSheet.create({
-    container: {
-      flex: 0.3,
-      backgroundColor: "#F5FCFF"
-    },
-    card: {
-      flex: 0.75,
-      borderRadius: 8,
-      shadowRadius: 25,
-      shadowColor: '#000',
-      shadowOpacity: 0.08,
-      borderWidth: 2,
-      borderColor: "#E8E8E8",
-      alignItems: 'center',
-      justifyContent: "center",
-      backgroundColor: "white",
-      marginTop: 30
-      
-    },
-    text: {
-      textAlign: "center",
-      fontSize: 50,
-      backgroundColor: "transparent"
-    }
-  });
