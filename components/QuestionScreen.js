@@ -56,17 +56,11 @@ export default function QuestionScreen(props) {
         
     }, []);
 
-    
-
-    
-
+  
     function answerDB() {
         console.log('yes');
     }
 
- 
-
-    
 
     const onSwiped = () => {
         setIndex(index+1);
