@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 
-import {Platform, Text, View, StyleSheet, FlatList, SafeAreaView, Button, TouchableOpacity, ScrollView} from 'react-native';
+import {Platform, Text, View, StyleSheet, Dimensions} from 'react-native';
 
 import * as firebase from 'firebase';
 import styles from './Styles';
@@ -37,7 +37,7 @@ export default function QuestionScreen(props) {
    
 
 
-
+    const windowHeight = Dimensions.get('window').height;
     const usersRef = firebase.database().ref().child('users');
     const surveysRef = firebase.database().ref().child('surveys');
     const user = firebase.auth().currentUser;
@@ -93,6 +93,7 @@ export default function QuestionScreen(props) {
                     stackSize = {questionArr.length}
                     // stackScale = {8}
                     stackSeperation = {10}
+                    verticalThreshold = {windowHeight/7}
                     >
                 </Swiper>
             )  
@@ -117,7 +118,7 @@ const stylesp = StyleSheet.create({
       backgroundColor: "#F5FCFF"
     },
     card: {
-      flex: 0.8,
+      flex: 0.75,
       borderRadius: 8,
       shadowRadius: 25,
       shadowColor: '#000',
@@ -126,7 +127,9 @@ const stylesp = StyleSheet.create({
       borderColor: "#E8E8E8",
       alignItems: 'center',
       justifyContent: "center",
-      backgroundColor: "white"
+      backgroundColor: "white",
+      marginTop: 45
+      
     },
     text: {
       textAlign: "center",
