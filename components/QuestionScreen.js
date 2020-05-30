@@ -28,15 +28,13 @@ export default function QuestionScreen(props) {
             )
     });
 
-    var [counter, setCounter] = useState(1);
+    const [counter, setCounter] = useState(1);
     var index = counter - 1;
     var questionArr = [];
     var keyArr = [];
-    // const [questionArr, setArr] = useState([]);
     const [questionObj, setObj] = useState({});
     const {surveyKey} = props.route.params;
-    // const [surveyKey, setKey] = useState(null);
-
+   
 
 
 
@@ -47,87 +45,84 @@ export default function QuestionScreen(props) {
     useEffect(() => {
         let mounted = true;
         if (mounted) {
-            
-                    
+       
             surveysRef.child(surveyKey).once('value', function(snapshot) {
                 setObj(snapshot.val());
             });  
-            
-            
-                    
+  
         }   
         
         return () => mounted = false;
         
     }, []);
 
-    if (questionObj != null) {
-        for (var item in questionObj) {
-            questionArr.push(questionObj[item]);
-            keyArr.push(item);
-        }
-        
-    }
+    
+
+    
 
     function answerDB() {
         console.log('yes');
     }
 
     function next() {
-
         if (counter == questionArr.length) {
             props.navigation.navigate("HomeScreen");
         } else {
-            ;
             setCounter(counter+1);
+        }   
+    }
+    
+    
+    function swipingCards() {
+        if (questionObj != null) {
+            for (var item in questionObj) {
+                console.log('a');
+                questionArr.push(questionObj[item]);
+                keyArr.push(item);
+            }
         }
-        
-    } 
+        if (questionArr.length != 0) {
+            return (
+                <Swiper
+                    useViewOverflow={Platform.OS === 'ios'}
+                    cards={questionArr}
+                    renderCard={(card) => {
+                        return (
+                            <View style={stylesp.card}>
+                                <Text>{questionArr[index].text}</Text>
+                                <Text>{questionArr[index].image}</Text>
+                                <Text>{counter + "/" + questionArr.length}</Text>
+                            </View>
+                        )
+                    }}
+                    onSwiped={(cardIndex) => {next()}}
+                    onSwipedAll={() => {console.log('onSwipedAll')}}
+                    cardIndex={index}
+                    backgroundColor={'#4FD0E9'}
+                    // stackSize = {questionArr.length}
+                    // stackScale = {8}
+                    // stackSeperation = {10}
+                                
+                    
+                    >
+                    
+                </Swiper>
+            )
+            
+        } 
+}
 
 
    
     
 
 
-    // const categoryNames = [];
-    // categoriesRef.orderByChild("name").on("child_added", function(snapshot) {
-    //     categoryNames.push(snapshot.val().name);
-    // });
-    
+   
     
     return (
-      //SafeAreaView is used to  take up the full screen. Only necessary for iOS devices on iOS versions 11+
-    
         <View style={styles.container}>
-            <Swiper
-                useViewOverflow={Platform.OS === 'ios'}
-                cards={questionArr}
-                renderCard={(card) => {
-                    return (
-                        <View style={stylesp.card}>
-                            <Text>{(questionArr != null && questionArr.length > 0) ? questionArr[index].text : null}</Text>
-                            <Text>{(questionArr != null && questionArr.length > 0) ? questionArr[index].image : null}</Text>
-                            <Text>{counter + "/" + questionArr.length}</Text>
-                        </View>
-                    )
-                }}
-                onSwiped={(cardIndex) => {next()}}
-                onSwipedAll={() => {console.log('onSwipedAll')}}
-                cardIndex={index}
-                backgroundColor={'#4FD0E9'}
-                
-                            
-                
-                >
-                
-            </Swiper>
-            
-
-            
-            
+            {swipingCards()}
         </View>
-
-        
     );
    
 
@@ -143,7 +138,7 @@ const stylesp = StyleSheet.create({
       backgroundColor: "#F5FCFF"
     },
     card: {
-      flex: 1,
+      flex: 0.8,
       borderRadius: 8,
       shadowRadius: 25,
       shadowColor: '#000',
