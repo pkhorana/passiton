@@ -28,8 +28,8 @@ export default function QuestionScreen(props) {
             )
     });
 
-    const [counter, setCounter] = useState(1);
-    var index = counter - 1;
+    const [index, setIndex] = useState(0);
+    // var index = counter - 1;
     var questionArr = [];
     var keyArr = [];
     const [questionObj, setObj] = useState({});
@@ -64,12 +64,12 @@ export default function QuestionScreen(props) {
         console.log('yes');
     }
 
-    function next() {
-        if (counter == questionArr.length) {
-            props.navigation.navigate("HomeScreen");
-        } else {
-            setCounter(counter+1);
-        }   
+ 
+
+    
+
+    const onSwiped = () => {
+        setIndex(index+1);
     }
     
     
@@ -86,38 +86,26 @@ export default function QuestionScreen(props) {
                 <Swiper
                     useViewOverflow={Platform.OS === 'ios'}
                     cards={questionArr}
-                    renderCard={(card) => {
-                        return (
-                            <View style={stylesp.card}>
-                                <Text>{questionArr[index].text}</Text>
-                                <Text>{questionArr[index].image}</Text>
-                                <Text>{counter + "/" + questionArr.length}</Text>
-                            </View>
-                        )
-                    }}
-                    onSwiped={(cardIndex) => {next()}}
-                    onSwipedAll={() => {console.log('onSwipedAll')}}
+                    renderCard={(card) => {return(
+                        <View style={stylesp.card}>
+                            <Text>{card.text}</Text>
+                            <Text>{card.image}</Text>
+                        </View>
+                    )}}
+                    onSwiped={onSwiped}
+                    onSwipedAll={() => {props.navigation.navigate("HomeScreen")}}
                     cardIndex={index}
                     backgroundColor={'#4FD0E9'}
-                    // stackSize = {questionArr.length}
+                    stackSize = {questionArr.length}
                     // stackScale = {8}
-                    // stackSeperation = {10}
-                                
-                    
+                    stackSeperation = {10}
                     >
-                    
                 </Swiper>
-            )
-            
+            )  
         } 
-}
+    }
 
 
-   
-    
-
-
-   
     
     return (
         <View style={styles.container}>
@@ -125,9 +113,6 @@ export default function QuestionScreen(props) {
         </View>
     );
    
-
-
-
 
 }
 
