@@ -39,6 +39,8 @@ export default function QuestionScreen(props) {
     const usersRef = firebase.database().ref().child('users');
     const surveysRef = firebase.database().ref().child('surveys');
     const user = firebase.auth().currentUser;
+    const surveyRespRef = firebase.database().ref().child('surveyresponses')
+    const userRespRef = firebase.database().ref().child('userresponses')
 
     useEffect(() => {
         let mounted = true;
@@ -55,14 +57,47 @@ export default function QuestionScreen(props) {
     }, []);
 
 
-    function answerDB() {
-        console.log('yes');
-    }
-
 
     const onSwiped = () => {
         setIndex(index+1);
     }
+
+    const swipeLeft = () => {
+        surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
+            {
+                userid: user.uid,
+                response: 'left'
+            }
+        )
+    }
+
+    const swipeRight = () => {
+        surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
+            {
+                userid: user.uid,
+                response: 'right'
+            }
+        )
+    }
+
+    const swipeUp = () => {
+        surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
+            {
+                userid: user.uid,
+                response: 'up'
+            }
+        )
+    }
+
+    const swipeDown = () => {
+        surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
+            {
+                userid: user.uid,
+                response: 'down'
+            }
+        )
+    }
+    
 
     function swipingCards() {
         if (questionObj != null) {
@@ -105,6 +140,10 @@ export default function QuestionScreen(props) {
                       )
                     }}}
                     onSwiped={onSwiped}
+                    onSwipedLeft={swipeLeft}
+                    onSwipedRight={swipeRight}
+                    onSwipedTop={swipeUp}
+                    onSwipedBottom={swipeDown}
                     onSwipedAll={() => {props.navigation.navigate("HomeScreen")}}
                     cardIndex={index}
                     backgroundColor={'#4FD0E9'}
