@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Image, ImageBackground, Platform, Text, View, StyleSheet, Dimensions} from 'react-native';
+import {Image, ImageBackground, Platform, Text, View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
@@ -45,18 +45,12 @@ export default function QuestionScreen(props) {
     useEffect(() => {
         let mounted = true;
         if (mounted) {
-
             surveysRef.child(surveyKey).once('value', function(snapshot) {
                 setObj(snapshot.val());
             });
-
         }
-
         return () => mounted = false;
-
     }, []);
-
-
 
     const onSwiped = () => {
         setIndex(index+1);
@@ -97,7 +91,6 @@ export default function QuestionScreen(props) {
             }
         )
     }
-    
 
     function swipingCards() {
         if (questionObj != null) {
@@ -109,6 +102,7 @@ export default function QuestionScreen(props) {
         }
         if (questionArr.length != 0) {
             return (
+              <View style={styles.questionContainer}>
                 <Swiper
                     useViewOverflow={Platform.OS === 'ios'}
                     cards={questionArr}
@@ -153,6 +147,23 @@ export default function QuestionScreen(props) {
                     verticalThreshold = {windowHeight/15}
                     >
                 </Swiper>
+                <TouchableOpacity
+                    style={{position: 'absolute', bottom: 50, left: 25, alignItems: 'center',
+                    backgroundColor: "#DDDDDD", padding: 10,
+                    borderWidth: 0.5,
+                    borderColor: 'black',
+                    backgroundColor: '#56aed0',}}>
+                  <Text style={{fontSize: 12}}>Previous</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                    style={{position: 'absolute', bottom: 50, right: 25,
+                    backgroundColor: "#DDDDDD", padding: 10,
+                    borderWidth: 0.5,
+                    borderColor: 'black',
+                    backgroundColor: '#56aed0',}}>
+                  <Text>Skip</Text>
+                </TouchableOpacity>
+              </View>
             )
         }
     }
@@ -163,3 +174,22 @@ export default function QuestionScreen(props) {
         </View>
     );
 }
+
+  /*<View style={styles.rowContainer}>
+    <TouchableOpacity
+        style={{position: 'absolute', bottom: 50, left: 25, alignItems: 'center',
+        backgroundColor: "#DDDDDD", padding: 10,
+        borderWidth: 0.5,
+        borderColor: 'black',
+        backgroundColor: '#56aed0',}}>
+      <Text style={{fontSize: 12}}>Previous</Text>
+    </TouchableOpacity>
+    <TouchableOpacity
+        style={{position: 'absolute', bottom: 50, right: 25,
+        backgroundColor: "#DDDDDD", padding: 10,
+        borderWidth: 0.5,
+        borderColor: 'black',
+        backgroundColor: '#56aed0',}}>
+      <Text>Skip</Text>
+    </TouchableOpacity>
+  </View>*/

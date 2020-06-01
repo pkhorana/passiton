@@ -107,7 +107,6 @@ export default StyleSheet.create({
       alignItems: 'center',
       backgroundColor: "#0099CC",
       marginTop: 30
-
     },
 
     cardText: {
@@ -116,4 +115,15 @@ export default StyleSheet.create({
       backgroundColor: "transparent",
       marginBottom: 50
     },
+
+    questionButtons: {
+      position: 'absolute',
+      bottom: 50,
+      left: 25,
+    },
+
+    quesetionContainer2: {
+      flex: 1,
+      flexDirection: 'row',
+    }
 });
