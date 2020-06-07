@@ -106,24 +106,15 @@ export default StyleSheet.create({
       borderColor: "#000000",
       alignItems: 'center',
       backgroundColor: "#0099CC",
-      marginTop: 30
+      marginTop: 30,
+      zIndex: 2,
     },
 
     cardText: {
       textAlign: "center",
       fontSize: 36,
       backgroundColor: "transparent",
-      marginBottom: 50
+      marginBottom: 50,
+      zIndex: 2
     },
-
-    questionButtons: {
-      position: 'absolute',
-      bottom: 50,
-      left: 25,
-    },
-
-    quesetionContainer2: {
-      flex: 1,
-      flexDirection: 'row',
-    }
 });
