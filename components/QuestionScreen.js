@@ -6,8 +6,6 @@ import {Icon} from 'native-base';
 import Swiper from 'react-native-deck-swiper';
 
 export default function QuestionScreen(props) {
-
-
     props.navigation.setOptions ( {
             title: 'Question',
             headerTitleAlign: 'center',
@@ -32,8 +30,6 @@ export default function QuestionScreen(props) {
     var keyArr = [];
     const [questionObj, setObj] = useState({});
     const {surveyKey} = props.route.params;
-
-
 
     const windowHeight = Dimensions.get('window').height;
     const usersRef = firebase.database().ref().child('users');
@@ -90,6 +86,14 @@ export default function QuestionScreen(props) {
                 response: 'down'
             }
         )
+    }
+
+    function previous() {
+        setIndex(index - 1);
+    }
+
+    function skip() {
+      setIndex(index + 1);
     }
 
     function swipingCards() {
@@ -162,7 +166,7 @@ export default function QuestionScreen(props) {
                 <TouchableOpacity
                     style={{position: 'absolute', bottom: 50, left: 25, zIndex: 3}}
                     hitSlop={{top: 50, bottom: 50, left: 50, right: 100}}
-                    onPressIn={() => console.log('clickedL')}>
+                    onPressIn={(() => console.log('previous()'))}>
                 </TouchableOpacity>
                 <Text
                     style={{position: 'absolute',
@@ -173,12 +177,11 @@ export default function QuestionScreen(props) {
                       borderWidth: 0.5,
                       borderColor: 'black',
                       backgroundColor: '#56aed0',
-                      zIndex: 1}}>
-                Skip</Text>
+                      zIndex: 1}}>Skip</Text>
                 <TouchableOpacity
                     style={{position: 'absolute', bottom: 50, right: 25, zIndex: 3}}
                     hitSlop={{top: 50, bottom: 50, left: 100, right: 50}}
-                    onPressIn={() => console.log('clickedR')}>
+                    onPressIn={(() => console.log('skip()'))}>
                 </TouchableOpacity>
               </View>
             )
@@ -187,7 +190,7 @@ export default function QuestionScreen(props) {
 
     return (
         <>
-            {swipingCards()}
+          {swipingCards()}
         </>
     );
 }
