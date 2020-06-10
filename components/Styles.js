@@ -108,6 +108,7 @@ export default StyleSheet.create({
       backgroundColor: "#0099CC",
       marginTop: 30,
       zIndex: 2,
+      elevation: 3
     },
 
     cardText: {
@@ -115,6 +116,7 @@ export default StyleSheet.create({
       fontSize: 36,
       backgroundColor: "transparent",
       marginBottom: 50,
-      zIndex: 2
+      zIndex: 2,
+      elevation: 3
     },
 });

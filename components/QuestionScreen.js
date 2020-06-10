@@ -107,7 +107,7 @@ export default function QuestionScreen(props) {
         if (questionArr.length != 0) {
             return (
               <View style={styles.questionContainer}>
-                <View style={{zIndex: 2, flex: 1, position: 'absolute'}}>
+                <View style={{zIndex: 2, elvation: 3, flex: 1, position: 'absolute'}}>
                 <Swiper
                     useViewOverflow={Platform.OS === 'ios'}
                     cards={questionArr}
@@ -119,10 +119,10 @@ export default function QuestionScreen(props) {
                             <ImageBackground
                                 source={card.image && {uri: card.image}}
                                 resizeMode={'stretch'}
-                                style={{width: 300, height: 450, marginTop: 20, zIndex: 2}}>
+                                style={{width: 300, height: 450, marginTop: 20, zIndex: 2, elevation: 3}}>
                             <View
                                 style={{position: 'absolute', top: 0, left: 0, right: 0, bottom: 0,
-                                        alignItems: 'center', zIndex: 2}}>
+                                        alignItems: 'center', zIndex: 2, elevation: 3}}>
                             <Text style={styles.cardText}>{card.text}</Text>
                             </View>
                             </ImageBackground>
@@ -162,9 +162,10 @@ export default function QuestionScreen(props) {
                       borderWidth: 0.5,
                       borderColor: 'black',
                       backgroundColor: '#56aed0',
-                      zIndex: 1}}>Previous</Text>
+                      zIndex: 1,
+                      elevation: 2}}>Previous</Text>
                 <TouchableOpacity
-                    style={{position: 'absolute', bottom: 50, left: 25, zIndex: 3}}
+                    style={{position: 'absolute', bottom: 50, left: 25, zIndex: 3, elevation: 4}}
                     hitSlop={{top: 50, bottom: 50, left: 50, right: 100}}
                     onPressIn={(() => console.log('previous()'))}>
                 </TouchableOpacity>
@@ -177,9 +178,10 @@ export default function QuestionScreen(props) {
                       borderWidth: 0.5,
                       borderColor: 'black',
                       backgroundColor: '#56aed0',
-                      zIndex: 1}}>Skip</Text>
+                      zIndex: 1,
+                      elevation: 2}}>Skip</Text>
                 <TouchableOpacity
-                    style={{position: 'absolute', bottom: 50, right: 25, zIndex: 3}}
+                    style={{position: 'absolute', bottom: 50, right: 25, zIndex: 3, elevation: 4}}
                     hitSlop={{top: 50, bottom: 50, left: 100, right: 50}}
                     onPressIn={(() => console.log('skip()'))}>
                 </TouchableOpacity>
