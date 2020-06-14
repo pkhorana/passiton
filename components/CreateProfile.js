@@ -3,6 +3,7 @@ import React, {useState, useEffect} from 'react';
 import { Item, Input, Label } from 'native-base';
 import {StyleSheet, Text, KeyboardAvoidingView, Platform, Button, View, TouchableOpacity,  ScrollView} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ModalSelector from 'react-native-modal-selector';
 import styles from './Styles';
 import * as firebase from 'firebase';
@@ -27,11 +28,9 @@ export default function CreateProfile(props) {
     } );
 
     const user = firebase.auth().currentUser;//Returns the current user from the database
-
-    const [show, setShow] = useState(false);
-    const [mode, setMode] = useState('userData.birthDate');
-
+    const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 70 : 0;
+
     //pulls the user information from firebase if the profile is complete
     useEffect(() => {
         usersRef.child(user.uid).once('value').then(function(snapshot) {
@@ -42,22 +41,23 @@ export default function CreateProfile(props) {
         });
       }, []);
 
-   //handles the user selecting a date for date of birth
-    const onChange = (event, selectedDate) => {
+    const showDatePicker = () => {
+        setDatePickerVisibility(true);
+    };
+
+    const hideDatePicker = () => {
+      setDatePickerVisibility(false);
+    };
+
+    //handles the user selecting a date for date of birth
+    const handleConfirm = (date) => {
+      if(userData.birthDate != null){
         var pickedDate = userData.birthDate;
-
-        const currentDate = selectedDate || pickedDate;
-        setShow(Platform.OS === 'ios');
-        setUserData(prevState => ({...prevState, birthDate: currentDate}));
-    };
-
-    const showMode = currentMode => {
-        setShow(true);
-        setMode(currentMode);
-    };
-
-    const showDatepicker = () => {
-        showMode('date');
+      }
+      var pickedDate = userData.birthDate;
+      const currentDate = date || pickedDate;
+      setUserData(prevState => ({...prevState, birthDate: currentDate}));
+      hideDatePicker();
     };
 
     //data used by modalSelector for gender
@@ -102,6 +102,8 @@ export default function CreateProfile(props) {
         }
     }
 
+    //checks if every field in the create profile screen has been filled
+    //if not, then user will be prompted to make necessary changes
     function checkParams() {
         for (var key in userData) {
             if (userData[key] == null || userData[key] == '') {
@@ -159,7 +161,6 @@ export default function CreateProfile(props) {
     <View style={styles.container}>
     <View style={styles.profileContainer}>
     <ScrollView >
-        {/* <Text style={styles.profileTitle}>Create Profile Here</Text> */}
         <View style={styles.smallShift}/>
 
         <Item floatingLabel>
@@ -190,29 +191,25 @@ export default function CreateProfile(props) {
             <Input
                 value = {readFromDB(userData.birthDate, null, true)}
                 editable={false}
-                maxLength={50}
             />
         </Item>
-        <Button onPress={showDatepicker} title="Show date picker!" />
+        <Button onPress={showDatePicker} title="Show date picker!" />
 
-        {show && (
-        <DateTimePicker
-        timeZoneOffsetInMinutes={0}
-        value={new Date(Date.parse(userData.birthDate))}
-        maximumDate={new Date(2021, 0, 0)}
-        minimumDate={new Date(1930, 12, 31)}
-        mode = {mode}
-        display="spinner"
-        textColor="white"
-        onChange={onChange}
-        />
-        )}
+        <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode={'date'}
+            onConfirm={handleConfirm}
+            onCancel={hideDatePicker}
+            maximumDate={new Date(2021, 0, 0)}
+            minimumDate={new Date(1930, 12, 31)}
+            headerTextIOS={"Select your birth date"}
+            timeZoneOffsetInMinutes={0}
+            date={new Date(Date.parse(userData.birthDate))}/>
 
         <Label style={{ color: "white", marginTop: 20}} > Gender</Label>
 
         <ModalSelector
                     data={genderData}
-                    // ref={selector => _selector = selector}
                     initValue= {modalGender()}
                     onChange={(option) => {
                         setUserData(prevState => ({...prevState, gender: option}))
@@ -263,7 +260,6 @@ export default function CreateProfile(props) {
                 maxLength={50}
             />
         </Item>
-
 
         <Label style={{ color: "white", marginTop: 20 }}> Race</Label>
         <ModalSelector

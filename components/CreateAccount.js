@@ -7,17 +7,27 @@ import EmailTextBox from './EmailTextBox';
 
 export default function CreateAccount(props) {
 
+  //variables used to keep track of the email and password
   const [userText, setUser] = useState('');
   const [passText, setPass] = useState('');
+
+  //a reference to the users table/json node in the firebase database
   const usersRef = firebase.database().ref().child('users');
 
+  //regexes used to inspect input character entered into email/password fields
   const minRegex = new RegExp("(?=.{6,})");
   const lalpha = new RegExp("(?=.*[a-z])");
   const ualpha = new RegExp("(?=.*[A-Z])");
   const num = new RegExp("(?=.*[0-9])");
   const special = new RegExp("(?=.*[!@#$%^&*])");
+
+  //used to associate sign in with google/sign in with facebook to the same account based on email
+  //all third party accounts from different apps link to one account if email is the same
   var pendingCred = null;
 
+  //creates account and sends verification email if no errors,
+  //otherwise, the email is either already in use, the email is invalid, etc.
+  //if third party account is blocking the account from being made, account linking should occur
   function handleSignup() {
       firebase
       .auth()
@@ -33,6 +43,7 @@ export default function CreateAccount(props) {
           alert('You must verify your email. Afterwards, you can login with your new account.');
       } )
       .catch(error => {
+        //account linking if needed
         if (error.code === 'auth/email-already-in-use') {
             handleExistingGoogleFB(error);
         }
@@ -47,8 +58,8 @@ export default function CreateAccount(props) {
 
   //if an account already exists with the same email, and the user tries to sign in with a different method
   function handleExistingGoogleFB(error) {
+    //cred with original attempted sign in method
     pendingCred = error.credential;
-    console.log(pendingCred);
     firebase.auth().fetchSignInMethodsForEmail(userText).then(function(methods) {
       if (methods != null) {
         if (methods[0] == 'google.com' || methods[0] == 'facebook.com') {
