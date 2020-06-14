@@ -4,6 +4,9 @@ import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
 import Swiper from 'react-native-deck-swiper';
+import { set } from 'react-native-reanimated';
+
+const swiperRef = React.createRef();
 
 export default function QuestionScreen(props) {
     props.navigation.setOptions ( {
@@ -24,10 +27,14 @@ export default function QuestionScreen(props) {
             )
     });
 
+    
+
     const [index, setIndex] = useState(0);
-    // var index = counter - 1;
+    const [backEnabled, setBack] = useState(false);
+    const [skipEnabled, setSkip] = useState(false);
     var questionArr = [];
     var keyArr = [];
+    const [disabled, setDisabled] = useState(false);
     const [questionObj, setObj] = useState({});
     const {surveyKey} = props.route.params;
 
@@ -48,26 +55,60 @@ export default function QuestionScreen(props) {
         return () => mounted = false;
     }, []);
 
+    useEffect(() => {
+        if (backEnabled == true) {
+            swiperRef.current.swipeLeft();
+        }
+    }, [backEnabled]);
+
+    useEffect(() => {
+        if (skipEnabled == true) {
+            swiperRef.current.swipeRight();
+        }
+    }, [skipEnabled]);
+
     const onSwiped = () => {
-        setIndex(index+1);
+        if (backEnabled == true) {
+            setIndex(index-1);
+        } else {
+            setIndex(index+1);
+        }
+        
+        console.log(index);
+       
     }
 
     const swipeLeft = () => {
-        surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
-            {
-                userid: user.uid,
-                response: 'left'
-            }
-        )
+        console.log(backEnabled);
+        if (backEnabled == false) {
+            surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
+                {
+                    userid: user.uid,
+                    response: 'left'
+                }
+            );
+        }
+        setBack(false);
+
+       
+        
+             
     }
 
     const swipeRight = () => {
-        surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
-            {
-                userid: user.uid,
-                response: 'right'
-            }
-        )
+        
+        if (skipEnabled == false) {
+            surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
+                {
+                    userid: user.uid,
+                    response: 'right'
+                }
+            );
+        }
+        setSkip(false);
+        
+      
+        
     }
 
     const swipeUp = () => {
@@ -76,7 +117,8 @@ export default function QuestionScreen(props) {
                 userid: user.uid,
                 response: 'up'
             }
-        )
+        );
+        
     }
 
     const swipeDown = () => {
@@ -85,21 +127,27 @@ export default function QuestionScreen(props) {
                 userid: user.uid,
                 response: 'down'
             }
-        )
+        );
+       
+       
     }
 
     function previous() {
-        setIndex(index - 1);
+        if (index > 0)
+            setBack(true);
+        
     }
 
     function skip() {
-      setIndex(index + 1);
+        if (index == questionArr.length-1) {
+            setDisabled(true);
+        }
+        setSkip(true);
     }
 
     function swipingCards() {
         if (questionObj != null) {
             for (var item in questionObj) {
-                console.log('a');
                 questionArr.push(questionObj[item]);
                 keyArr.push(item);
             }
@@ -107,12 +155,16 @@ export default function QuestionScreen(props) {
         if (questionArr.length != 0) {
             return (
               <View style={styles.questionContainer}>
-                <View style={{zIndex: 2, elvation: 3, flex: 1, position: 'absolute'}}>
+
+                {/* <View style={{zIndex: 2, elvation: 3, flex: 1, position: 'absolute'}}> */}
                 <Swiper
+                    ref = {swiperRef}
                     useViewOverflow={Platform.OS === 'ios'}
                     cards={questionArr}
+                    goBackToPreviousCardOnSwipeLeft = {backEnabled}
+                    showSecondCard = {false}
+                    // horizontalSwipe={backEnabled || skipEnabled}
                     renderCard={(card) => {
-
                       if(card.type == "C"){
                         return(
                         <View style={styles.card}>
@@ -152,7 +204,9 @@ export default function QuestionScreen(props) {
                     verticalThreshold = {windowHeight/15}
                     >
                 </Swiper>
-                </View>
+                {/* </View> */}
+
+
                 <Text
                     style={{position: 'absolute',
                       bottom: 50,
@@ -166,8 +220,9 @@ export default function QuestionScreen(props) {
                       elevation: 2}}>Previous</Text>
                 <TouchableOpacity
                     style={{position: 'absolute', bottom: 50, left: 25, zIndex: 3, elevation: 4}}
+                    disabled={index == 0}
                     hitSlop={{top: 50, bottom: 50, left: 50, right: 100}}
-                    onPressIn={(() => console.log('previous()'))}>
+                    onPress={() => previous()}>
                 </TouchableOpacity>
                 <Text
                     style={{position: 'absolute',
@@ -183,7 +238,8 @@ export default function QuestionScreen(props) {
                 <TouchableOpacity
                     style={{position: 'absolute', bottom: 50, right: 25, zIndex: 3, elevation: 4}}
                     hitSlop={{top: 50, bottom: 50, left: 100, right: 50}}
-                    onPressIn={(() => console.log('skip()'))}>
+                    disabled={disabled}
+                    onPress={() => skip()}>
                 </TouchableOpacity>
               </View>
             )
