@@ -20,14 +20,11 @@ export default function QuestionScreen(props) {
                 fontWeight: 'bold',
             },
             headerLeft: () => (
-
                 <Icon name="home" style = {{padding:10}} onPress={() => {
                         props.navigation.navigate('HomeScreen');
                     }}/>
             )
     });
-
-    
 
     const [index, setIndex] = useState(0);
     const [backEnabled, setBack] = useState(false);
@@ -73,9 +70,7 @@ export default function QuestionScreen(props) {
         } else {
             setIndex(index+1);
         }
-        
         console.log(index);
-       
     }
 
     const swipeLeft = () => {
@@ -89,14 +84,9 @@ export default function QuestionScreen(props) {
             );
         }
         setBack(false);
-
-       
-        
-             
     }
 
     const swipeRight = () => {
-        
         if (skipEnabled == false) {
             surveyRespRef.child(surveyKey).child(keyArr[index]).child(user.uid).update(
                 {
@@ -106,9 +96,6 @@ export default function QuestionScreen(props) {
             );
         }
         setSkip(false);
-        
-      
-        
     }
 
     const swipeUp = () => {
@@ -118,7 +105,6 @@ export default function QuestionScreen(props) {
                 response: 'up'
             }
         );
-        
     }
 
     const swipeDown = () => {
@@ -128,14 +114,11 @@ export default function QuestionScreen(props) {
                 response: 'down'
             }
         );
-       
-       
     }
 
     function previous() {
         if (index > 0)
             setBack(true);
-        
     }
 
     function skip() {
@@ -155,8 +138,6 @@ export default function QuestionScreen(props) {
         if (questionArr.length != 0) {
             return (
               <View style={styles.questionContainer}>
-
-                {/* <View style={{zIndex: 2, elvation: 3, flex: 1, position: 'absolute'}}> */}
                 <Swiper
                     ref = {swiperRef}
                     useViewOverflow={Platform.OS === 'ios'}
@@ -204,8 +185,6 @@ export default function QuestionScreen(props) {
                     verticalThreshold = {windowHeight/15}
                     >
                 </Swiper>
-                {/* </View> */}
-
 
                 <Text
                     style={{position: 'absolute',
