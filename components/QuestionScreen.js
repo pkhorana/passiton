@@ -59,17 +59,10 @@ export default function QuestionScreen(props) {
 
     useEffect(() => {
         if (skipEnabled == true) {
-            skippedCards();
-            console.log(skippedArr);
             swiperRef.current.swipeRight();
         }
     }, [skipEnabled]);
 
-    const skippedCards = () => {
-      if (skipEnabled == true){
-        skippedArr.push(index);
-      }
-    }
 
     const onSwiped = () => {
         if (backEnabled == true) {
