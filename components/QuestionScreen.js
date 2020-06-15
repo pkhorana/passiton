@@ -6,8 +6,6 @@ import {Icon} from 'native-base';
 import Swiper from 'react-native-deck-swiper';
 import { set } from 'react-native-reanimated';
 
-const swiperRef = React.createRef();
-
 export default function QuestionScreen(props) {
     props.navigation.setOptions ( {
             title: 'Question',
@@ -26,6 +24,7 @@ export default function QuestionScreen(props) {
             )
     });
 
+    const swiperRef = React.createRef();
     const [index, setIndex] = useState(0);
     const [backEnabled, setBack] = useState(false);
     const [skipEnabled, setSkip] = useState(false);
@@ -60,9 +59,17 @@ export default function QuestionScreen(props) {
 
     useEffect(() => {
         if (skipEnabled == true) {
+            skippedCards();
+            console.log(skippedArr);
             swiperRef.current.swipeRight();
         }
     }, [skipEnabled]);
+
+    const skippedCards = () => {
+      if (skipEnabled == true){
+        skippedArr.push(index);
+      }
+    }
 
     const onSwiped = () => {
         if (backEnabled == true) {
@@ -146,6 +153,7 @@ export default function QuestionScreen(props) {
                     showSecondCard = {false}
                     // horizontalSwipe={backEnabled || skipEnabled}
                     renderCard={(card) => {
+                      //handles questions where text is displayed on the image
                       if(card.type == "C"){
                         return(
                         <View style={styles.card}>
@@ -161,6 +169,7 @@ export default function QuestionScreen(props) {
                             </ImageBackground>
                         </View>
                     )} else {
+                      //handles all other questions where text and image are separated
                       return(
                         <View style={styles.card}>
                             <Text style={styles.cardText}>{card.text}</Text>

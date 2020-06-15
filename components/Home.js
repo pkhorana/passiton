@@ -28,11 +28,16 @@ export default function Home(props) {
     const usersRef = firebase.database().ref().child('users'); //reference to the user table in firebase
     const categoriesRef = firebase.database().ref().child('categories');
     const [fName, setFName] = useState('');
+    const [tutorialComplete, setTutorialComplete] = useState(false);
     const user = firebase.auth().currentUser; //gets current user
 
     //pulls the first name of the current user from firebase DB
     usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
         setFName(snapshot.val());
+    })
+
+    usersRef.child(user.uid).child('tutorialComplete').once('value').then(function(snapshot) {
+        setTutorialComplete(snapshot.val());
     })
 
     //Array of category names
@@ -64,9 +69,14 @@ export default function Home(props) {
                 <TouchableOpacity
                     key = {index}
                     style={styles.button}
-                    onPress={() => props.navigation.push('Question', {
-                        surveyKey: surveyKeys[index]
-                      })}>
+                    onPress={ () => {
+                        if(tutorialComplete == 'No'){
+                          props.navigation.push('Tutorial', {})
+                        } else {
+                          props.navigation.push('Question', {
+                            surveyKey: surveyKeys[index]
+                          })}
+                        }}>
                     <Image
                         source={{ uri: categoryImages[index] }}
                         resizeMode={'contain'}
@@ -88,13 +98,6 @@ export default function Home(props) {
               </View>
             }
         />
-
         </SafeAreaView>
     );
 }
-
-/*
-<TouchableOpacity onPress={()=>this.moveToAddNewCustomer()}>
-    <Image style={styles.imagestyle} source={require('./ic_action_name.png')} />
-</TouchableOpacity>
-*/
