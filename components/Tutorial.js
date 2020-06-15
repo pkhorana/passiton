@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Image, ImageBackground, Platform, Text, View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
+import {Image, Platform, Text, View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
