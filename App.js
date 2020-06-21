@@ -12,6 +12,7 @@ import CreateProfile from './components/CreateProfile';
 import Home from './components/Home';
 import ViewProfile from './components/ViewProfile';
 import QuestionScreen from './components/QuestionScreen';
+import FinishSurvey from './components/FinishSurvey';
 
 import * as firebase from 'firebase';
 import {firebaseConfig} from './config';
@@ -83,6 +84,7 @@ export default function App() {
         <MainStack.Screen name="CreateProfileScreen" component={CreateProfile} options={{title: 'Create Profile'}}/>
         <MainStack.Screen name="HomeScreen" component={DrawerNavigatorScreen} options={{headerShown: false}}/>
         <MainStack.Screen name="Question" component={QuestionScreen}/>
+        <MainStack.Screen name="Finish" component={FinishSurvey}/>
       </MainStack.Navigator>
     </NavigationContainer>
 

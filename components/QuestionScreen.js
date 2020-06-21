@@ -29,6 +29,10 @@ export default function QuestionScreen(props) {
     const [index, setIndex] = useState(0);
     const [backEnabled, setBack] = useState(false);
     const [skipEnabled, setSkip] = useState(false);
+    const [answeredQuestions, setAnswered] = useState(new Set());
+    const [skippedQuestions, setSkippedQ] = useState(new Set());
+    // const answeredQuestions = new Set();
+    // const skippedQuestions = new Set();
     var questionArr = [];
     var keyArr = [];
     const [disabled, setDisabled] = useState(false);
@@ -68,6 +72,10 @@ export default function QuestionScreen(props) {
         if (backEnabled == true) {
             setIndex(index-1);
         } else {
+            if (skipEnabled == false) {
+                setAnswered(prev => new Set(prev.add(index)));
+                setSkippedQ(prev => new Set([...prev].filter(x => x !== index)));
+            }
             setIndex(index+1);
         }
         console.log(index);
@@ -125,7 +133,11 @@ export default function QuestionScreen(props) {
         if (index == questionArr.length-1) {
             setDisabled(true);
         }
+        if (!answeredQuestions.has(index)) {
+            setSkippedQ(prev => new Set(prev.add(index)));
+        }
         setSkip(true);
+        
     }
 
     function swipingCards() {
@@ -176,7 +188,11 @@ export default function QuestionScreen(props) {
                     onSwipedRight={swipeRight}
                     onSwipedTop={swipeUp}
                     onSwipedBottom={swipeDown}
-                    onSwipedAll={() => {props.navigation.navigate("HomeScreen")}}
+                    onSwipedAll={() => {props.navigation.navigate("Finish", {
+                        surveyKey: surveyKey,
+                        answeredQuestions: answeredQuestions,
+                        skippedQuestions: skippedQuestions
+                    })}}
                     cardIndex={index}
                     backgroundColor={'#4FD0E9'}
                     stackSize = {questionArr.length}

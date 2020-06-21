@@ -1,9 +1,6 @@
 
 import React, {useState, useEffect} from 'react';
-import { Item, Input, Label } from 'native-base';
-import {StyleSheet, Text, Button, View, TouchableOpacity,  ScrollView} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import ModalSelector from 'react-native-modal-selector';
+import {Text, View, TouchableOpacity,  ScrollView} from 'react-native';
 import styles from './Styles';
 import {Icon} from 'native-base';
 import * as firebase from 'firebase';
