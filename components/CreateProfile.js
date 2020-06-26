@@ -25,6 +25,7 @@ export default function CreateProfile(props) {
         zipcode: '',
         race: '',
         profileComplete: 'Yes',
+        tutorialComplete: 'No',
     } );
 
     const user = firebase.auth().currentUser;//Returns the current user from the database
