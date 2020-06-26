@@ -28,12 +28,20 @@ export default function Home(props) {
     const usersRef = firebase.database().ref().child('users'); //reference to the user table in firebase
     const categoriesRef = firebase.database().ref().child('categories');
     const [fName, setFName] = useState('');
+    const [tutorialComplete, setTutorialComplete] = useState(false);
     const user = firebase.auth().currentUser; //gets current user
 
     //pulls the first name of the current user from firebase DB
     usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
         setFName(snapshot.val());
     })
+
+    useEffect(() => {
+      usersRef.child(user.uid).child('tutorialComplete').once('value').then(function(snapshot) {
+        setTutorialComplete(snapshot.val());
+      });
+    }, []);
+    
 
     //Array of category names
     const categoryNames = []; //array of cateogry names
@@ -44,6 +52,16 @@ export default function Home(props) {
         categoryNames.push(snapshot.val().name);
         categoryImages.push(snapshot.val().image);
     });
+
+    function update(tutorialComplete, ind) {
+      if(tutorialComplete == 'No'){
+        props.navigation.push('Tutorial', {})
+      } else {
+        props.navigation.push('Question', {
+          surveyKey: surveyKeys[ind]
+        })}
+      }
+    
 
     return (
       //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
@@ -64,9 +82,12 @@ export default function Home(props) {
                 <TouchableOpacity
                     key = {index}
                     style={styles.button}
-                    onPress={() => props.navigation.push('Question', {
-                        surveyKey: surveyKeys[index]
-                      })}>
+                    onPress={ () => {
+                      usersRef.child(user.uid).child('tutorialComplete').once('value').then(function(snapshot) {
+                        update(snapshot.val(), index)
+                      });
+                        
+                        }}>
                     <Image
                         source={{ uri: categoryImages[index] }}
                         resizeMode={'contain'}
@@ -88,13 +109,6 @@ export default function Home(props) {
               </View>
             }
         />
-
         </SafeAreaView>
     );
 }
-
-/*
-<TouchableOpacity onPress={()=>this.moveToAddNewCustomer()}>
-    <Image style={styles.imagestyle} source={require('./ic_action_name.png')} />
-</TouchableOpacity>
-*/

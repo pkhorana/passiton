@@ -4,9 +4,7 @@ import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
 import Swiper from 'react-native-deck-swiper';
-import { set } from 'react-native-reanimated';
 
-const swiperRef = React.createRef();
 
 export default function QuestionScreen(props) {
     props.navigation.setOptions ( {
@@ -26,9 +24,14 @@ export default function QuestionScreen(props) {
             )
     });
 
+    const swiperRef = React.createRef();
     const [index, setIndex] = useState(0);
     const [backEnabled, setBack] = useState(false);
     const [skipEnabled, setSkip] = useState(false);
+    const [answeredQuestions, setAnswered] = useState(new Set());
+    const [skippedQuestions, setSkippedQ] = useState(new Set());
+    // const answeredQuestions = new Set();
+    // const skippedQuestions = new Set();
     var questionArr = [];
     var keyArr = [];
     const [disabled, setDisabled] = useState(false);
@@ -64,10 +67,15 @@ export default function QuestionScreen(props) {
         }
     }, [skipEnabled]);
 
+
     const onSwiped = () => {
         if (backEnabled == true) {
             setIndex(index-1);
         } else {
+            if (skipEnabled == false) {
+                setAnswered(prev => new Set(prev.add(index)));
+                setSkippedQ(prev => new Set([...prev].filter(x => x !== index)));
+            }
             setIndex(index+1);
         }
         console.log(index);
@@ -125,7 +133,11 @@ export default function QuestionScreen(props) {
         if (index == questionArr.length-1) {
             setDisabled(true);
         }
+        if (!answeredQuestions.has(index)) {
+            setSkippedQ(prev => new Set(prev.add(index)));
+        }
         setSkip(true);
+        
     }
 
     function swipingCards() {
@@ -146,6 +158,7 @@ export default function QuestionScreen(props) {
                     showSecondCard = {false}
                     // horizontalSwipe={backEnabled || skipEnabled}
                     renderCard={(card) => {
+                      //handles questions where text is displayed on the image
                       if(card.type == "C"){
                         return(
                         <View style={styles.card}>
@@ -161,6 +174,7 @@ export default function QuestionScreen(props) {
                             </ImageBackground>
                         </View>
                     )} else {
+                      //handles all other questions where text and image are separated
                       return(
                         <View style={styles.card}>
                             <Text style={styles.cardText}>{card.text}</Text>
@@ -176,7 +190,11 @@ export default function QuestionScreen(props) {
                     onSwipedRight={swipeRight}
                     onSwipedTop={swipeUp}
                     onSwipedBottom={swipeDown}
-                    onSwipedAll={() => {props.navigation.navigate("HomeScreen")}}
+                    onSwipedAll={() => {props.navigation.navigate("Finish", {
+                        surveyKey: surveyKey,
+                        answeredQuestions: answeredQuestions,
+                        skippedQuestions: skippedQuestions
+                    })}}
                     cardIndex={index}
                     backgroundColor={'#4FD0E9'}
                     stackSize = {questionArr.length}

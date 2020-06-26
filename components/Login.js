@@ -84,7 +84,6 @@ export default function Login(props) {
     myRef.set(data);
   }
 
-
   //an asynchronous (code block doesnt wait on it) function that handles google sign in
   async function signInWithGoogleAsync() {
     try {
@@ -106,7 +105,6 @@ export default function Login(props) {
         return { error: true };
     }
   }
-
 
   //uses google sign in credential for app sign in
   function onSignIn(googleUser) {
@@ -228,8 +226,3 @@ export default function Login(props) {
     </KeyboardAvoidingView>
   );
 }
-
-/*<TouchableOpacity style={styles.button}
-    onPress={() => fblogIn()}>
-    <Text>LOGIN WITH FACEBOOK</Text>
-</TouchableOpacity>*/
