@@ -37,9 +37,13 @@ export default function Home(props) {
     })
 
     useEffect(() => {
-      usersRef.child(user.uid).child('tutorialComplete').once('value').then(function(snapshot) {
-        setTutorialComplete(snapshot.val());
-      });
+      let mounted = true;
+      if (mounted) {
+          usersRef.child(user.uid).child('tutorialComplete').once('value').then(function(snapshot) {
+            setTutorialComplete(snapshot.val());
+          });
+          return () => mounted = false;
+      }
     }, []);
     
 

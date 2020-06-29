@@ -34,12 +34,17 @@ export default function CreateProfile(props) {
 
     //pulls the user information from firebase if the profile is complete
     useEffect(() => {
-        usersRef.child(user.uid).once('value').then(function(snapshot) {
-        var obj = snapshot.val();
-        if (obj.profileComplete == 'Yes') {
-            setUserData(obj);
+        let mounted = true;
+        if (mounted == true) {
+            usersRef.child(user.uid).once('value').then(function(snapshot) {
+                var obj = snapshot.val();
+                if (obj != null && obj.profileComplete == 'Yes') {
+                    setUserData(obj);
+                }
+            });
+            return () => mounted = false;
         }
-        });
+        
       }, []);
 
     const showDatePicker = () => {
@@ -57,8 +62,10 @@ export default function CreateProfile(props) {
       }
       var pickedDate = userData.birthDate;
       const currentDate = date || pickedDate;
-      setUserData(prevState => ({...prevState, birthDate: currentDate}));
       hideDatePicker();
+      setUserData(prevState => ({...prevState, birthDate: currentDate}));
+      
+
     };
 
     //data used by modalSelector for gender
