@@ -4,10 +4,10 @@ import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
 
-export default function Home(props) {
+export default function SurveysScreen(props) {
 
     props.navigation.setOptions ( {
-            title: 'Home',
+            title: 'Surveys',
             headerTitleAlign: 'center',
             headerStyle: {
                 backgroundColor: '#4169e1',
@@ -17,9 +17,8 @@ export default function Home(props) {
                 fontWeight: 'bold',
             },
             headerLeft: () => (
-
-                <Icon name="menu" style = {{padding:10}} onPress={() => {
-                        props.navigation.toggleDrawer();
+                <Icon name="home" style = {{padding:10}} onPress={() => {
+                        props.navigation.navigate('HomeScreen');
                     }}/>
             )
     });
@@ -30,6 +29,9 @@ export default function Home(props) {
     const [fName, setFName] = useState('');
     const [tutorialComplete, setTutorialComplete] = useState(false);
     const user = firebase.auth().currentUser; //gets current user
+
+
+    const {surveyObj} = props.route.params;
 
     //pulls the first name of the current user from firebase DB
     usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
@@ -47,24 +49,20 @@ export default function Home(props) {
     }, []);
     
 
-    //Array of category names
-    const categoryNames = []; //array of cateogry names
-    const categoryImages = []; //array of image locations. Use a .png file in firebase if the image is blank in the app
-    const surveyObjs = [];
-    categoriesRef.orderByChild("name").on("child_added", function(snapshot) {
-        surveyObjs.push(snapshot.val().Surveys);
-        categoryNames.push(snapshot.val().name);
-        categoryImages.push(snapshot.val().image);
-    });
+    const surveyNames = []; //names of surveys
 
-    function update(tutorialComplete, ind) {
-      if(tutorialComplete == 'No'){
-        props.navigation.push('Tutorial', {})
-      } else {
-        props.navigation.push('Surveys', {
-          surveyObj: surveyObjs[ind]
-        })}
-        console.log(surveyObjs[ind])
+    for (var key in surveyObj) {
+        if (surveyObj.hasOwnProperty(key)) {
+            surveyNames.push(surveyObj[key]);
+        }
+    }
+    
+
+    function update(ind) {
+        props.navigation.push('Question', {
+          surveyKey: surveyNames[ind]
+        })
+        console.log(surveyNames[ind])
     }
     
 
@@ -76,27 +74,21 @@ export default function Home(props) {
           <>
             <View style={styles.container}>
             <View style={styles.buttonContainer}>
-            <Text style={styles.introMessage}>Welcome to the Home Screen, {fName}!</Text>
+            <Text style={styles.introMessage}>Choose from the following surveys!</Text>
             </View>
             </View>
           </>
         }
-            data={categoryNames}
+            data={surveyNames}
             renderItem={({item, index}) => (
               <View style={styles.container}>
                 <TouchableOpacity
                     key = {index}
                     style={styles.button}
                     onPress={ () => {
-                      usersRef.child(user.uid).child('tutorialComplete').once('value').then(function(snapshot) {
-                        update(snapshot.val(), index)
-                      });
+                        update(index)
                         
                         }}>
-                    <Image
-                        source={{ uri: categoryImages[index] }}
-                        resizeMode={'contain'}
-                        style={{width: 125, height: 125, marginBottom: 5}}/>
                     <Text style={styles.homeScreenText}>
                         {item}</Text>
                 </TouchableOpacity>
