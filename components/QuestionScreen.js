@@ -244,6 +244,9 @@ export default function QuestionScreen(props) {
     }
 
     return (
+        // <View style={styles.container}>
+        //     <Text>abx</Text>
+        // </View>
         <>
           {swipingCards()}
         </>

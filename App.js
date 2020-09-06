@@ -14,6 +14,7 @@ import ViewProfile from './components/ViewProfile';
 import QuestionScreen from './components/QuestionScreen';
 import FinishSurvey from './components/FinishSurvey';
 import Tutorial from './components/Tutorial';
+import SurveysScreen from './components/SurveysScreen';
 
 
 import * as firebase from 'firebase';
@@ -85,6 +86,7 @@ export default function App() {
         <MainStack.Screen name="ForgotPasswordScreen" component={ForgotPassword} options={{title: 'Forgot Password'}}/>
         <MainStack.Screen name="CreateProfileScreen" component={CreateProfile} options={{title: 'Create Profile'}}/>
         <MainStack.Screen name="HomeScreen" component={DrawerNavigatorScreen} options={{headerShown: false}}/>
+        <MainStack.Screen name="Surveys" component={SurveysScreen}/>
         <MainStack.Screen name="Question" component={QuestionScreen}/>
         <MainStack.Screen name="Finish" component={FinishSurvey}/>
         <MainStack.Screen name="Tutorial" component={Tutorial}/>
