@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Text, View, Image, FlatList, SafeAreaView, TouchableOpacity, ScrollView} from 'react-native';
+import {Image, Text, View, FlatList, SafeAreaView, StyleSheet, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
@@ -29,9 +29,9 @@ export default function SurveysScreen(props) {
     const [fName, setFName] = useState('');
     const [tutorialComplete, setTutorialComplete] = useState(false);
     const user = firebase.auth().currentUser; //gets current user
-
-
     const {surveyObj} = props.route.params;
+
+    const surveysRef = firebase.database().ref().child('surveys');
 
     //pulls the first name of the current user from firebase DB
     usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
@@ -47,25 +47,34 @@ export default function SurveysScreen(props) {
           return () => mounted = false;
       }
     }, []);
-    
 
     const surveyNames = []; //names of surveys
+    const surveyImages = []; //images of surveys
 
     for (var key in surveyObj) {
         if (surveyObj.hasOwnProperty(key)) {
             surveyNames.push(surveyObj[key]);
         }
     }
-    
+
+      for (var i in surveyNames) {
+      //  console.log(surveyNames[i]);
+        surveysRef.child(surveyNames[i]).once('value', function(snapshot) {
+            surveyImages.push(snapshot.val().icon);
+        });
+      }
+
+      setTimeout(function(){
+        console.log(surveyImages);
+      }, 1000)
 
     function update(ind) {
         props.navigation.push('Question', {
           surveyKey: surveyNames[ind]
         })
-        console.log(surveyNames[ind])
-    }
-    
+        console.log(surveyNames[ind]);
 
+    }
     return (
       //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
       <SafeAreaView style={styles.container}>
@@ -87,8 +96,11 @@ export default function SurveysScreen(props) {
                     style={styles.button}
                     onPress={ () => {
                         update(index)
-                        
                         }}>
+                    <Image
+                        source={{ uri: surveyImages[index] }}
+                        resizeMode={'contain'}
+                        style={{width: 125, height: 125, marginBottom: 5}}/>
                     <Text style={styles.homeScreenText}>
                         {item}</Text>
                 </TouchableOpacity>
