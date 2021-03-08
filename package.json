@@ -14,7 +14,7 @@
     "@react-navigation/drawer": "^5.7.7",
     "@react-navigation/native": "^5.4.2",
     "@react-navigation/stack": "^5.3.9",
-    "expo": "^37.0.0",
+    "expo": "^37.0.12",
     "expo-facebook": "~8.1.0",
     "expo-firebase-auth": "^2.0.0",
     "expo-google-app-auth": "^8.1.0",
