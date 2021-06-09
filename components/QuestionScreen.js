@@ -7,22 +7,7 @@ import Swiper from 'react-native-deck-swiper';
 
 
 export default function QuestionScreen(props) {
-    props.navigation.setOptions ( {
-            title: 'Question',
-            headerTitleAlign: 'center',
-            headerStyle: {
-                backgroundColor: '#4169e1',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-            headerLeft: () => (
-                <Icon name="home" style = {{padding:10}} onPress={() => {
-                        props.navigation.navigate('HomeScreen');
-                    }}/>
-            )
-    });
+    
 
     const swiperRef = React.createRef();
     const [index, setIndex] = useState(0);
@@ -46,6 +31,23 @@ export default function QuestionScreen(props) {
     const userRespRef = firebase.database().ref().child('userresponses')
 
     useEffect(() => {
+        props.navigation.setOptions ( {
+            title: 'Question',
+            headerTitleAlign: 'center',
+            headerStyle: {
+                backgroundColor: '#4169e1',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: () => (
+                <Icon name="home" style = {{padding:10}} onPress={() => {
+                        props.navigation.navigate('HomeScreen');
+                    }}/>
+            )
+        });
+
         let mounted = true;
         if (mounted) {
             surveysRef.child(surveyKey).once('value', function(snapshot) {

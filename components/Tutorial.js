@@ -7,23 +7,7 @@ import Swiper from 'react-native-deck-swiper';
 import { set } from 'react-native-reanimated';
 
 export default function TutorialScreen(props) {
-    props.navigation.setOptions ( {
-            title: 'Tutorial',
-            headerTitleAlign: 'center',
-            headerStyle: {
-                backgroundColor: '#4169e1',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-            headerLeft: () => (
-                <Icon name="home" style = {{padding:10}} onPress={() => {
-                        props.navigation.navigate('HomeScreen');
-                    }}/>
-            )
-    });
-
+    
     const swiperRef = React.createRef();
     const [index, setIndex] = useState(0);
     var questionArr = [];
@@ -42,7 +26,30 @@ export default function TutorialScreen(props) {
     const [down, setDown] = useState(true);
     const [right, setRight] = useState(true);
 
+
     useEffect(() => {
+        props.navigation.setOptions ( {
+          title: 'Tutorial',
+          headerTitleAlign: 'center',
+          headerStyle: {
+              backgroundColor: '#4169e1',
+          },
+          headerTintColor: '#fff',
+          headerTitleStyle: {
+              fontWeight: 'bold',
+          },
+          headerLeft: () => (
+              <Icon name="home" style = {{padding:10}} onPress={() => {
+                      props.navigation.navigate('HomeScreen');
+                  }}/>
+          )
+        });
+    }, []);
+
+
+    useEffect(() => {
+
+
       if (index == 0) {
         setUp(false);
       }
