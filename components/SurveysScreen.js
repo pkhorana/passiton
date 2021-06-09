@@ -6,22 +6,6 @@ import {Icon} from 'native-base';
 
 export default function SurveysScreen(props) {
 
-    props.navigation.setOptions ( {
-            title: 'Surveys',
-            headerTitleAlign: 'center',
-            headerStyle: {
-                backgroundColor: '#4169e1',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-            headerLeft: () => (
-                <Icon name="home" style = {{padding:10}} onPress={() => {
-                        props.navigation.navigate('HomeScreen');
-                    }}/>
-            )
-    });
 
     const [currUser, setCurrUser] = useState(null);
     const usersRef = firebase.database().ref().child('users'); //reference to the user table in firebase
@@ -39,8 +23,27 @@ export default function SurveysScreen(props) {
     })
 
     useEffect(() => {
+      props.navigation.setOptions ( {
+        title: 'Surveys',
+        headerTitleAlign: 'center',
+        headerStyle: {
+            backgroundColor: '#4169e1',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+        headerLeft: () => (
+            <Icon name="home" style = {{padding:10}} onPress={() => {
+                    props.navigation.navigate('HomeScreen');
+                }}/>
+        )
+      });
+
       let mounted = true;
       if (mounted) {
+
+           
           usersRef.child(user.uid).child('tutorialComplete').once('value').then(function(snapshot) {
             setTutorialComplete(snapshot.val());
           });

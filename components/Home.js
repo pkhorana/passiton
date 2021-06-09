@@ -6,23 +6,6 @@ import {Icon} from 'native-base';
 
 export default function Home(props) {
 
-    props.navigation.setOptions ( {
-            title: 'Home',
-            headerTitleAlign: 'center',
-            headerStyle: {
-                backgroundColor: '#4169e1',
-            },
-            headerTintColor: '#fff',
-            headerTitleStyle: {
-                fontWeight: 'bold',
-            },
-            headerLeft: () => (
-
-                <Icon name="menu" style = {{padding:10}} onPress={() => {
-                        props.navigation.toggleDrawer();
-                    }}/>
-            )
-    });
 
     const [currUser, setCurrUser] = useState(null);
     const usersRef = firebase.database().ref().child('users'); //reference to the user table in firebase
@@ -32,9 +15,32 @@ export default function Home(props) {
     const user = firebase.auth().currentUser; //gets current user
 
     //pulls the first name of the current user from firebase DB
-    usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
+    
+
+    useEffect(() => {
+      props.navigation.setOptions ( {
+        title: 'Home',
+        headerTitleAlign: 'center',
+        headerStyle: {
+            backgroundColor: '#4169e1',
+        },
+        headerTintColor: '#fff',
+        headerTitleStyle: {
+            fontWeight: 'bold',
+        },
+        headerLeft: () => (
+
+            <Icon name="menu" style = {{padding:10}} onPress={() => {
+                    props.navigation.toggleDrawer();
+                }}/>
+        )
+      });
+
+      usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
         setFName(snapshot.val());
-    })
+      });
+    }, [])
+    
 
     useEffect(() => {
       let mounted = true;
@@ -44,7 +50,7 @@ export default function Home(props) {
           });
           return () => mounted = false;
       }
-    }, []);
+    }, [tutorialComplete]);
     
 
     //Array of category names

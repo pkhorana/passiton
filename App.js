@@ -19,7 +19,9 @@ import SurveysScreen from './components/SurveysScreen';
 
 import * as firebase from 'firebase';
 import {firebaseConfig} from './config';
+import { LogBox } from 'react-native';
 
+LogBox.ignoreLogs(['Setting a timer']);
 
 
 firebase.initializeApp(firebaseConfig);
