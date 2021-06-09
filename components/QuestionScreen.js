@@ -53,8 +53,14 @@ export default function QuestionScreen(props) {
             surveysRef.child(surveyKey).once('value', function(snapshot) {
                 setObj(snapshot.val());
             });
+
+
+            
         }
         return () => mounted = false;
+
+
+
     }, []);
 
     useEffect(() => {
@@ -144,10 +150,15 @@ export default function QuestionScreen(props) {
 
     function swipingCards() {
         if (questionObj != null) {
+            
             for (var item in questionObj) {
+                if (item == "icon")
+                    continue;
                 questionArr.push(questionObj[item]);
                 keyArr.push(item);
             }
+
+            console.log(questionObj)
         }
         if (questionArr.length != 0) {
             return (
