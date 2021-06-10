@@ -154,6 +154,8 @@ export default function QuestionScreen(props) {
             for (var item in questionObj) {
                 if (item == "icon")
                     continue;
+                if (item == "name")
+                    continue;
                 questionArr.push(questionObj[item]);
                 keyArr.push(item);
             }

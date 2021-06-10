@@ -7,22 +7,7 @@ import * as firebase from 'firebase';
 
 export default function ViewProfile(props) {
 
-    props.navigation.setOptions ( {
-        title: 'Profile',
-        headerTitleAlign: 'center',
-        headerStyle: {
-            backgroundColor: '#4169e1',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-            fontWeight: 'bold',
-        },
-        headerLeft: () => (
-            <Icon name="menu" style = {{padding:10}} onPress={() => {
-                    props.navigation.toggleDrawer();
-                }}/>
-        )
-    });
+    
 
     const firebaseAuth = firebase.auth();
     const usersRef = firebase.database().ref().child('users'); //reference to the users table
@@ -41,23 +26,42 @@ export default function ViewProfile(props) {
 
     //pulls the data from firebase regarding the current user
     useEffect(() => {
-            let mounted = true;
-            if (mounted) {
-                uidRef.on('value', function(snapshot) {
 
-                    setFName(snapshot.child("fName").val());
-                    setLName(snapshot.child("lName").val());
-                    setBirthDate(snapshot.child("birthDate").val());
-                    setGender(snapshot.child("gender").val());
-                    setCountry(snapshot.child("country").val());
-                    setState(snapshot.child("state").val());
-                    setCity(snapshot.child("city").val());
-                    setZipcode(snapshot.child("zipcode").val());
-                    setRace(snapshot.child("race").val());
-                });
-                }
-                return () => mounted = false;
-            }, []);
+
+        props.navigation.setOptions ( {
+            title: 'Profile',
+            headerTitleAlign: 'center',
+            headerStyle: {
+                backgroundColor: '#4169e1',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                fontWeight: 'bold',
+            },
+            headerLeft: () => (
+                <Icon name="menu" style = {{padding:10}} onPress={() => {
+                        props.navigation.toggleDrawer();
+                    }}/>
+            )
+        });
+
+        let mounted = true;
+        if (mounted) {
+            uidRef.on('value', function(snapshot) {
+
+                setFName(snapshot.child("fName").val());
+                setLName(snapshot.child("lName").val());
+                setBirthDate(snapshot.child("birthDate").val());
+                setGender(snapshot.child("gender").val());
+                setCountry(snapshot.child("country").val());
+                setState(snapshot.child("state").val());
+                setCity(snapshot.child("city").val());
+                setZipcode(snapshot.child("zipcode").val());
+                setRace(snapshot.child("race").val());
+            });
+            }
+            return () => mounted = false;
+        }, []);
 
         //removes time from date and changes it to be 'MM-DD-YYYY' format
         function convertDate(){
