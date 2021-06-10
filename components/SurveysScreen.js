@@ -13,16 +13,35 @@ export default function SurveysScreen(props) {
     const [fName, setFName] = useState('');
     const [tutorialComplete, setTutorialComplete] = useState(false);
     const user = firebase.auth().currentUser; //gets current user
-
+    const surveyRef = firebase.database().ref().child('surveys');
+    
 
     const {surveyObj} = props.route.params;
+    
+    const [surveyImages, setSurveyImages] = useState([]);
+    const [surveyNames, setSurveyNames] = useState([]);
+    const [surveyRefs, setSurveyRefs] = useState([]);
 
-    //pulls the first name of the current user from firebase DB
-    usersRef.child(user.uid).child('fName').once('value').then(function(snapshot) {
-        setFName(snapshot.val());
-    })
+    
 
     useEffect(() => {
+      //pulls the first name of the current user from firebase DB
+      for (var key in surveyObj) {
+        if (surveyObj.hasOwnProperty(key)) {
+            //setSurveyRefs([...surveyRefs, surveyObj[key]]);
+            surveyRefs.push(surveyObj[key]);
+        }
+      }
+  
+      for (var i in surveyRefs) {
+        console.log(surveyRefs[i]);
+        surveyRef.child(surveyRefs[i]).once('value', function(snapshot) {
+            console.log(snapshot.val().icon);
+            surveyNames.push(snapshot.val().name);
+            surveyImages.push(snapshot.val().icon);
+        });
+      }
+
       props.navigation.setOptions ( {
         title: 'Surveys',
         headerTitleAlign: 'center',
@@ -35,6 +54,7 @@ export default function SurveysScreen(props) {
         },
         headerLeft: () => (
             <Icon name="home" style = {{padding:10}} onPress={() => {
+                    console.log(surveyImages);
                     props.navigation.navigate('HomeScreen');
                 }}/>
         )
@@ -50,20 +70,30 @@ export default function SurveysScreen(props) {
           return () => mounted = false;
       }
     }, []);
+
+
     
 
-    const surveyNames = []; //names of surveys
+    console.log(surveyImages);
+    console.log(surveyNames);
 
-    for (var key in surveyObj) {
-        if (surveyObj.hasOwnProperty(key)) {
-            surveyNames.push(surveyObj[key]);
-        }
-    }
+
+    // console.log(surveyRefs);
+
+
+    
+
+  
+
+
+    
+
+    
     
 
     function update(ind) {
         props.navigation.push('Question', {
-          surveyKey: surveyNames[ind]
+          surveyKey: surveyRefs[ind]
         })
         console.log(surveyNames[ind])
     }
@@ -92,6 +122,10 @@ export default function SurveysScreen(props) {
                         update(index)
                         
                         }}>
+                    <Image
+                        source={{ uri: surveyImages[index] }}
+                        resizeMode={'contain'}
+                        style={{width: 125, height: 125, marginBottom: 5}}/>
                     <Text style={styles.homeScreenText}>
                         {item}</Text>
                 </TouchableOpacity>
