@@ -6,42 +6,17 @@ import {Icon} from 'native-base';
 
 export default function SurveysScreen(props) {
 
-
-    const [currUser, setCurrUser] = useState(null);
     const usersRef = firebase.database().ref().child('users'); //reference to the user table in firebase
-    const categoriesRef = firebase.database().ref().child('categories');
-    const [fName, setFName] = useState('');
-    const [tutorialComplete, setTutorialComplete] = useState(false);
+    const [, setTutorialComplete] = useState(false);
     const user = firebase.auth().currentUser; //gets current user
     const surveyRef = firebase.database().ref().child('surveys');
-    
-
     const {surveyObj} = props.route.params;
-    
-    const [surveyImages, setSurveyImages] = useState([]);
-    const [surveyNames, setSurveyNames] = useState([]);
-    const [surveyRefs, setSurveyRefs] = useState([]);
-
-    
+    const [surveyImages, ] = useState([]);
+    const [surveyNames, ] = useState([]);
+    const [surveyRefs, ] = useState([]);
+    const [count, setCount] = useState(0);
 
     useEffect(() => {
-      //pulls the first name of the current user from firebase DB
-      for (var key in surveyObj) {
-        if (surveyObj.hasOwnProperty(key)) {
-            //setSurveyRefs([...surveyRefs, surveyObj[key]]);
-            surveyRefs.push(surveyObj[key]);
-        }
-      }
-  
-      for (var i in surveyRefs) {
-        console.log(surveyRefs[i]);
-        surveyRef.child(surveyRefs[i]).once('value', function(snapshot) {
-            console.log(snapshot.val().icon);
-            surveyNames.push(snapshot.val().name);
-            surveyImages.push(snapshot.val().icon);
-        });
-      }
-
       props.navigation.setOptions ( {
         title: 'Surveys',
         headerTitleAlign: 'center',
@@ -61,9 +36,7 @@ export default function SurveysScreen(props) {
       });
 
       let mounted = true;
-      if (mounted) {
-
-           
+      if (mounted) {   
           usersRef.child(user.uid).child('tutorialComplete').once('value').then(function(snapshot) {
             setTutorialComplete(snapshot.val());
           });
@@ -71,25 +44,24 @@ export default function SurveysScreen(props) {
       }
     }, []);
 
+    for (var key in surveyObj) {
+      if (surveyObj.hasOwnProperty(key)) {
+          //setSurveyRefs([...surveyRefs, surveyObj[key]]);
+          surveyRefs.push(surveyObj[key]);
+      }
+    }
 
-    
-
-    console.log(surveyImages);
-    console.log(surveyNames);
-
-
-    // console.log(surveyRefs);
-
-
-    
-
-  
-
-
-    
-
-    
-    
+    if(count == 0){
+      //finds the surveys and survey images for each survey within the selected category
+      for (var i in surveyRefs) {
+        console.log(surveyRefs[i]);
+        surveyRef.child(surveyRefs[i]).once('value', function(snapshot) {
+            surveyNames.push(snapshot.val().name);
+            surveyImages.push(snapshot.val().icon);
+        });
+      }
+      setCount(count + 1); //stops duplicate surveys from appearing
+    }
 
     function update(ind) {
         props.navigation.push('Question', {
@@ -98,7 +70,6 @@ export default function SurveysScreen(props) {
         console.log(surveyNames[ind])
     }
     
-
     return (
       //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
       <SafeAreaView style={styles.container}>

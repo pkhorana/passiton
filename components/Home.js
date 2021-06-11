@@ -70,7 +70,7 @@ export default function Home(props) {
         props.navigation.push('Surveys', {
           surveyObj: surveyObjs[ind]
         })}
-        console.log(surveyObjs[ind])
+        //console.log(surveyObjs[ind])
     }
     
 
