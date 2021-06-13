@@ -7,8 +7,6 @@ import * as firebase from 'firebase';
 
 export default function ViewProfile(props) {
 
-    
-
     const firebaseAuth = firebase.auth();
     const usersRef = firebase.database().ref().child('users'); //reference to the users table
     const uidRef = usersRef.child(firebaseAuth.currentUser.uid); //reference to the user id of the current user
@@ -26,9 +24,7 @@ export default function ViewProfile(props) {
 
     //pulls the data from firebase regarding the current user
     useEffect(() => {
-
-
-        props.navigation.setOptions ( {
+        props.navigation.setOptions ({
             title: 'Profile',
             headerTitleAlign: 'center',
             headerStyle: {
@@ -48,7 +44,6 @@ export default function ViewProfile(props) {
         let mounted = true;
         if (mounted) {
             uidRef.on('value', function(snapshot) {
-
                 setFName(snapshot.child("fName").val());
                 setLName(snapshot.child("lName").val());
                 setBirthDate(snapshot.child("birthDate").val());
@@ -61,7 +56,7 @@ export default function ViewProfile(props) {
             });
             }
             return () => mounted = false;
-        }, []);
+    }, []);
 
         //removes time from date and changes it to be 'MM-DD-YYYY' format
         function convertDate(){
@@ -74,7 +69,7 @@ export default function ViewProfile(props) {
             } else {
                 return null;
             }
-          }
+        }
 
   return (
     <View style={styles.container}>
