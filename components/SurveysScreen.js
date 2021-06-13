@@ -17,6 +17,30 @@ export default function SurveysScreen(props) {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
+
+      //pulls the first name of the current user from firebase DB
+      for (var key in surveyObj) {
+        if (surveyObj.hasOwnProperty(key)) {
+            //setSurveyRefs([...surveyRefs, surveyObj[key]]);
+            surveyRefs.push(surveyObj[key]);
+        }
+      }
+  
+      for (var i in surveyRefs) {
+        console.log(surveyRefs[i]);
+        // names = []
+        // images = []
+        surveyRef.child(surveyRefs[i]).on('value', function(snapshot) {
+            console.log(snapshot.val().icon);
+            surveyNames.push(snapshot.val().name);
+            surveyImages.push(snapshot.val().icon);
+        });
+      }
+
+      
+      
+
+
       props.navigation.setOptions ( {
         title: 'Surveys',
         headerTitleAlign: 'center',
@@ -51,17 +75,17 @@ export default function SurveysScreen(props) {
       }
     }
 
-    if(count == 0){
-      //finds the surveys and survey images for each survey within the selected category
-      for (var i in surveyRefs) {
-        console.log(surveyRefs[i]);
-        surveyRef.child(surveyRefs[i]).once('value', function(snapshot) {
-            surveyNames.push(snapshot.val().name);
-            surveyImages.push(snapshot.val().icon);
-        });
-      }
-      setCount(count + 1); //stops duplicate surveys from appearing
-    }
+//     if(count == 0){
+//       //finds the surveys and survey images for each survey within the selected category
+//       for (var i in surveyRefs) {
+//         console.log(surveyRefs[i]);
+//         surveyRef.child(surveyRefs[i]).once('value', function(snapshot) {
+//             surveyNames.push(snapshot.val().name);
+//             surveyImages.push(snapshot.val().icon);
+//         });
+//       }
+//       setCount(count + 1); //stops duplicate surveys from appearing
+//     }
 
     function update(ind) {
         props.navigation.push('Question', {
