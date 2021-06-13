@@ -35,12 +35,17 @@ export default function SurveysScreen(props) {
   
       for (var i in surveyRefs) {
         console.log(surveyRefs[i]);
-        surveyRef.child(surveyRefs[i]).once('value', function(snapshot) {
+        // names = []
+        // images = []
+        surveyRef.child(surveyRefs[i]).on('value', function(snapshot) {
             console.log(snapshot.val().icon);
             surveyNames.push(snapshot.val().name);
             surveyImages.push(snapshot.val().icon);
         });
       }
+
+      
+      
 
       props.navigation.setOptions ( {
         title: 'Surveys',
