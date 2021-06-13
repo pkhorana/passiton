@@ -68,12 +68,12 @@ export default function SurveysScreen(props) {
       }
     }, []);
 
-    for (var key in surveyObj) {
-      if (surveyObj.hasOwnProperty(key)) {
-          //setSurveyRefs([...surveyRefs, surveyObj[key]]);
-          surveyRefs.push(surveyObj[key]);
-      }
-    }
+    // for (var key in surveyObj) {
+    //   if (surveyObj.hasOwnProperty(key)) {
+    //       //setSurveyRefs([...surveyRefs, surveyObj[key]]);
+    //       surveyRefs.push(surveyObj[key]);
+    //   }
+    // }
 
 //     if(count == 0){
 //       //finds the surveys and survey images for each survey within the selected category
