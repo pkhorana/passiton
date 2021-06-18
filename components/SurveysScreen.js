@@ -3,6 +3,7 @@ import {Text, View, Image, FlatList, SafeAreaView, TouchableOpacity, ScrollView}
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
+import { set } from 'react-native-reanimated';
 
 export default function SurveysScreen(props) {
 
@@ -10,36 +11,42 @@ export default function SurveysScreen(props) {
     const [, setTutorialComplete] = useState(false);
     const user = firebase.auth().currentUser; //gets current user
     const surveyRef = firebase.database().ref().child('surveys');
-    const {surveyObj} = props.route.params;
-    const [surveyImages, ] = useState([]);
-    const [surveyNames, ] = useState([]);
-    const [surveyRefs, ] = useState([]);
-    const [count, setCount] = useState(0);
+    const {surveyRefs} = props.route.params;
+    const [surveyImages, setSurveyImages] = useState([]);
+    const [surveyNames, setSurveyNames] = useState([]);
+    //const [surveyRefs, setSurveyRefs] = useState([]);
+
+
+    const [count, setCount] = useState(false);
 
     useEffect(() => {
 
-      //pulls the first name of the current user from firebase DB
-      for (var key in surveyObj) {
-        if (surveyObj.hasOwnProperty(key)) {
-            //setSurveyRefs([...surveyRefs, surveyObj[key]]);
-            surveyRefs.push(surveyObj[key]);
-        }
-      }
-  
-      for (var i in surveyRefs) {
-        console.log(surveyRefs[i]);
-        // names = []
-        // images = []
-        surveyRef.child(surveyRefs[i]).on('value', function(snapshot) {
-            console.log(snapshot.val().icon);
-            surveyNames.push(snapshot.val().name);
-            surveyImages.push(snapshot.val().icon);
+    (async () => {
+
+      names = [];
+      images = [];
+      
+      for (const i in surveyRefs) {
+        await surveyRef.child(surveyRefs[i]).once('value').then(function(snapshot) {
+          // surveyNames.push(snapshot.val().name);
+          // surveyImages.push(snapshot.val().icon);
+          names.push(snapshot.val().name);
+          images.push(snapshot.val().icon);
+          console.log(surveyNames);
+          // if (surveyNames.length == surveyRefs.length)
+          //   setCount(true);
+          
         });
-      }
 
+      };
+
+      
+      setSurveyNames(names);
+      setSurveyImages(images);
       
       
 
+    })();
 
       props.navigation.setOptions ( {
         title: 'Surveys',
@@ -87,6 +94,18 @@ export default function SurveysScreen(props) {
 //       setCount(count + 1); //stops duplicate surveys from appearing
 //     }
 
+
+
+
+useEffect(() => {
+  console.log(count);
+  console.log(surveyNames.length)
+  if (surveyNames.length == 2)
+    setCount(true);
+
+}, [surveyNames]
+);
+
     function update(ind) {
         props.navigation.push('Question', {
           surveyKey: surveyRefs[ind]
@@ -96,7 +115,10 @@ export default function SurveysScreen(props) {
     
     return (
       //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
+
+      
       <SafeAreaView style={styles.container}>
+      
       <FlatList
         ListHeaderComponent={ //this is to display above the flatlist
           <>
@@ -138,6 +160,12 @@ export default function SurveysScreen(props) {
               </View>
             }
         />
+
+
+        
         </SafeAreaView>
+
+
+
     );
 }

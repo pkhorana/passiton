@@ -67,9 +67,28 @@ export default function Home(props) {
       if(tutorialComplete == 'No'){
         props.navigation.push('Tutorial', {})
       } else {
+        // props.navigation.push('Surveys', {
+        //   surveyObj: surveyObjs[ind]
+        // })
+        const surveyRefs = []
+        surveyObj = surveyObjs[ind]
+        for (var key in surveyObj) {
+          if (surveyObj.hasOwnProperty(key)) {
+              // setSurveyRefs([...surveyRefs, surveyObj[key]]);
+              surveyRefs.push(surveyObj[key])
+          }
+        }
+
         props.navigation.push('Surveys', {
-          surveyObj: surveyObjs[ind]
-        })}
+          surveyRefs: surveyRefs
+        })
+      }
+
+
+
+
+
+        
         //console.log(surveyObjs[ind])
     }
     
