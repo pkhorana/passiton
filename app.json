@@ -2,6 +2,7 @@
   "expo": {
     "name": "passiton",
     "slug": "passiton",
+    "userInterfaceStyle": "automatic",
     "platforms": [
       "ios",
       "android",

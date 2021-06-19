@@ -1,8 +1,7 @@
 
 import React, {useState, useEffect} from 'react';
 import { Item, Input, Label } from 'native-base';
-import {StyleSheet, Text, KeyboardAvoidingView, Platform, Button, View, TouchableOpacity,  ScrollView} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import {Text, KeyboardAvoidingView, Platform, Button, View, TouchableOpacity, useColorScheme, ScrollView} from 'react-native';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import ModalSelector from 'react-native-modal-selector';
 import styles from './Styles';
@@ -28,9 +27,10 @@ export default function CreateProfile(props) {
         tutorialComplete: 'No',
     } );
 
-    const user = firebase.auth().currentUser;//Returns the current user from the database
+    const user = firebase.auth().currentUser; //Returns the current user from the database
     const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 70 : 0;
+    const isDarkMode = useColorScheme() === 'dark' ? true: false; //checks if user is in dark mode (for modal datetime picker)
 
     //pulls the user information from firebase if the profile is complete
     useEffect(() => {
@@ -44,7 +44,6 @@ export default function CreateProfile(props) {
             });
             return () => mounted = false;
         }
-        
       }, []);
 
     const showDatePicker = () => {
@@ -64,8 +63,6 @@ export default function CreateProfile(props) {
       const currentDate = date || pickedDate;
       hideDatePicker();
       setUserData(prevState => ({...prevState, birthDate: currentDate}));
-      
-
     };
 
     //data used by modalSelector for gender
@@ -204,13 +201,15 @@ export default function CreateProfile(props) {
         <Button onPress={showDatePicker} title="Show date picker!" />
 
         <DateTimePickerModal
+            isDarkModeEnabled={isDarkMode}
             isVisible={isDatePickerVisible}
             mode={'date'}
             onConfirm={handleConfirm}
             onCancel={hideDatePicker}
-            maximumDate={new Date(2021, 0, 0)}
+            maximumDate={new Date()}
             minimumDate={new Date(1930, 12, 31)}
             headerTextIOS={"Select your birth date"}
+            display={'inline'}
             timeZoneOffsetInMinutes={0}
             date={new Date(Date.parse(userData.birthDate))}/>
 
@@ -222,7 +221,6 @@ export default function CreateProfile(props) {
                     onChange={(option) => {
                         setUserData(prevState => ({...prevState, gender: option}))
                     }}>
-
         </ModalSelector>
 
         <Item floatingLabel style = {{marginTop: 5}}>
@@ -289,7 +287,7 @@ export default function CreateProfile(props) {
             <Text>LOGOUT</Text>
         </TouchableOpacity>
 
-        </ScrollView>
+    </ScrollView>
     </View>
     </View>
     </KeyboardAvoidingView>
