@@ -209,7 +209,7 @@ export default function CreateProfile(props) {
             maximumDate={new Date()}
             minimumDate={new Date(1930, 12, 31)}
             headerTextIOS={"Select your birth date"}
-            display={'inline'}
+            //display={'inline'}
             timeZoneOffsetInMinutes={0}
             date={new Date(Date.parse(userData.birthDate))}/>
 
