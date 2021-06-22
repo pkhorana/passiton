@@ -80,17 +80,34 @@ export default function Home(props) {
         }
 
         props.navigation.push('Surveys', {
-          surveyRefs: surveyRefs
-        })
-      }
-
-
-
-
-
+            surveyRefs: surveyRefs
+        });
         
-        //console.log(surveyObjs[ind])
+
+        // const surveyRef = firebase.database().ref().child('surveys');
+
+        // (async () => {
+
+        //   names = [];
+        //   images = [];
+        
+        //   for (const i in surveyRefs) {
+        //     await surveyRef.child(surveyRefs[i]).once('value').then(function(snapshot) {
+        //     names.push(snapshot.val().name);
+        //     images.push(snapshot.val().icon);
+        //   });
+
+        // };
+
+        //   props.navigation.push('Surveys', {
+        //     surveyRefs: surveyRefs,
+        //     // surveyNames: names,
+        //     // surveyImages: images
+        //   })
+        // })();
+
     }
+  }
     
 
     return (

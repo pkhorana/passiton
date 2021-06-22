@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {Image, ImageBackground, Platform, Text, View, StyleSheet, Dimensions, TouchableOpacity} from 'react-native';
+import {Image, ImageBackground, Platform, Text, View, StyleSheet, SafeAreaView, Dimensions, TouchableOpacity} from 'react-native';
 import * as firebase from 'firebase';
 import styles from './Styles';
 import {Icon} from 'native-base';
@@ -17,11 +17,14 @@ export default function QuestionScreen(props) {
     const [skippedQuestions, setSkippedQ] = useState(new Set());
     // const answeredQuestions = new Set();
     // const skippedQuestions = new Set();
-    var questionArr = [];
-    var keyArr = [];
+    // var questionArr = [];
+    // var keyArr = [];
     const [disabled, setDisabled] = useState(false);
-    const [questionObj, setObj] = useState({});
+    // const [questionObj, setObj] = useState({});
     const {surveyKey} = props.route.params;
+    const [questionArr, setArr] = useState([]);
+    const [keyArr, setKeyArr] = useState([]);
+    const [loading, setLoading] = useState(false);
 
     const windowHeight = Dimensions.get('window').height;
     const usersRef = firebase.database().ref().child('users');
@@ -50,11 +53,33 @@ export default function QuestionScreen(props) {
 
         let mounted = true;
         if (mounted) {
-            surveysRef.child(surveyKey).once('value', function(snapshot) {
-                setObj(snapshot.val());
-            });
+            (async () => {
+                questionObj = null
+                await surveysRef.child(surveyKey).once('value').then(function(snapshot) {
+                    questionObj = snapshot.val();
+                    
+                });
 
-
+               
+                questions = [];
+                keyArray = [];
+                console.log(questionObj);
+                for (var item in questionObj) {
+                    console.log(item)
+                    if (item == "icon")
+                        continue;
+                    if (item == "name")
+                        continue;
+                    questions.push(questionObj[item]);
+                    keyArray.push(item);
+                }
+                setKeyArr(keyArray);
+                setArr(questions);
+                
+                setLoading(true);
+                console.log(questionArr);
+                console.log(keyArr);
+            })();
             
         }
         return () => mounted = false;
@@ -86,7 +111,9 @@ export default function QuestionScreen(props) {
             }
             setIndex(index+1);
         }
-        console.log(index);
+        console.log(surveyKey);
+        console.log(keyArr[index]);
+        console.log(user.uid);
     }
 
     const swipeLeft = () => {
@@ -149,21 +176,11 @@ export default function QuestionScreen(props) {
     }
 
     function swipingCards() {
-        if (questionObj != null) {
-            
-            for (var item in questionObj) {
-                if (item == "icon")
-                    continue;
-                if (item == "name")
-                    continue;
-                questionArr.push(questionObj[item]);
-                keyArr.push(item);
-            }
 
-            console.log(questionObj)
-        }
-        if (questionArr.length != 0) {
+        
             return (
+
+              loading ?
               <View style={styles.questionContainer}>
                 <Swiper
                     ref = {swiperRef}
@@ -213,7 +230,6 @@ export default function QuestionScreen(props) {
                     cardIndex={index}
                     backgroundColor={'#4FD0E9'}
                     stackSize = {questionArr.length}
-                    // stackScale = {8}
                     stackSeperation = {100}
                     verticalThreshold = {windowHeight/15}
                     >
@@ -253,9 +269,13 @@ export default function QuestionScreen(props) {
                     disabled={disabled}
                     onPress={() => skip()}>
                 </TouchableOpacity>
-              </View>
+              </View> :
+
+                <SafeAreaView style={styles.container}>
+                </SafeAreaView>
+
             )
-        }
+        
     }
 
     return (

@@ -11,13 +11,14 @@ export default function SurveysScreen(props) {
     const [, setTutorialComplete] = useState(false);
     const user = firebase.auth().currentUser; //gets current user
     const surveyRef = firebase.database().ref().child('surveys');
+    // const {surveyRefs, surveyNames, surveyImages} = props.route.params;
     const {surveyRefs} = props.route.params;
     const [surveyImages, setSurveyImages] = useState([]);
     const [surveyNames, setSurveyNames] = useState([]);
-    //const [surveyRefs, setSurveyRefs] = useState([]);
 
 
-    const [count, setCount] = useState(false);
+
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
 
@@ -43,6 +44,7 @@ export default function SurveysScreen(props) {
       
       setSurveyNames(names);
       setSurveyImages(images);
+      setLoading(true);
       
       
 
@@ -97,14 +99,14 @@ export default function SurveysScreen(props) {
 
 
 
-useEffect(() => {
-  console.log(count);
-  console.log(surveyNames.length)
-  if (surveyNames.length == 2)
-    setCount(true);
+// useEffect(() => {
+//   console.log(count);
+//   console.log(surveyNames.length)
+//   if (surveyNames.length == 2)
+//     setCount(true);
 
-}, [surveyNames]
-);
+// }, [surveyNames]
+// );
 
     function update(ind) {
         props.navigation.push('Question', {
@@ -115,9 +117,11 @@ useEffect(() => {
     
     return (
       //SafeAreaView is used to make the flatlist take up the full screen. Only necessary for iOS devices on iOS versions 11+
-
+      loading ? 
       
       <SafeAreaView style={styles.container}>
+
+
       
       <FlatList
         ListHeaderComponent={ //this is to display above the flatlist
@@ -159,10 +163,12 @@ useEffect(() => {
               </View>
               </View>
             }
-        />
+        />  
+        </SafeAreaView>
+        :
 
 
-        
+        <SafeAreaView style={styles.container}>
         </SafeAreaView>
 
 
